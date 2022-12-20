@@ -1,12 +1,3 @@
-/*
- *    Mars Rover - Arduino Code
- *    by Dejan, www.HowToMechatronics.com
- * 
- *   Libraries:
- *   ServoEasing: https://github.com/ArminJo/ServoEasing
- *   IBusBM: https://github.com/bmellink/IBusBM
- *   AccelStepper:http://www.airspayce.com/mikem/arduino/AccelStepper/index.html
- */
 
 #include <Arduino.h>
 
