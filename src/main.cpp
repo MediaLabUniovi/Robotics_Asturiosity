@@ -2,7 +2,7 @@
 #include <Arduino.h>
 
 #include <Servo.h>
-#include <ServoEasing.h>
+#include <ServoEasing.hpp>
 #include <IBusBM.h>
 #include <AccelStepper.h>
 
