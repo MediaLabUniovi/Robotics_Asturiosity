@@ -327,14 +327,14 @@ void loop() {
       digitalWrite(motorW3_IN2, LOW);
       // right side motors move in opposite direction
       // Motor Wheel 4 - Right Front
-      digitalWrite(motorW4_IN1, LOW);
-      analogWrite(motorW4_IN2, speed1PWM);
+      digitalWrite(motorW4_IN2, LOW);
+      analogWrite(motorW4_IN1, speed1PWM);
       // Motor Wheel 5 - Right Middle
-      digitalWrite(motorW5_IN1, LOW);
-      analogWrite(motorW5_IN2, speed1PWM);
+      digitalWrite(motorW5_IN2, LOW);
+      analogWrite(motorW5_IN1, speed1PWM);
       // Motor Wheel 6 - Right Back
-      digitalWrite(motorW6_IN1, LOW);
-      analogWrite(motorW6_IN2, speed1PWM);
+      digitalWrite(motorW6_IN2, LOW);
+      analogWrite(motorW6_IN1, speed1PWM);
     }
     else if (ch6 > 1500) {
       // Motor Wheel 1 - Left Front
