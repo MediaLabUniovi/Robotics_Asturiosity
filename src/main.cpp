@@ -12,12 +12,12 @@
 #define motorW2_IN2 5
 #define motorW3_IN1 2
 #define motorW3_IN2 3
-#define motorW4_IN1 13
-#define motorW4_IN2 10
-#define motorW5_IN1 8
-#define motorW5_IN2 9
-#define motorW6_IN1 11
-#define motorW6_IN2 12
+#define motorW4_IN1 10
+#define motorW4_IN2 13
+#define motorW5_IN1 9
+#define motorW5_IN2 8
+#define motorW6_IN1 12
+#define motorW6_IN2 11
 
 ServoEasing servoW1;
 ServoEasing servoW3;
