@@ -23,7 +23,7 @@ ServoEasing servoW1;
 ServoEasing servoW3;
 ServoEasing servoW4;
 ServoEasing servoW6;
-ServoEasing servoCamTilt;
+//ServoEasing servoCamTilt;
 
 //AccelStepper camPanStepper(1, 46, 45);  //(Type:driver, STEP, DIR) - Stepper1
 
@@ -104,19 +104,19 @@ void setup() {
   servoW3.attach(23);
   servoW4.attach(24);
   servoW6.attach(25);
-  servoCamTilt.attach(26);
+  //servoCamTilt.attach(26);
 
   servoW1.write(90);
   servoW3.write(90);
   servoW4.write(90);
   servoW6.write(90);
-  servoCamTilt.write(90);
+  //servoCamTilt.write(90);
 
   servoW1.setSpeed(550);
   servoW3.setSpeed(550);
   servoW4.setSpeed(550);
   servoW6.setSpeed(550);
-  servoCamTilt.setSpeed(200);
+  //servoCamTilt.setSpeed(200);
 
   //camPanStepper.setMaxSpeed(1000);
   //camPan = 0;
@@ -151,10 +151,16 @@ void loop() {
   // Reading the data comming from the RC Transmitter
   IBus.loop();
   ch0 = IBus.readChannel(0);
-  ch1 = IBus.readChannel(1);
+  //ch1 = IBus.readChannel(1);
   ch2 = IBus.readChannel(2);
   ch3 = IBus.readChannel(3);
   ch6 = IBus.readChannel(6);
+
+  //ch0=1500; // Steering radius
+  //ch1=0;  // Camera
+  ch2=1500; // Speed
+  ch3=0;
+  ch6=1000;
 
   // Convertign the incoming data
   // Steering right
@@ -327,14 +333,14 @@ void loop() {
       digitalWrite(motorW3_IN2, LOW);
       // right side motors move in opposite direction
       // Motor Wheel 4 - Right Front
-      digitalWrite(motorW4_IN2, LOW);
-      analogWrite(motorW4_IN1, speed1PWM);
+      digitalWrite(motorW4_IN1, LOW);
+      analogWrite(motorW4_IN2, speed1PWM);
       // Motor Wheel 5 - Right Middle
-      digitalWrite(motorW5_IN2, LOW);
-      analogWrite(motorW5_IN1, speed1PWM);
+      digitalWrite(motorW5_IN1, LOW);
+      analogWrite(motorW5_IN2, speed1PWM);
       // Motor Wheel 6 - Right Back
-      digitalWrite(motorW6_IN2, LOW);
-      analogWrite(motorW6_IN1, speed1PWM);
+      digitalWrite(motorW6_IN1, LOW);
+      analogWrite(motorW6_IN2, speed1PWM);
     }
     else if (ch6 > 1500) {
       // Motor Wheel 1 - Left Front
