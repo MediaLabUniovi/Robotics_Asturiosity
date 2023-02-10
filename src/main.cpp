@@ -25,10 +25,10 @@ ServoEasing servoW4;
 ServoEasing servoW6;
 ServoEasing servoCamTilt;
 
-AccelStepper camPanStepper(1, 46, 45);  //(Type:driver, STEP, DIR) - Stepper1
+//AccelStepper camPanStepper(1, 46, 45);  //(Type:driver, STEP, DIR) - Stepper1
 
 IBusBM IBus;
-IBusBM IBusSensor;
+//IBusBM IBusSensor;
 
 int angle = 0;   // servo position in degrees
 int ch0, ch1, ch2, ch3, ch6 = 0;
@@ -39,8 +39,8 @@ int servo6Angle = 90;
 int s = 0; // rover speed
 int r = 0; // turning radius
 int m1, m2, m3, m4, m5, m6;
-int camTilt = 90;
-int camPan = 0;
+//int camTilt = 90;
+//int camPan = 0;
 float speed1, speed2, speed3 = 0;
 float speed1PWM, speed2PWM, speed3PWM = 0;
 float thetaInnerFront, thetaInnerBack, thetaOuterFront, thetaOuterBack = 0;
@@ -96,9 +96,9 @@ void setup() {
   
   Serial.begin(115200);
   IBus.begin(Serial1, IBUSBM_NOTIMER); // Servo iBUS
-  IBusSensor.begin(Serial2, IBUSBM_NOTIMER); // Sensor iBUS
+  //IBusSensor.begin(Serial2, IBUSBM_NOTIMER); // Sensor iBUS
 
-  IBusSensor.addSensor(IBUSS_INTV); // add voltage sensor
+  //IBusSensor.addSensor(IBUSS_INTV); // add voltage sensor
 
   servoW1.attach(22);
   servoW3.attach(23);
@@ -118,9 +118,9 @@ void setup() {
   servoW6.setSpeed(550);
   servoCamTilt.setSpeed(200);
 
-  camPanStepper.setMaxSpeed(1000);
-  camPan = 0;
-  camTilt = 90;
+  //camPanStepper.setMaxSpeed(1000);
+  //camPan = 0;
+  //camTilt = 90;
 
 
   // DC Motors
@@ -169,31 +169,31 @@ void loop() {
   s = map(ch2, 1000, 2000, 0, 100); // rover speed from 0% to 100%
 
   // Camera head steering
-  if (ch1 < 1485 ) {
-    if (camTilt >= 35) {
-      camTilt--;
-      delay(20);
-    }
-  }
-  if (ch1 > 1515 ) {
-    if (camTilt <= 165) {
-      camTilt++;
-      delay(20);
-    }
-  }
-  servoCamTilt.startEaseTo(camTilt); // Camera tilt
+  //if (ch1 < 1485 ) {
+    //if (camTilt >= 35) {
+      //camTilt--;
+      //delay(20);
+   // }
+  //}
+  //if (ch1 > 1515 ) {
+    //if (camTilt <= 165) {
+      //camTilt++;
+      //delay(20);
+    //}
+  //}
+  // servoCamTilt.startEaseTo(camTilt); // Camera tilt
 
-  if (ch3 >= 1000 && ch3 < 1485) {
-    camPan = map(ch3, 1000, 1485, 400, 0);
-  }
-  else if (ch3 > 1515 && ch3 <= 2000) {
-    camPan = map(ch3, 1515, 2000, 0, -400);
-  }
-  else {
-    camPan = 0;
-  }
-  camPanStepper.setSpeed(camPan);    // Camera pan
-  camPanStepper.run();
+  // if (ch3 >= 1000 && ch3 < 1485) {
+  //   camPan = map(ch3, 1000, 1485, 400, 0);
+  // }
+  // else if (ch3 > 1515 && ch3 <= 2000) {
+  //   camPan = map(ch3, 1515, 2000, 0, -400);
+  // }
+  // else {
+  //   camPan = 0;
+  // }
+  // camPanStepper.setSpeed(camPan);    // Camera pan
+  // camPanStepper.run();
 
 
   calculateMotorsSpeed();
@@ -362,7 +362,7 @@ void loop() {
   int sensorValue = analogRead(A0);
   float voltage = sensorValue * (5.00 / 1023.00) * 3.02; // Convert the reading values from 5v to suitable 12V
   // Send battery voltage value to transmitter
-  IBusSensor.loop();
-  IBusSensor.setSensorMeasurement(1, voltage * 100);
+  //IBusSensor.loop();
+  //IBusSensor.setSensorMeasurement(1, voltage * 100);
 }
 
