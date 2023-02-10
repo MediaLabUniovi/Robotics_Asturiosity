@@ -359,8 +359,8 @@ void loop() {
     }
   }
   // Monitor the battery voltage
-  int sensorValue = analogRead(A0);
-  float voltage = sensorValue * (5.00 / 1023.00) * 3.02; // Convert the reading values from 5v to suitable 12V
+  //int sensorValue = analogRead(A0);
+  //float voltage = sensorValue * (5.00 / 1023.00) * 3.02; // Convert the reading values from 5v to suitable 12V
   // Send battery voltage value to transmitter
   //IBusSensor.loop();
   //IBusSensor.setSensorMeasurement(1, voltage * 100);
