@@ -6,18 +6,18 @@
 #include <IBusBM.h>
 #include <AccelStepper.h>
 
-#define motorW1_IN1 6
-#define motorW1_IN2 7
-#define motorW2_IN1 4
-#define motorW2_IN2 5
-#define motorW3_IN1 2
-#define motorW3_IN2 3
-#define motorW4_IN1 10
-#define motorW4_IN2 13
-#define motorW5_IN1 9
-#define motorW5_IN2 8
-#define motorW6_IN1 12
-#define motorW6_IN2 11
+#define motorW1_IN1 7
+#define motorW1_IN2 6
+#define motorW2_IN1 5
+#define motorW2_IN2 4
+#define motorW3_IN1 3
+#define motorW3_IN2 2
+#define motorW4_IN1 13
+#define motorW4_IN2 10
+#define motorW5_IN1 8
+#define motorW5_IN2 9
+#define motorW6_IN1 11
+#define motorW6_IN2 12
 
 ServoEasing servoW1;
 ServoEasing servoW3;
@@ -158,7 +158,7 @@ void loop() {
 
   //ch0=1500; // Steering radius
   //ch1=0;  // Camera
-  ch2=1500; // Speed
+  //ch2=1500; // Speed
   ch3=0;
   ch6=1000;
 
