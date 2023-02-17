@@ -2,7 +2,10 @@
 #include <Arduino.h>
 
 #include <Servo.h>
-#include <ServoEasing.hpp>
+#include <ServoEasing.hpp> // proporciona una forma fácil de crear movimientos de servo suaves y personalizados. 
+//Esta librería utiliza algoritmos de interpolación para calcular el movimiento de los servos de manera precisa y suave, 
+//permitiendo a los usuarios crear patrones de movimiento específicos como ondas sinusoidales, ondas cuadradas, rampas, escalones, etc. 
+//Además, la librería ofrece la capacidad de personalizar la curva de movimiento para adaptarse a diferentes requisitos.
 #include <IBusBM.h>
 #include <AccelStepper.h>
 
@@ -160,7 +163,7 @@ void loop() {
   //ch1=0;  // Camera
   //ch2=1500; // Speed
   ch3=0;
-  //ch6=1000;
+  ch6=1000;
 
   // Convertign the incoming data
   // Steering right
