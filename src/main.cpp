@@ -34,7 +34,7 @@ IBusBM IBus;
 //IBusBM IBusSensor;
 
 int angle = 0;   // servo position in degrees
-int ch0, ch1, ch2, ch3, ch6 = 0;
+int ch0, ch1, ch2, ch3, ch4, ch5, ch6 = 0;
 int servo1Angle = 90;
 int servo3Angle = 90;
 int servo4Angle = 90;
@@ -157,13 +157,17 @@ void loop() {
   //ch1 = IBus.readChannel(1);
   ch2 = IBus.readChannel(2);
   ch3 = IBus.readChannel(3);
+  ch4 = IBus.readChannel(4);
+  ch5 = IBus.readChannel(5);
   ch6 = IBus.readChannel(6);
 
   //ch0=1500; // Steering radius
   //ch1=0;  // Camera
   //ch2=1500; // Speed
   ch3=0;
-  ch6=1000;
+  ch4=0;
+  ch5=0;
+  //ch6=1600;
   
   // Convertign the incoming data
   // Steering right
