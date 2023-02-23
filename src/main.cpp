@@ -165,8 +165,8 @@ void loop() {
   //ch1=0;  // Camera
   //ch2=1500; // Speed
   ch3=0;
-  ch5=0;
-  //ch6=0;
+  //ch5=0;
+  ch6=1000;
   
   // Convertign the incoming data
   // Steering right
