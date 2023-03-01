@@ -44,7 +44,7 @@ int r = 0; // turning radius
 int m1, m2, m3, m4, m5, m6;
 //int camTilt = 90;
 //int camPan = 0;
-float speed1, speed2, speed3 = 0;
+float s1, s2, s3 = 0;
 float speed1PWM, speed2PWM, speed3PWM = 0;
 float thetaInnerFront, thetaInnerBack, thetaOuterFront, thetaOuterBack = 0;
 
