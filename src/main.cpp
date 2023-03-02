@@ -22,7 +22,7 @@
 #define motorW6_IN1 12
 #define motorW6_IN2 11
 
-int recvValue = digitalRead(19); // Pin del receptor
+//int recvValue = digitalRead(19); // Pin del receptor
 
 ServoEasing servoW1;
 ServoEasing servoW3;
