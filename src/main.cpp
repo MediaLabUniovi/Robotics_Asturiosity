@@ -75,9 +75,9 @@ void calculateMotorsSpeed(int s, int s1, int s2, int s3)
   }
 
   // speed value from 0 to 100% to PWM value from 0 to 255
-  s1PWM = map(round(s1), 0, 100, 0, 200);
-  s2PWM = map(round(s2), 0, 100, 0, 200);
-  s3PWM = map(round(s3), 0, 100, 0, 200);
+  s1PWM = map(round(s1), 0, 100, 0, 255);
+  s2PWM = map(round(s2), 0, 100, 0, 255);
+  s3PWM = map(round(s3), 0, 100, 0, 255);
 }
 
 void calculateServoAngle()
@@ -163,10 +163,10 @@ void setup(){
   servoW6.write(90);
   // servoCamTilt.write(90);
 
-  servoW1.setSpeed(500);
-  servoW3.setSpeed(500);
-  servoW4.setSpeed(500);
-  servoW6.setSpeed(500);
+  servoW1.setSpeed(550);
+  servoW3.setSpeed(550);
+  servoW4.setSpeed(550);
+  servoW6.setSpeed(550);
   // servoCamTilt.setSpeed(200);
 
   // camPanStepper.setMaxSpeed(1000);
