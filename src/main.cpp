@@ -22,7 +22,7 @@
 #define motorW6_IN1 12
 #define motorW6_IN2 11
 
-//int recvValue = digitalRead(19);
+// int recvValue = digitalRead(19);
 
 ServoEasing servoW1;
 ServoEasing servoW3;
@@ -89,7 +89,8 @@ void calculateServoAngle()
   thetaOuterBack = round((atan((d2 / (r - d1)))) * 180 / PI);
 }
 
-void setup(){
+void setup()
+{
 
   // DC Motors
   // Motor Wheel 1 - Left Front
@@ -304,7 +305,7 @@ void loop()
     { // Move forward
       // Motor Wheel 1 - Left Front
       analogWrite(motorW1_IN1, s2PWM); // PWM value
-      digitalWrite(motorW1_IN2, LOW);      // Forward
+      digitalWrite(motorW1_IN2, LOW);  // Forward
       // Motor Wheel 2 - Left Middle
       analogWrite(motorW2_IN1, s3PWM);
       digitalWrite(motorW2_IN2, LOW);
@@ -325,7 +326,7 @@ void loop()
     else if (IBus.readChannel(5) > 1600)
     { // Move backward
       // Motor Wheel 1 - Left Front
-      digitalWrite(motorW1_IN1, LOW);      // PWM value
+      digitalWrite(motorW1_IN1, LOW);  // PWM value
       analogWrite(motorW1_IN2, s2PWM); // Forward
       // Motor Wheel 2 - Left Middle
       digitalWrite(motorW2_IN1, LOW);
@@ -381,7 +382,7 @@ void loop()
     {
       // Motor Wheel 1 - Left Front
       analogWrite(motorW1_IN1, s1PWM); // all wheels move at the same speed
-      digitalWrite(motorW1_IN2, LOW);      // Forward
+      digitalWrite(motorW1_IN2, LOW);  // Forward
       // Motor Wheel 2 - Left Middle
       analogWrite(motorW2_IN1, s1PWM);
       digitalWrite(motorW2_IN2, LOW);
@@ -402,7 +403,7 @@ void loop()
     else if (IBus.readChannel(5) > 1600)
     {
       // Motor Wheel 1 - Left Front
-      digitalWrite(motorW1_IN1, LOW);      // all wheels move at the same speed
+      digitalWrite(motorW1_IN1, LOW);  // all wheels move at the same speed
       analogWrite(motorW1_IN2, s1PWM); // Forward
       // Motor Wheel 2 - Left Middle
       digitalWrite(motorW2_IN1, LOW);
