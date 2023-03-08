@@ -55,39 +55,39 @@ float d2 = 278;
 float d3 = 301;
 float d4 = 304;
 
-void calculateMotorsSpeed(int s, int s1, int s2, int s3)
-{
-  // if no steering, all wheels speed is the same - straight move
-  if (IBus.readChannel(0) > 1450 && IBus.readChannel(0) < 1550)
-  {
-    s1 = s2 = s3 = s;
-  }
-  // when steering, wheels speed depend on the turning radius value
-  else
-  {
-    // Outer wheels, furthest wheels from turning point, have max speed
-    // Due to the rover geometry, all three outer wheels should rotate almost with the same speed. They differe only 1% so we asume they are the same.
-    s1 = s;
-    // Inner front and back wheels are closer to the turing point and have lower speeds compared to the outer speeds
-    s2 = s * sqrt(pow(d3, 2) + pow((r - d1), 2)) / (r + d4);
-    // Inner middle wheel is closest to the turning point, has the lowest speed
-    s3 = s * (r - d4) / (r + d4);
-  }
+// void calculateMotorsSpeed(int s, int s1, int s2, int s3)
+// {
+//   // if no steering, all wheels speed is the same - straight move
+//   if (IBus.readChannel(0) > 1450 && IBus.readChannel(0) < 1550)
+//   {
+//     s1 = s2 = s3 = s;
+//   }
+//   // when steering, wheels speed depend on the turning radius value
+//   else
+//   {
+//     // Outer wheels, furthest wheels from turning point, have max speed
+//     // Due to the rover geometry, all three outer wheels should rotate almost with the same speed. They differe only 1% so we asume they are the same.
+//     s1 = s;
+//     // Inner front and back wheels are closer to the turing point and have lower speeds compared to the outer speeds
+//     s2 = s * sqrt(pow(d3, 2) + pow((r - d1), 2)) / (r + d4);
+//     // Inner middle wheel is closest to the turning point, has the lowest speed
+//     s3 = s * (r - d4) / (r + d4);
+//   }
 
-  // speed value from 0 to 100% to PWM value from 0 to 255
-  s1PWM = map(round(s1), 0, 100, 0, 255);
-  s2PWM = map(round(s2), 0, 100, 0, 255);
-  s3PWM = map(round(s3), 0, 100, 0, 255);
-}
+//   // speed value from 0 to 100% to PWM value from 0 to 255
+//   s1PWM = map(round(s1), 0, 100, 0, 255);
+//   s2PWM = map(round(s2), 0, 100, 0, 255);
+//   s3PWM = map(round(s3), 0, 100, 0, 255);
+// }
 
-void calculateServoAngle()
-{
-  // Calculate the angle for each servo for the input turning radius "r"
-  thetaInnerFront = round((atan((d3 / (r + d1)))) * 180 / PI);
-  thetaInnerBack = round((atan((d2 / (r + d1)))) * 180 / PI);
-  thetaOuterFront = round((atan((d3 / (r - d1)))) * 180 / PI);
-  thetaOuterBack = round((atan((d2 / (r - d1)))) * 180 / PI);
-}
+// void calculateServoAngle()
+// {
+//   // Calculate the angle for each servo for the input turning radius "r"
+//   thetaInnerFront = round((atan((d3 / (r + d1)))) * 180 / PI);
+//   thetaInnerBack = round((atan((d2 / (r + d1)))) * 180 / PI);
+//   thetaOuterFront = round((atan((d3 / (r - d1)))) * 180 / PI);
+//   thetaOuterBack = round((atan((d2 / (r - d1)))) * 180 / PI);
+// }
 
 void setup()
 {
@@ -173,6 +173,40 @@ void setup()
   // camPanStepper.setMaxSpeed(1000);
   // camPan = 0;
   // camTilt = 90;
+}
+
+void calculateMotorsSpeed(int s, int s1, int s2, int s3)
+{
+  // if no steering, all wheels speed is the same - straight move
+  if (IBus.readChannel(0) > 1450 && IBus.readChannel(0) < 1550)
+  {
+    s1 = s2 = s3 = s;
+  }
+  // when steering, wheels speed depend on the turning radius value
+  else
+  {
+    // Outer wheels, furthest wheels from turning point, have max speed
+    // Due to the rover geometry, all three outer wheels should rotate almost with the same speed. They differe only 1% so we asume they are the same.
+    s1 = s;
+    // Inner front and back wheels are closer to the turing point and have lower speeds compared to the outer speeds
+    s2 = s * sqrt(pow(d3, 2) + pow((r - d1), 2)) / (r + d4);
+    // Inner middle wheel is closest to the turning point, has the lowest speed
+    s3 = s * (r - d4) / (r + d4);
+  }
+
+  // speed value from 0 to 100% to PWM value from 0 to 255
+  s1PWM = map(round(s1), 0, 100, 0, 255);
+  s2PWM = map(round(s2), 0, 100, 0, 255);
+  s3PWM = map(round(s3), 0, 100, 0, 255);
+}
+
+void calculateServoAngle()
+{
+  // Calculate the angle for each servo for the input turning radius "r"
+  thetaInnerFront = round((atan((d3 / (r + d1)))) * 180 / PI);
+  thetaInnerBack = round((atan((d2 / (r + d1)))) * 180 / PI);
+  thetaOuterFront = round((atan((d3 / (r - d1)))) * 180 / PI);
+  thetaOuterBack = round((atan((d2 / (r - d1)))) * 180 / PI);
 }
 
 void loop()
