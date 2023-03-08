@@ -55,6 +55,16 @@ float d2 = 278;
 float d3 = 301;
 float d4 = 304;
 
+//* SENSORES PRECOLISION
+const int Trigger1 = 40;   //Pin digital 2 para el Trigger del sensor
+const int Echo1 = 41;   //Pin digital 3 para el echo del sensor
+// const int Trigger3 = 42;
+// const int Echo3 = 43;
+// const int Trigger4 = 44;
+// const int Echo4 = 45;
+// const int Trigger6 = 46;
+// const int Echo6 = 47;
+
 void calculateMotorsSpeed(int s, int s1, int s2, int s3)
 {
   // if no steering, all wheels speed is the same - straight move
@@ -168,11 +178,9 @@ void setup()
   servoW3.setSpeed(550);
   servoW4.setSpeed(550);
   servoW6.setSpeed(550);
-  // servoCamTilt.setSpeed(200);
-
-  // camPanStepper.setMaxSpeed(1000);
-  // camPan = 0;
-  // camTilt = 90;
+  
+  //* SENSORES ULTRASONIDOS
+  
 }
 
 
