@@ -485,16 +485,31 @@ void loop()
   delayMicroseconds(10); // Enviamos un pulso de 10us
   digitalWrite(Trigger1, LOW);
 
-  while (distanceW1<20){
-    digitalWrite(motorW1_IN1, LOW);
-    digitalWrite(motorW1_IN2, LOW);
-  }
+  // while (distanceW1<20){
+  //   digitalWrite(motorW1_IN1, LOW);
+  //   digitalWrite(motorW1_IN2, LOW);
+  // }
     
- 
 
-  } else {
-    break;
-  }
+  // } else {
+  //   break;
+  // }
+  while (true)
+  {
+
+    if (distanceW1<20)
+    {
+
+      // DC Motors
+      // Motor Wheel 1 - Left Front
+      digitalWrite(motorW1_IN1, 0); // PWM value
+      digitalWrite(motorW1_IN2, 0); // Forward
+
+
+    }
+    else if ((distanceW1>20)){
+      break;
+    }
 
   // //SENSOR MOTORW3
   // long timeW3; //tiempo que demora en llegar el eco
