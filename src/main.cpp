@@ -56,8 +56,8 @@ float d3 = 301;
 float d4 = 304;
 
 //* SENSORES PRECOLISION
-// const int Trigger1 = 40; // Pin digital 2 para el Trigger del sensor
-// const int Echo1 = 41;    // Pin digital 3 para el echo del sensor
+const int Trigger1 = 40; // Pin digital 2 para el Trigger del sensor
+const int Echo1 = 41;    // Pin digital 3 para el echo del sensor
 // const int Trigger3 = 42;
 // const int Echo3 = 43;
 // const int Trigger4 = 44;
@@ -180,9 +180,9 @@ void setup()
   servoW6.setSpeed(550);
 
   //* SENSORES ULTRASONIDOS
-  // pinMode(Trigger1, OUTPUT);   // pin como salida
-  // pinMode(Echo1, INPUT);       // pin como entrada
-  // digitalWrite(Trigger1, LOW); // Inicializamos el pin con 0
+  pinMode(Trigger1, OUTPUT);   // pin como salida
+  pinMode(Echo1, INPUT);       // pin como entrada
+  digitalWrite(Trigger1, LOW); // Inicializamos el pin con 0
 
   // pinMode(Trigger3, OUTPUT); //pin como salida
   // pinMode(Echo3, INPUT);  //pin como entrada
@@ -469,20 +469,20 @@ void loop()
     }
   }
   //* SENSORES PRECOLISION
-  // long timeW1;     // tiempo que demora en llegar el eco
-  // long distanceW1; // distancia en cm
+  long timeW1;     // tiempo que demora en llegar el eco
+  long distanceW1; // distancia en cm
 
-  // // SENSOR MOTORW1
-  // digitalWrite(Trigger1, HIGH);
-  // delayMicroseconds(10); // Enviamos un pulso de 10us
-  // digitalWrite(Trigger1, LOW);
+  // SENSOR MOTORW1
+  digitalWrite(Trigger1, HIGH);
+  delayMicroseconds(10); // Enviamos un pulso de 10us
+  digitalWrite(Trigger1, LOW);
 
-  // timeW1 = pulseIn(Echo1, HIGH); // obtenemos el ancho del pulso
-  // distanceW1 = timeW1 / 59;      // escalamos el tiempo a una distancia en cm
+  timeW1 = pulseIn(Echo1, HIGH); // obtenemos el ancho del pulso
+  distanceW1 = timeW1 / 59;      // escalamos el tiempo a una distancia en cm
 
-  // digitalWrite(Trigger1, HIGH);
-  // delayMicroseconds(10); // Enviamos un pulso de 10us
-  // digitalWrite(Trigger1, LOW);
+  digitalWrite(Trigger1, HIGH);
+  delayMicroseconds(10); // Enviamos un pulso de 10us
+  digitalWrite(Trigger1, LOW);
 
   // //SENSOR MOTORW3
   // long timeW3; //tiempo que demora en llegar el eco
@@ -512,11 +512,11 @@ void loop()
 
   // ///* PRINTEO DE DISTANCIAS
   // // Sensor motorW1
-  // Serial.print("Distancia motorW1: ");
-  // Serial.print(distanceW1); // Enviamos serialmente el valor de la distancia
-  // Serial.print("cm");
-  // Serial.println();
-  // delay(1000); // Hacemos una pausa de 100ms
+  Serial.print("Distancia motorW1: ");
+  Serial.print(distanceW1); // Enviamos serialmente el valor de la distancia
+  Serial.print("cm");
+  Serial.println();
+  delay(1000); // Hacemos una pausa de 100ms
 
   // // Sensor motorW3
   // Serial.print("Distancia motorW3: ");
