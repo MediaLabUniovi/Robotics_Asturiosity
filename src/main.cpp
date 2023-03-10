@@ -468,8 +468,79 @@ void loop()
       digitalWrite(motorW6_IN2, LOW);
     }
   }
+  //* SENSORES PRECOLISION
+  long timeW1;     // tiempo que demora en llegar el eco
+  long distanceW1; // distancia en cm
 
-  // Monitor the battery voltage
+  // SENSOR MOTORW1
+  digitalWrite(Trigger1, HIGH);
+  delayMicroseconds(10); // Enviamos un pulso de 10us
+  digitalWrite(Trigger1, LOW);
+
+  timeW1 = pulseIn(Echo1, HIGH); // obtenemos el ancho del pulso
+  distanceW1 = timeW1 / 59;      // escalamos el tiempo a una distancia en cm
+
+  digitalWrite(Trigger1, HIGH);
+  delayMicroseconds(10); // Enviamos un pulso de 10us
+  digitalWrite(Trigger1, LOW);
+
+  // //SENSOR MOTORW3
+  // long timeW3; //tiempo que demora en llegar el eco
+  // long distanceW3; //distancia en cm
+  // timeW3 = pulseIn(Echo3, HIGH); //obtenemos el ancho del pulso
+  // distanceW3 = timeW3/59;             //escalamos el tiempo a una distancia en cm
+
+  // digitalWrite(Trigger3, HIGH);
+  // delayMicroseconds(10);          //Enviamos un pulso de 10us
+  // digitalWrite(Trigger3, LOW);
+
+  // //SENSOR MOTORW4
+  // long timeW4; //tiempo que demora en llegar el eco
+  // long distanceW4; //distancia en cm
+  // timeW4 = pulseIn(Echo4, HIGH); //obtenemos el ancho del pulso
+  // distanceW4 = timeW4/59;             //escalamos el tiempo a una distancia en cm
+
+  // digitalWrite(Trigger4, HIGH);
+  // delayMicroseconds(10);          //Enviamos un pulso de 10us
+  // digitalWrite(Trigger4, LOW);
+
+  // //SENSOR MOTORW6
+  // long timeW6; //tiempo que demora en llegar el eco
+  // long distanceW6; //distancia en cm
+  // timeW6 = pulseIn(Echo6, HIGH); //obtenemos el ancho del pulso
+  // distanceW6 = timeW6/59;             //escalamos el tiempo a una distancia en cm
+
+  ///* PRINTEO DE DISTANCIAS
+  // Sensor motorW1
+  Serial.print("Distancia motorW1: ");
+  Serial.print(distanceW1); // Enviamos serialmente el valor de la distancia
+  Serial.print("cm");
+  Serial.println();
+  delay(1000); // Hacemos una pausa de 100ms
+
+  // // Sensor motorW3
+  // Serial.print("Distancia motorW3: ");
+  // Serial.print(distanceW3);      //Enviamos serialmente el valor de la distancia
+  // Serial.print("cm");
+  // Serial.println();
+  // delay(1000);          //Hacemos una pausa de 100ms
+
+  // // Sensor motorW4
+  // Serial.print("Distancia motorW4: ");
+  // Serial.print(distanceW4);      //Enviamos serialmente el valor de la distancia
+  // Serial.print("cm");
+  // Serial.println();
+  // delay(1000);          //Hacemos una pausa de 100ms
+
+  // // Sensor motorW6
+  // Serial.print("Distancia motorW6: ");
+  // Serial.print(distanceW6);      //Enviamos serialmente el valor de la distancia
+  // Serial.print("cm");
+  // Serial.println();
+  // delay(1000);          //Hacemos una pausa de 100ms
+
+  
+  //* Monitor the battery voltage
   int sensorValue = analogRead(A0);
   float voltage = sensorValue * (5.00 / 1023.00) * 3.02; // Convert the reading values from 5v to suitable 12V
   // Send battery voltage value to transmitter
