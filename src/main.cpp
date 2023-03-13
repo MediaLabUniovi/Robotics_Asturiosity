@@ -129,8 +129,9 @@ void setup()
   IBus.begin(Serial1, IBUSBM_NOTIMER);       // Servo IBUS
   IBusSensor.begin(Serial2, IBUSBM_NOTIMER); // Sensor IBUS
   IBusSensor.addSensor(IBUSS_INTV);          // add voltage sensor
-  //* COMUNICACION I2C
-  Wire.beginTransmission(0X27);
+    //* COMUNICACION I2C
+  Wire.requestFrom(direccion_Mega,cantidad_datos);
+  Wire.read;
   Wire.write(data);
   Wire.endTransmission();
 
