@@ -8,6 +8,8 @@
 // Además, la librería ofrece la capacidad de personalizar la curva de movimiento para adaptarse a diferentes requisitos.
 #include <IBusBM.h>
 #include <AccelStepper.h>
+#include <Wire.h>
+
 
 #define motorW1_IN1 7
 #define motorW1_IN2 6
@@ -127,6 +129,11 @@ void setup()
   IBus.begin(Serial1, IBUSBM_NOTIMER);       // Servo IBUS
   IBusSensor.begin(Serial2, IBUSBM_NOTIMER); // Sensor IBUS
   IBusSensor.addSensor(IBUSS_INTV);          // add voltage sensor
+  //* COMUNICACION I2C
+  Wire.beginTransmission(0X27);
+  Wire.write(data);
+  Wire.endTransmission();
+
 
   // while (true)
   //{
