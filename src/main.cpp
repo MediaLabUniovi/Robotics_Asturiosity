@@ -56,8 +56,7 @@ float d2 = 278;
 float d3 = 301;
 float d4 = 304;
 
-int precolision;
-int distanceW1;
+int valorDistancia;
 
 void calculateMotorsSpeed(int s, int s1, int s2, int s3)
 {
@@ -117,16 +116,19 @@ void setup()
   digitalWrite(motorW6_IN1, LOW);
   digitalWrite(motorW6_IN2, LOW);
 
+//* COMUNICACION I2C
+  Wire.begin();
+  Wire.beginTransmission(0X27);
+  // Wire.write(4);
+  // precolision = Wire.read();
+  // Wire.endTransmission();
+
   Serial.begin(115200);
   IBus.begin(Serial1, IBUSBM_NOTIMER);       // Servo IBUS
   IBusSensor.begin(Serial2, IBUSBM_NOTIMER); // Sensor IBUS
   IBusSensor.addSensor(IBUSS_INTV);          // add voltage sensor
 
-  //* COMUNICACION I2C
-  Wire.beginTransmission(0X27);
-  Wire.write(4);
-  // precolision = Wire.read();
-  // Wire.endTransmission();
+  
 
   // while (true)
   //{
@@ -182,16 +184,19 @@ void setup()
 
 void loop()
 {
-  Wire.requestFrom(0x27, distanceW1);
-  distanceW1= Wire.read();
-  if (distanceW1 < 20)
-  {
-    Serial.print("Distancia motorW1: ");
-    Serial.print(distanceW1); // Enviamos serialmente el valor de la distancia
-    Serial.print("cm");
-    Serial.println();
-  }
+  Wire.requestFrom(0x27, valorDistancia);
+  valorDistancia= Wire.read();
+  Serial.println(valorDistancia);
   delay(1000); // Hacemos una pausa de 100ms
+  // if (distanceW1 < 20)
+  // {
+  //   Serial.print("Distancia motorW1: ");
+  //   Serial.print(distanceW1); // Enviamos serialmente el valor de la distancia
+  //   Serial.print("cm");
+  //   Serial.println();
+  // }
+
+  
   // Reading the data comming from the RC Transmitter
   IBus.loop();
   ch0 = IBus.readChannel(0); // Channel 1 Girar
