@@ -182,6 +182,7 @@ void setup()
 
 void loop()
 {
+  Wire.requestFrom(0x27, precolision);
   precolision = Wire.read();
   if (precolision < 20)
   {
