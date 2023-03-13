@@ -56,7 +56,7 @@ float d2 = 278;
 float d3 = 301;
 float d4 = 304;
 
-int valorDistance;
+//int valorDistance;
 
 void calculateMotorsSpeed(int s, int s1, int s2, int s3)
 {
@@ -92,6 +92,17 @@ void calculateServoAngle()
   thetaOuterBack = round((atan((d2 / (r - d1)))) * 180 / PI);
 }
 
+void distanceReceive (int bytes){
+  int valorDistance=Wire.read();
+  if (valorDistance < 20)
+  {
+    Serial.print("Distancia motorW1: ");
+    Serial.print(valorDistance); // Enviamos serialmente el valor de la distancia
+    Serial.print("cm");
+    Serial.println();
+  }
+}
+
 void setup()
 {
 
@@ -117,8 +128,8 @@ void setup()
   digitalWrite(motorW6_IN2, LOW);
 
 //* COMUNICACION I2C
-  Wire.begin();
-  Wire.beginTransmission(0X27);
+  Wire.begin(0X00);
+  Wire.onReceive(distanceReceive);
   // Wire.write(4);
   // precolision = Wire.read();
   // Wire.endTransmission();
@@ -182,12 +193,14 @@ void setup()
   servoW6.setSpeed(550);
 }
 
+
 void loop()
 {
-  Wire.requestFrom(0x27, valorDistance);
-  valorDistance= Wire.read();
-  Serial.println(valorDistance);
-  delay(1000); // Hacemos una pausa de 100ms
+
+  // Wire.requestFrom(0x27, valorDistance);
+  // valorDistance= Wire.read();
+  // Serial.println(valorDistance);
+  // delay(1000); // Hacemos una pausa de 100ms
   // if (valorDistance < 20)
   // {
   //   Serial.print("Distancia motorW1: ");
