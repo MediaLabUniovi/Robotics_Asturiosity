@@ -58,6 +58,7 @@ float d3 = 301;
 float d4 = 304;
 
 int precolision;
+long distanceW1;
 
 void calculateMotorsSpeed(int s, int s1, int s2, int s3)
 {
@@ -125,7 +126,7 @@ void setup()
   //* COMUNICACION I2C
   Wire.beginTransmission(0X27);
   Wire.write(4);
-  precolision = Wire.read(distanciaW1);
+  precolision = Wire.read(distanceW1);
   // Wire.endTransmission();
 
 
