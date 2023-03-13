@@ -182,17 +182,16 @@ void setup()
 
 void loop()
 {
-  Wire.requestFrom(0x27, precolision);
-  precolision = Wire.read();
-  if (precolision < 20)
+  Wire.requestFrom(0x27, distanceW1);
+  distanceW1= Wire.read();
+  if (distanceW1 < 20)
   {
     Serial.print("Distancia motorW1: ");
-    Serial.print(precolision); // Enviamos serialmente el valor de la distancia
+    Serial.print(distanceW1); // Enviamos serialmente el valor de la distancia
     Serial.print("cm");
     Serial.println();
-    delay(1000); // Hacemos una pausa de 100ms
   }
-
+  delay(1000); // Hacemos una pausa de 100ms
   // Reading the data comming from the RC Transmitter
   IBus.loop();
   ch0 = IBus.readChannel(0); // Channel 1 Girar
