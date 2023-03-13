@@ -125,7 +125,7 @@ void setup()
   //* COMUNICACION I2C
   Wire.beginTransmission(0X27);
   Wire.write(4);
-  precolision = Wire.read();
+  // precolision = Wire.read();
   // Wire.endTransmission();
 
   // while (true)
@@ -182,6 +182,7 @@ void setup()
 
 void loop()
 {
+  precolision = Wire.read();
   if (precolision < 20)
   {
     Serial.print("Distancia motorW1: ");
