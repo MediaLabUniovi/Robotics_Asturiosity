@@ -57,15 +57,7 @@ float d2 = 278;
 float d3 = 301;
 float d4 = 304;
 
-//* SENSORES PRECOLISION
-const int Trigger1 = 40; // Pin digital 2 para el Trigger del sensor
-const int Echo1 = 41;    // Pin digital 3 para el echo del sensor
-// const int Trigger3 = 42;
-// const int Echo3 = 43;
-// const int Trigger4 = 44;
-// const int Echo4 = 45;
-// const int Trigger6 = 46;
-// const int Echo6 = 47;
+int precolision;
 
 void calculateMotorsSpeed(int s, int s1, int s2, int s3)
 {
@@ -133,6 +125,7 @@ void setup()
   //* COMUNICACION I2C
   Wire.beginTransmission(0X27);
   Wire.write(4);
+  precolision = Wire.read(distanciaW1);
   // Wire.endTransmission();
 
 
@@ -187,22 +180,6 @@ void setup()
   servoW4.setSpeed(550);
   servoW6.setSpeed(550);
 
-  //* SENSORES ULTRASONIDOS
-  pinMode(Trigger1, OUTPUT);   // pin como salida
-  pinMode(Echo1, INPUT);       // pin como entrada
-  digitalWrite(Trigger1, LOW); // Inicializamos el pin con 0
-
-  // pinMode(Trigger3, OUTPUT);   // pin como salida
-  // pinMode(Echo3, INPUT);       // pin como entrada
-  // digitalWrite(Trigger3, LOW); // Inicializamos el pin con 0
-
-  // pinMode(Trigger4, OUTPUT);   // pin como salida
-  // pinMode(Echo4, INPUT);       // pin como entrada
-  // digitalWrite(Trigger4, LOW); // Inicializamos el pin con 0
-
-  // pinMode(Trigger6, OUTPUT);   // pin como salida
-  // pinMode(Echo6, INPUT);       // pin como entrada
-  // digitalWrite(Trigger6, LOW); // Inicializamos el pin con 0
 }
 
 void loop()
