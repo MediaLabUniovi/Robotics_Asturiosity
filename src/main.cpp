@@ -181,11 +181,15 @@ void setup()
   servoW4.setSpeed(550);
   servoW6.setSpeed(550);
 
+  
+
 }
 
 void loop()
 {
-
+  if (precolision<20){
+    Serial.print("distanceW1=");
+  }
   
   // Reading the data comming from the RC Transmitter
   IBus.loop();
