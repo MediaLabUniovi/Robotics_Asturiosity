@@ -56,7 +56,7 @@ float d2 = 278;
 float d3 = 301;
 float d4 = 304;
 
-int valorDistancia;
+int distanceW1;
 
 void calculateMotorsSpeed(int s, int s1, int s2, int s3)
 {
@@ -184,9 +184,9 @@ void setup()
 
 void loop()
 {
-  Wire.requestFrom(0x27, valorDistancia);
-  valorDistancia= Wire.read();
-  Serial.println(valorDistancia);
+  Wire.requestFrom(0x27, distanceW1);
+  distanceW1= Wire.read();
+  Serial.println(distanceW1);
   delay(1000); // Hacemos una pausa de 100ms
   // if (distanceW1 < 20)
   // {
