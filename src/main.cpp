@@ -94,13 +94,46 @@ void calculateServoAngle()
 
 void distanceReceive (int bytes){
   int valorDistance=Wire.read();
-  if (valorDistance < 20)
-  {
-    Serial.print("Distancia motorW1: ");
-    Serial.print(valorDistance); // Enviamos serialmente el valor de la distancia
-    Serial.print("cm");
-    Serial.println();
-  }
+  Serial.print("Distancia motorW1: ");
+  Serial.print(valorDistance); // Enviamos serialmente el valor de la distancia
+  Serial.print("cm");
+  Serial.println();
+  //if (valorDistance < 20)
+  //{
+
+
+    // while (true)
+    // {
+
+    //   if ((distanceW1 < 20) || (distanceW3 < 20) || (distanceW4 < 20) || (distanceW6 < 20))
+    //   {
+
+    //     // DC Motors
+    //     // Motor Wheel 1 - Left Front
+    //     digitalWrite(motorW1_IN1, LOW); // PWM value
+    //     digitalWrite(motorW1_IN2, LOW); // Forward
+    //     // Motor Wheel 2 - Left Middle
+    //     digitalWrite(motorW2_IN1, LOW);
+    //     digitalWrite(motorW2_IN2, LOW);
+    //     // Motor Wheel 3 - Left Back
+    //     digitalWrite(motorW3_IN1, LOW);
+    //     digitalWrite(motorW3_IN2, LOW);
+    //     // right side motors move in opposite direction
+    //     // Motor Wheel 4 - Right Front
+    //     digitalWrite(motorW4_IN1, LOW);
+    //     digitalWrite(motorW4_IN2, LOW);
+    //     // Motor Wheel 5 - Right Middle
+    //     digitalWrite(motorW5_IN1, LOW);
+    //     digitalWrite(motorW5_IN2, LOW);
+    //     // Motor Wheel 6 - Right Back
+    //     digitalWrite(motorW6_IN1, LOW);
+    //     digitalWrite(motorW6_IN2, LOW);
+    //   }
+    //   else if ((distanceW1 > 20))
+    //   {
+    //     break;
+    //   }
+  //}
 }
 
 void setup()
