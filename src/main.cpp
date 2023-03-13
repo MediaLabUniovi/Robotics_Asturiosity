@@ -58,12 +58,12 @@ float d4 = 304;
 //* SENSORES PRECOLISION
 const int Trigger1 = 40; // Pin digital 2 para el Trigger del sensor
 const int Echo1 = 41;    // Pin digital 3 para el echo del sensor
-const int Trigger3 = 42;
-const int Echo3 = 43;
-const int Trigger4 = 44;
-const int Echo4 = 45;
-const int Trigger6 = 46;
-const int Echo6 = 47;
+// const int Trigger3 = 42;
+// const int Echo3 = 43;
+// const int Trigger4 = 44;
+// const int Echo4 = 45;
+// const int Trigger6 = 46;
+// const int Echo6 = 47;
 
 void calculateMotorsSpeed(int s, int s1, int s2, int s3)
 {
@@ -123,7 +123,7 @@ void setup()
   digitalWrite(motorW6_IN1, LOW);
   digitalWrite(motorW6_IN2, LOW);
 
-  Serial.begin(9600);
+  Serial.begin(115200);
   IBus.begin(Serial1, IBUSBM_NOTIMER);       // Servo IBUS
   IBusSensor.begin(Serial2, IBUSBM_NOTIMER); // Sensor IBUS
   IBusSensor.addSensor(IBUSS_INTV);          // add voltage sensor
@@ -184,17 +184,17 @@ void setup()
   pinMode(Echo1, INPUT);       // pin como entrada
   digitalWrite(Trigger1, LOW); // Inicializamos el pin con 0
 
-  pinMode(Trigger3, OUTPUT);   // pin como salida
-  pinMode(Echo3, INPUT);       // pin como entrada
-  digitalWrite(Trigger3, LOW); // Inicializamos el pin con 0
+  // pinMode(Trigger3, OUTPUT);   // pin como salida
+  // pinMode(Echo3, INPUT);       // pin como entrada
+  // digitalWrite(Trigger3, LOW); // Inicializamos el pin con 0
 
-  pinMode(Trigger4, OUTPUT);   // pin como salida
-  pinMode(Echo4, INPUT);       // pin como entrada
-  digitalWrite(Trigger4, LOW); // Inicializamos el pin con 0
+  // pinMode(Trigger4, OUTPUT);   // pin como salida
+  // pinMode(Echo4, INPUT);       // pin como entrada
+  // digitalWrite(Trigger4, LOW); // Inicializamos el pin con 0
 
-  pinMode(Trigger6, OUTPUT);   // pin como salida
-  pinMode(Echo6, INPUT);       // pin como entrada
-  digitalWrite(Trigger6, LOW); // Inicializamos el pin con 0
+  // pinMode(Trigger6, OUTPUT);   // pin como salida
+  // pinMode(Echo6, INPUT);       // pin como entrada
+  // digitalWrite(Trigger6, LOW); // Inicializamos el pin con 0
 }
 
 void loop()
@@ -214,6 +214,8 @@ void loop()
   ch3 = 0;
   ch4 = 0;
   // ch5=0;
+
+  
 
   // Convertign the incoming data
   // Steering right
@@ -468,117 +470,11 @@ void loop()
       digitalWrite(motorW6_IN2, LOW);
     }
   }
-  //* SENSORES PRECOLISION
 
-  // SENSOR MOTORW1
-  long timeW1;     // tiempo que demora en llegar el eco
-  long distanceW1; // distancia en cm
-
-  digitalWrite(Trigger1, HIGH);
-  delayMicroseconds(10); // Enviamos un pulso de 10us
-  digitalWrite(Trigger1, LOW);
-
-  timeW1 = pulseIn(Echo1, HIGH); // obtenemos el ancho del pulso
-  distanceW1 = timeW1 / 59;      // escalamos el tiempo a una distancia en cm
-
-  digitalWrite(Trigger1, HIGH);
-  delayMicroseconds(10); // Enviamos un pulso de 10us
-  digitalWrite(Trigger1, LOW);
-
-  // while (distanceW1<20){
-  //   digitalWrite(motorW1_IN1, LOW);
-  //   digitalWrite(motorW1_IN2, LOW);
-  // }
-
-  // } else {
-  //   break;
-  // }
-
-  // SENSOR MOTORW3
-  long timeW3;     // tiempo que demora en llegar el eco
-  long distanceW3; // distancia en cm
-
-  timeW3 = pulseIn(Echo3, HIGH); // obtenemos el ancho del pulso
-  distanceW3 = timeW3 / 59;      // escalamos el tiempo a una distancia en cm
-
-  digitalWrite(Trigger3, HIGH);
-  delayMicroseconds(10); // Enviamos un pulso de 10us
-  digitalWrite(Trigger3, LOW);
-
-  // SENSOR MOTORW4
-  long timeW4;     // tiempo que demora en llegar el eco
-  long distanceW4; // distancia en cm
-
-  timeW4 = pulseIn(Echo4, HIGH); // obtenemos el ancho del pulso
-  distanceW4 = timeW4 / 59;      // escalamos el tiempo a una distancia en cm
-
-  digitalWrite(Trigger4, HIGH);
-  delayMicroseconds(10); // Enviamos un pulso de 10us
-  digitalWrite(Trigger4, LOW);
-
-  // SENSOR MOTORW6
-  long timeW6;     // tiempo que demora en llegar el eco
-  long distanceW6; // distancia en cm
-
-  timeW6 = pulseIn(Echo6, HIGH); // obtenemos el ancho del pulso
-  distanceW6 = timeW6 / 59;      // escalamos el tiempo a una distancia en cm
-
-  digitalWrite(Trigger6, HIGH);
-  delayMicroseconds(10); // Enviamos un pulso de 10us
-  digitalWrite(Trigger6, LOW);
-
-  //* PARADA DE MOTORES
-
-  while (true)
-  {
-
-    if ((distanceW1 < 20) && (distanceW3 < 20) && (distanceW4 < 20) && (distanceW6 < 20))
-    {
-
-      // DC Motors
-      // Motor Wheel 1 - Left Front
-      digitalWrite(motorW1_IN1, 0); // PWM value
-      digitalWrite(motorW1_IN2, 0); // Forward
-    }
-    else if ((distanceW1 > 20))
-    {
-      break;
-    }
-  }
-
-    //* PRINTEO DE DISTANCIAS
-    // Sensor motorW1
-    Serial.print("Distancia motorW1: ");
-    Serial.print(distanceW1); // Enviamos serialmente el valor de la distancia
-    Serial.print("cm");
-    Serial.println();
-    delay(1000); // Hacemos una pausa de 100ms
-
-    // Sensor motorW3
-    Serial.print("Distancia motorW3: ");
-    Serial.print(distanceW3); // Enviamos serialmente el valor de la distancia
-    Serial.print("cm");
-    Serial.println();
-    delay(1000); // Hacemos una pausa de 100ms
-
-    // Sensor motorW4
-    Serial.print("Distancia motorW4: ");
-    Serial.print(distanceW4); // Enviamos serialmente el valor de la distancia
-    Serial.print("cm");
-    Serial.println();
-    delay(1000); // Hacemos una pausa de 100ms
-
-    // Sensor motorW6
-    Serial.print("Distancia motorW6: ");
-    Serial.print(distanceW6); // Enviamos serialmente el valor de la distancia
-    Serial.print("cm");
-    Serial.println();
-    delay(1000); // Hacemos una pausa de 100ms
-
-    //* Monitor the battery voltage
-    int sensorValue = analogRead(A0);
-    float voltage = sensorValue * (5.00 / 1023.00) * 3.02; // Convert the reading values from 5v to suitable 12V
-    // Send battery voltage value to transmitter
-    IBusSensor.loop();
-    IBusSensor.setSensorMeasurement(1, voltage * 100);
+  //* Monitor the battery voltage
+  int sensorValue = analogRead(A0);
+  float voltage = sensorValue * (5.00 / 1023.00) * 3.02; // Convert the reading values from 5v to suitable 12V
+  // Send battery voltage value to transmitter
+  IBusSensor.loop();
+  IBusSensor.setSensorMeasurement(1, voltage * 100);
 }
