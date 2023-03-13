@@ -129,7 +129,7 @@ void distanceReceive (int bytes){
     //     digitalWrite(motorW6_IN1, LOW);
     //     digitalWrite(motorW6_IN2, LOW);
     //   }
-    //   else if ((distanceW1 > 20))
+    //   else 
     //   {
     //     break;
     //   }
