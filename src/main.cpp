@@ -10,7 +10,6 @@
 #include <AccelStepper.h>
 #include <Wire.h>
 
-
 #define motorW1_IN1 7
 #define motorW1_IN2 6
 #define motorW2_IN1 5
@@ -122,13 +121,12 @@ void setup()
   IBus.begin(Serial1, IBUSBM_NOTIMER);       // Servo IBUS
   IBusSensor.begin(Serial2, IBUSBM_NOTIMER); // Sensor IBUS
   IBusSensor.addSensor(IBUSS_INTV);          // add voltage sensor
- 
+
   //* COMUNICACION I2C
   Wire.beginTransmission(0X27);
   Wire.write(4);
   precolision = Wire.read();
   // Wire.endTransmission();
-
 
   // while (true)
   //{
@@ -180,17 +178,19 @@ void setup()
   servoW3.setSpeed(550);
   servoW4.setSpeed(550);
   servoW6.setSpeed(550);
-
-  
-
 }
 
 void loop()
 {
-  if (precolision<20){
-    Serial.print("distanceW1=");
+  if (precolision < 20)
+  {
+    Serial.print("Distancia motorW1: ");
+    Serial.print(precolision); // Enviamos serialmente el valor de la distancia
+    Serial.print("cm");
+    Serial.println();
+    delay(1000); // Hacemos una pausa de 100ms
   }
-  
+
   // Reading the data comming from the RC Transmitter
   IBus.loop();
   ch0 = IBus.readChannel(0); // Channel 1 Girar
@@ -206,8 +206,6 @@ void loop()
   ch3 = 0;
   ch4 = 0;
   // ch5=0;
-
-  
 
   // Convertign the incoming data
   // Steering right
