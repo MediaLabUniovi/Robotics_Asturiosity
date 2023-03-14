@@ -233,6 +233,7 @@ void loop()
   Serial.print(distancia); // Enviamos serialmente el valor de la distancia
   Serial.print("cm");
   Serial.println();
+  delay(1000);
   // Wire.onReceive(receiveEvent);
   // receiveEvent(int bytes);
 
