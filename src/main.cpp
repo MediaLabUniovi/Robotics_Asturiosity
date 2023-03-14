@@ -238,6 +238,8 @@ void setup()
 void loop()
 {
 
+  Wire.onReceive(receiveEvent);
+
   // Wire.requestFrom(0x27, valorDistance);
   // valorDistance= Wire.read();
   // Serial.println(valorDistance);
