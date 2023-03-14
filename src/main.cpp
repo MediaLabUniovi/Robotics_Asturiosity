@@ -23,10 +23,8 @@
 #define motorW6_IN1 12
 #define motorW6_IN2 11
 
-#define ARDUINO_NANO_ADDRESS 9 // Dirección I2C del Arduino Nano
-#define DISTANCIA_BYTES 4
-int distancia = 0;
-
+const int SLAVE_ADDR = 8;
+const int NUM_BYTES = 4;
 
 // int recvValue = digitalRead(19);
 
@@ -95,23 +93,32 @@ void calculateServoAngle()
   thetaOuterBack = round((atan((d2 / (r - d1)))) * 180 / PI);
 }
 
-void receiveEvent(int numBytes) {
-  if (numBytes == DISTANCIA_BYTES) {
-    for (int i = 0; i < numBytes; i++) {
-      ((byte *)&distancia)[i] = Wire.read();
-      Serial.print(((byte *)&distancia)[i], HEX);
-      Serial.print(" ");
+void readDistance()
+{
+  Wire.requestFrom(SLAVE_ADDR, NUM_BYTES);
+  if (Wire.available() == NUM_BYTES)
+  {
+    int distance = 0;
+    for (int i = 0; i < NUM_BYTES; i++)
+    {
+      distance = distance << 8;
+      distance |= Wire.read();
     }
-    Serial.println();
-  } else {
-    while (Wire.available()) {
-      Wire.read();
-    }
-    Serial.println("Error: número de bytes incorrecto");
+    Serial.print("Distance: ");
+    Serial.println(distance);
+    delay(1000);
+  }
+  else
+  {
+    Serial.println("Error: received incorrect number of bytes");
+    delay(1000);
   }
 }
-// void receiveEvent(int byteCount)
-// {
+
+void receiveEvent(int byteCount)
+{
+  // Do nothing here
+}
 //   // if (byteCount == 4)
 //   //{ // Verificar que se hayan recibido 4 bytes
 //   int distance = 0;
@@ -122,44 +129,43 @@ void receiveEvent(int numBytes) {
 //   Serial.print("cm");
 //   Serial.println();
 //   delay(1000);
-  //}
+//}
 
-  // if (valorDistance < 20)
-  //{
+// if (valorDistance < 20)
+//{
 
-  // while (true)
-  // {
+// while (true)
+// {
 
-  //   if ((distanceW1 < 20) || (distanceW3 < 20) || (distanceW4 < 20) || (distanceW6 < 20))
-  //   {
+//   if ((distanceW1 < 20) || (distanceW3 < 20) || (distanceW4 < 20) || (distanceW6 < 20))
+//   {
 
-  //     // DC Motors
-  //     // Motor Wheel 1 - Left Front
-  //     digitalWrite(motorW1_IN1, LOW); // PWM value
-  //     digitalWrite(motorW1_IN2, LOW); // Forward
-  //     // Motor Wheel 2 - Left Middle
-  //     digitalWrite(motorW2_IN1, LOW);
-  //     digitalWrite(motorW2_IN2, LOW);
-  //     // Motor Wheel 3 - Left Back
-  //     digitalWrite(motorW3_IN1, LOW);
-  //     digitalWrite(motorW3_IN2, LOW);
-  //     // right side motors move in opposite direction
-  //     // Motor Wheel 4 - Right Front
-  //     digitalWrite(motorW4_IN1, LOW);
-  //     digitalWrite(motorW4_IN2, LOW);
-  //     // Motor Wheel 5 - Right Middle
-  //     digitalWrite(motorW5_IN1, LOW);
-  //     digitalWrite(motorW5_IN2, LOW);
-  //     // Motor Wheel 6 - Right Back
-  //     digitalWrite(motorW6_IN1, LOW);
-  //     digitalWrite(motorW6_IN2, LOW);
-  //   }
-  //   else
-  //   {
-  //     break;
-  //   }
-  //}
-
+//     // DC Motors
+//     // Motor Wheel 1 - Left Front
+//     digitalWrite(motorW1_IN1, LOW); // PWM value
+//     digitalWrite(motorW1_IN2, LOW); // Forward
+//     // Motor Wheel 2 - Left Middle
+//     digitalWrite(motorW2_IN1, LOW);
+//     digitalWrite(motorW2_IN2, LOW);
+//     // Motor Wheel 3 - Left Back
+//     digitalWrite(motorW3_IN1, LOW);
+//     digitalWrite(motorW3_IN2, LOW);
+//     // right side motors move in opposite direction
+//     // Motor Wheel 4 - Right Front
+//     digitalWrite(motorW4_IN1, LOW);
+//     digitalWrite(motorW4_IN2, LOW);
+//     // Motor Wheel 5 - Right Middle
+//     digitalWrite(motorW5_IN1, LOW);
+//     digitalWrite(motorW5_IN2, LOW);
+//     // Motor Wheel 6 - Right Back
+//     digitalWrite(motorW6_IN1, LOW);
+//     digitalWrite(motorW6_IN2, LOW);
+//   }
+//   else
+//   {
+//     break;
+//   }
+//}
 
 void setup()
 {
@@ -185,11 +191,13 @@ void setup()
   digitalWrite(motorW6_IN1, LOW);
   digitalWrite(motorW6_IN2, LOW);
 
-  Wire.begin(ARDUINO_NANO_ADDRESS);
+  // Wire.begin(ARDUINO_NANO_ADDRESS);
+  // Wire.onReceive(receiveEvent);
+
+  Serial.begin(115200);
+  Wire.begin(SLAVE_ADDR);
   Wire.onReceive(receiveEvent);
 
-  //Wire.begin();
-  Serial.begin(115200);
   IBus.begin(Serial1, IBUSBM_NOTIMER);       // Servo IBUS
   IBusSensor.begin(Serial2, IBUSBM_NOTIMER); // Sensor IBUS
   IBusSensor.addSensor(IBUSS_INTV);          // add voltage sensor
@@ -221,14 +229,17 @@ void setup()
 
 void loop()
 {
-  Serial.print("Distancia recibida: ");
-  Serial.print(distancia);
-  Serial.print(" (bytes: ");
-  for (int i = 0; i < DISTANCIA_BYTES; i++) {
-    Serial.print(((byte *)&distancia)[i], HEX);
-    Serial.print(" ");
-  }
-  Serial.println(")");
+
+  readDistance();
+  // receiveEvent();
+  // Serial.print("Distancia recibida: ");
+  // Serial.print(distancia);
+  // Serial.print(" (bytes: ");
+  // for (int i = 0; i < DISTANCIA_BYTES; i++) {
+  //   Serial.print(((byte *)&distancia)[i], HEX);
+  //   Serial.print(" ");
+  // }
+  // Serial.println(")");
   // Wire.onReceive(receiveEvent);   // Llama a la función receiveEvent() cuando se recibe un mensaje I2C
   // Wire.available();               // Verificar si hay datos disponibles en el buffer de recepción
   // receiveEvent(Wire.available()); // Llamar a la función receiveEvent si hay datos disponibles
