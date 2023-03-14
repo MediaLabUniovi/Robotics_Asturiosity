@@ -92,398 +92,402 @@ void calculateServoAngle()
 
 void receiveEvent(int bytes)
 {
-  if (bytes == sizeof(int)) { // Comprobar que se haya recibido el tamaño correcto de datos (4 bytes para un int)
+  if (bytes == sizeof(int))
+  { // Comprobar que se haya recibido el tamaño correcto de datos (4 bytes para un int)
     int distancia = 0;
-    Wire.readBytes((byte*)&distancia, sizeof(distancia)); // Recibir la distancia como un array de bytes y convertirlo a un int
-    Serial.print("Distancia recibida: ");
-    Serial.println(distancia); // Imprimir la distancia recibida por el puerto serial
-  } else {
-    Serial.print("Error: se recibieron ");
-    Serial.print(bytes);
-    Serial.println(" bytes en lugar de 4");
+    Wire.readBytes((byte *)&distancia, sizeof(distancia)); // Recibir la distancia como un array de bytes y convertirlo a un int
+    Serial.print("Distancia motorW1: ");
+    Serial.print(distancia); // Enviamos serialmente el valor de la distancia
+    Serial.print("cm");
+    Serial.println();
+    // } else {
+    //   Serial.print("Error: se recibieron ");
+    //   Serial.print(bytes);
+    //   Serial.println(" bytes en lugar de 4");
+    // }
+    delay(1000);
   }
-  delay(1000);
 
-  // void receiveEvent(int bytes)
-  // {
-  //   byte distancia_byte = Wire.read(); // Leer el byte de distancia enviado por el maestro
-  //   distancia = distancia_byte; // Almacenar la distancia medida
-  //   Wire.endTransmission(); // Indicar al maestro que se han recibido los datos
+    // void receiveEvent(int bytes)
+    // {
+    //   byte distancia_byte = Wire.read(); // Leer el byte de distancia enviado por el maestro
+    //   distancia = distancia_byte; // Almacenar la distancia medida
+    //   Wire.endTransmission(); // Indicar al maestro que se han recibido los datos
 
-  // Serial.print("Distancia motorW1: ");
-  // Serial.print(distancia); // Enviamos serialmente el valor de la distancia
-  // Serial.print("cm");
-  // Serial.println();
-  // if (valorDistance < 20)
-  //{
+    // Serial.print("Distancia motorW1: ");
+    // Serial.print(distancia); // Enviamos serialmente el valor de la distancia
+    // Serial.print("cm");
+    // Serial.println();
+    // if (valorDistance < 20)
+    //{
 
-  // while (true)
-  // {
+    // while (true)
+    // {
 
-  //   if ((distanceW1 < 20) || (distanceW3 < 20) || (distanceW4 < 20) || (distanceW6 < 20))
-  //   {
+    //   if ((distanceW1 < 20) || (distanceW3 < 20) || (distanceW4 < 20) || (distanceW6 < 20))
+    //   {
 
-  //     // DC Motors
-  //     // Motor Wheel 1 - Left Front
-  //     digitalWrite(motorW1_IN1, LOW); // PWM value
-  //     digitalWrite(motorW1_IN2, LOW); // Forward
-  //     // Motor Wheel 2 - Left Middle
-  //     digitalWrite(motorW2_IN1, LOW);
-  //     digitalWrite(motorW2_IN2, LOW);
-  //     // Motor Wheel 3 - Left Back
-  //     digitalWrite(motorW3_IN1, LOW);
-  //     digitalWrite(motorW3_IN2, LOW);
-  //     // right side motors move in opposite direction
-  //     // Motor Wheel 4 - Right Front
-  //     digitalWrite(motorW4_IN1, LOW);
-  //     digitalWrite(motorW4_IN2, LOW);
-  //     // Motor Wheel 5 - Right Middle
-  //     digitalWrite(motorW5_IN1, LOW);
-  //     digitalWrite(motorW5_IN2, LOW);
-  //     // Motor Wheel 6 - Right Back
-  //     digitalWrite(motorW6_IN1, LOW);
-  //     digitalWrite(motorW6_IN2, LOW);
-  //   }
-  //   else
-  //   {
-  //     break;
-  //   }
-  //}
-}
-
-void setup()
-{
-
-  // DC Motors
-  // Motor Wheel 1 - Left Front
-  digitalWrite(motorW1_IN1, LOW); // PWM value
-  digitalWrite(motorW1_IN2, LOW); // Forward
-  // Motor Wheel 2 - Left Middle
-  digitalWrite(motorW2_IN1, LOW);
-  digitalWrite(motorW2_IN2, LOW);
-  // Motor Wheel 3 - Left Back
-  digitalWrite(motorW3_IN1, LOW);
-  digitalWrite(motorW3_IN2, LOW);
-  // right side motors move in opposite direction
-  // Motor Wheel 4 - Right Front
-  digitalWrite(motorW4_IN1, LOW);
-  digitalWrite(motorW4_IN2, LOW);
-  // Motor Wheel 5 - Right Middle
-  digitalWrite(motorW5_IN1, LOW);
-  digitalWrite(motorW5_IN2, LOW);
-  // Motor Wheel 6 - Right Back
-  digitalWrite(motorW6_IN1, LOW);
-  digitalWrite(motorW6_IN2, LOW);
-
-  Serial.begin(115200);
-  IBus.begin(Serial1, IBUSBM_NOTIMER);       // Servo IBUS
-  IBusSensor.begin(Serial2, IBUSBM_NOTIMER); // Sensor IBUS
-  IBusSensor.addSensor(IBUSS_INTV);          // add voltage sensor
-
-  //* COMUNICACION I2C
-  Wire.begin(8);
-  Wire.onReceive(receiveEvent);
-  // Wire.write(4);
-  // precolision = Wire.read();
-  // Wire.endTransmission();
-
-  servoW1.attach(22);
-  servoW3.attach(23);
-  servoW4.attach(24);
-  servoW6.attach(25);
-  // servoCamTilt.attach(26);
-
-  servoW1.write(90);
-  servoW3.write(90);
-  servoW4.write(90);
-  servoW6.write(90);
-  // servoCamTilt.write(90);
-
-  servoW1.setSpeed(550);
-  servoW3.setSpeed(550);
-  servoW4.setSpeed(550);
-  servoW6.setSpeed(550);
-}
-
-void loop()
-{
-  Wire.available(); // Verificar si hay datos disponibles en el buffer de recepción
-  receiveEvent(Wire.available()); // Llamar a la función receiveEvent si hay datos disponibles
-
-  // Reading the data comming from the RC Transmitter
-  IBus.loop();
-  ch0 = IBus.readChannel(0); // Channel 1 Girar
-  ch1 = IBus.readChannel(1); // Channel 2 NO
-  ch2 = IBus.readChannel(2); // Channel 3 Speed
-  ch3 = IBus.readChannel(3); // Channel 4 NO
-  ch4 = IBus.readChannel(4); // Channel 5 NO
-  ch5 = IBus.readChannel(5); // Channel 6 Direction
-
-  // ch0=1500; // Steering radius
-  ch1 = 0; // Camera
-  // ch2=1500; // Speed
-  ch3 = 0;
-  ch4 = 0;
-  // ch5=0;
-
-  // Convertign the incoming data
-  // Steering right
-  if (IBus.readChannel(0) > 1550)
-  {
-    r = map(IBus.readChannel(0), 1550, 2000, 1400, 600); // turining radius from 1400mm to 600mm
+    //     // DC Motors
+    //     // Motor Wheel 1 - Left Front
+    //     digitalWrite(motorW1_IN1, LOW); // PWM value
+    //     digitalWrite(motorW1_IN2, LOW); // Forward
+    //     // Motor Wheel 2 - Left Middle
+    //     digitalWrite(motorW2_IN1, LOW);
+    //     digitalWrite(motorW2_IN2, LOW);
+    //     // Motor Wheel 3 - Left Back
+    //     digitalWrite(motorW3_IN1, LOW);
+    //     digitalWrite(motorW3_IN2, LOW);
+    //     // right side motors move in opposite direction
+    //     // Motor Wheel 4 - Right Front
+    //     digitalWrite(motorW4_IN1, LOW);
+    //     digitalWrite(motorW4_IN2, LOW);
+    //     // Motor Wheel 5 - Right Middle
+    //     digitalWrite(motorW5_IN1, LOW);
+    //     digitalWrite(motorW5_IN2, LOW);
+    //     // Motor Wheel 6 - Right Back
+    //     digitalWrite(motorW6_IN1, LOW);
+    //     digitalWrite(motorW6_IN2, LOW);
+    //   }
+    //   else
+    //   {
+    //     break;
+    //   }
+    //}
   }
-  // Steering left
-  else if (IBus.readChannel(0) < 1450)
-  {
-    r = map(IBus.readChannel(0), 1450, 1000, 1400, 600); // turining radius from 600mm to 1400mm
-  }
-  // Rover speed in % from 0 to 100
-  s = map(IBus.readChannel(2), 1000, 2000, 0, 100); // rover speed from 0% to 100%
 
-  calculateMotorsSpeed(s, s1, s2, s3);
-  calculateServoAngle();
-
-  // Steer right
-  if (IBus.readChannel(0) > 1550)
+  void setup()
   {
-    // Servo motors
-    // Outer wheels
-    servoW1.startEaseTo(97 + thetaInnerFront); // front wheel steer right
-    servoW3.startEaseTo(97 - thetaInnerBack);  // back wheel steer left for overall steering to the right of the rover
-    // Inner wheels
-    servoW4.startEaseTo(94 + thetaOuterFront);
-    servoW6.startEaseTo(96 - thetaOuterBack);
 
     // DC Motors
-    if (IBus.readChannel(5) < 1400)
-    { // Move forward
-      // Motor Wheel 1 - Left Front
-      analogWrite(motorW1_IN1, s1PWM); // Outer wheels running at speed1 - max speed
-      digitalWrite(motorW1_IN2, LOW);
-      // Motor Wheel 2 - Left Middle
-      analogWrite(motorW2_IN1, s1PWM);
-      digitalWrite(motorW2_IN2, LOW);
-      // Motor Wheel 3 - Left Back
-      analogWrite(motorW3_IN1, s1PWM);
-      digitalWrite(motorW3_IN2, LOW);
-      // right side motors move in opposite direction
-      // Motor Wheel 4 - Right Front
-      digitalWrite(motorW4_IN1, LOW);
-      analogWrite(motorW4_IN2, s2PWM); // Inner front wheel running at speed2 - lower speed
-      // Motor Wheel 5 - Right Middle
-      digitalWrite(motorW5_IN1, LOW);
-      analogWrite(motorW5_IN2, s3PWM); // Inner middle wheel running at speed3 - lowest speed
-      // Motor Wheel 6 - Right Back
-      digitalWrite(motorW6_IN1, LOW);
-      analogWrite(motorW6_IN2, s2PWM); // Inner back wheel running at speed2 - lower speed
-    }
-    else if (IBus.readChannel(5) > 1600)
-    {
-      // Motor Wheel 1 - Left Front
-      digitalWrite(motorW1_IN1, LOW); // Outer wheels running at speed1 - max speed
-      analogWrite(motorW1_IN2, s1PWM);
-      // Motor Wheel 2 - Left Middle
-      digitalWrite(motorW2_IN1, LOW);
-      analogWrite(motorW2_IN2, s1PWM);
-      // Motor Wheel 3 - Left Back
-      digitalWrite(motorW3_IN1, LOW);
-      analogWrite(motorW3_IN2, s1PWM);
-      // right side motors move in opposite direction
-      // Motor Wheel 4 - Right Front
-      analogWrite(motorW4_IN1, s2PWM);
-      digitalWrite(motorW4_IN2, LOW); // Inner front wheel running at speed2 - lower speed
-      // Motor Wheel 5 - Right Middle
-      analogWrite(motorW5_IN1, s3PWM);
-      digitalWrite(motorW5_IN2, LOW); // Inner middle wheel running at speed3 - lowest speed
-      // Motor Wheel 6 - Right Back
-      analogWrite(motorW6_IN1, s2PWM);
-      digitalWrite(motorW6_IN2, LOW); // Inner back wheel running at speed2 - lower speed
-    }
-    else if (IBus.readChannel(5) > 1400 || IBus.readChannel(5) < 1600) // &&: y ; || ; ó ; ==: igual
-    {
-      // DC Motors
-      // Motor Wheel 1 - Left Front
-      digitalWrite(motorW1_IN1, LOW); // PWM value
-      digitalWrite(motorW1_IN2, LOW); // Forward
-      // Motor Wheel 2 - Left Middle
-      digitalWrite(motorW2_IN1, LOW);
-      digitalWrite(motorW2_IN2, LOW);
-      // Motor Wheel 3 - Left Back
-      digitalWrite(motorW3_IN1, LOW);
-      digitalWrite(motorW3_IN2, LOW);
-      // right side motors move in opposite direction
-      // Motor Wheel 4 - Right Front
-      digitalWrite(motorW4_IN1, LOW);
-      digitalWrite(motorW4_IN2, LOW);
-      // Motor Wheel 5 - Right Middle
-      digitalWrite(motorW5_IN1, LOW);
-      digitalWrite(motorW5_IN2, LOW);
-      // Motor Wheel 6 - Right Back
-      digitalWrite(motorW6_IN1, LOW);
-      digitalWrite(motorW6_IN2, LOW);
-    }
+    // Motor Wheel 1 - Left Front
+    digitalWrite(motorW1_IN1, LOW); // PWM value
+    digitalWrite(motorW1_IN2, LOW); // Forward
+    // Motor Wheel 2 - Left Middle
+    digitalWrite(motorW2_IN1, LOW);
+    digitalWrite(motorW2_IN2, LOW);
+    // Motor Wheel 3 - Left Back
+    digitalWrite(motorW3_IN1, LOW);
+    digitalWrite(motorW3_IN2, LOW);
+    // right side motors move in opposite direction
+    // Motor Wheel 4 - Right Front
+    digitalWrite(motorW4_IN1, LOW);
+    digitalWrite(motorW4_IN2, LOW);
+    // Motor Wheel 5 - Right Middle
+    digitalWrite(motorW5_IN1, LOW);
+    digitalWrite(motorW5_IN2, LOW);
+    // Motor Wheel 6 - Right Back
+    digitalWrite(motorW6_IN1, LOW);
+    digitalWrite(motorW6_IN2, LOW);
+
+    Serial.begin(115200);
+    IBus.begin(Serial1, IBUSBM_NOTIMER);       // Servo IBUS
+    IBusSensor.begin(Serial2, IBUSBM_NOTIMER); // Sensor IBUS
+    IBusSensor.addSensor(IBUSS_INTV);          // add voltage sensor
+
+    //* COMUNICACION I2C
+    Wire.begin(8);
+    Wire.onReceive(receiveEvent);
+    // Wire.write(4);
+    // precolision = Wire.read();
+    // Wire.endTransmission();
+
+    servoW1.attach(22);
+    servoW3.attach(23);
+    servoW4.attach(24);
+    servoW6.attach(25);
+    // servoCamTilt.attach(26);
+
+    servoW1.write(90);
+    servoW3.write(90);
+    servoW4.write(90);
+    servoW6.write(90);
+    // servoCamTilt.write(90);
+
+    servoW1.setSpeed(550);
+    servoW3.setSpeed(550);
+    servoW4.setSpeed(550);
+    servoW6.setSpeed(550);
   }
 
-  // Steer left
-  else if (IBus.readChannel(0) < 1450)
+  void loop()
   {
-    // Servo motors
-    servoW1.startEaseTo(97 - thetaOuterFront);
-    servoW3.startEaseTo(97 + thetaOuterBack);
-    servoW4.startEaseTo(94 - thetaInnerFront);
-    servoW6.startEaseTo(96 + thetaInnerBack);
+    Wire.available();               // Verificar si hay datos disponibles en el buffer de recepción
+    receiveEvent(Wire.available()); // Llamar a la función receiveEvent si hay datos disponibles
 
-    // DC Motors
-    if (IBus.readChannel(5) < 1400)
-    { // Move forward
-      // Motor Wheel 1 - Left Front
-      analogWrite(motorW1_IN1, s2PWM); // PWM value
-      digitalWrite(motorW1_IN2, LOW);  // Forward
-      // Motor Wheel 2 - Left Middle
-      analogWrite(motorW2_IN1, s3PWM);
-      digitalWrite(motorW2_IN2, LOW);
-      // Motor Wheel 3 - Left Back
-      analogWrite(motorW3_IN1, s2PWM);
-      digitalWrite(motorW3_IN2, LOW);
-      // Motor Wheel 4 - Right Front
-      // right side motors move in opposite direction
-      digitalWrite(motorW4_IN1, LOW);
-      analogWrite(motorW4_IN2, s1PWM);
-      // Motor Wheel 5 - Right Middle
-      digitalWrite(motorW5_IN1, LOW);
-      analogWrite(motorW5_IN2, s1PWM);
-      // Motor Wheel 6 - Right Back
-      digitalWrite(motorW6_IN1, LOW);
-      analogWrite(motorW6_IN2, s1PWM);
-    }
-    else if (IBus.readChannel(5) > 1600)
-    { // Move backward
-      // Motor Wheel 1 - Left Front
-      digitalWrite(motorW1_IN1, LOW);  // PWM value
-      analogWrite(motorW1_IN2, s2PWM); // Forward
-      // Motor Wheel 2 - Left Middle
-      digitalWrite(motorW2_IN1, LOW);
-      analogWrite(motorW2_IN2, s3PWM);
-      // Motor Wheel 3 - Left Back
-      digitalWrite(motorW3_IN1, LOW);
-      analogWrite(motorW3_IN2, s2PWM);
-      // Motor Wheel 4 - Right Front
-      // right side motors move in opposite direction
-      analogWrite(motorW4_IN1, s1PWM);
-      digitalWrite(motorW4_IN2, LOW);
-      // Motor Wheel 5 - Right Middle
-      analogWrite(motorW5_IN1, s1PWM);
-      digitalWrite(motorW5_IN2, LOW);
-      // Motor Wheel 6 - Right Back
-      analogWrite(motorW6_IN1, s1PWM);
-      digitalWrite(motorW6_IN2, LOW);
-    }
-    else if (IBus.readChannel(5) > 1400 || IBus.readChannel(5) < 1600)
+    // Reading the data comming from the RC Transmitter
+    IBus.loop();
+    ch0 = IBus.readChannel(0); // Channel 1 Girar
+    ch1 = IBus.readChannel(1); // Channel 2 NO
+    ch2 = IBus.readChannel(2); // Channel 3 Speed
+    ch3 = IBus.readChannel(3); // Channel 4 NO
+    ch4 = IBus.readChannel(4); // Channel 5 NO
+    ch5 = IBus.readChannel(5); // Channel 6 Direction
+
+    // ch0=1500; // Steering radius
+    ch1 = 0; // Camera
+    // ch2=1500; // Speed
+    ch3 = 0;
+    ch4 = 0;
+    // ch5=0;
+
+    // Convertign the incoming data
+    // Steering right
+    if (IBus.readChannel(0) > 1550)
     {
+      r = map(IBus.readChannel(0), 1550, 2000, 1400, 600); // turining radius from 1400mm to 600mm
+    }
+    // Steering left
+    else if (IBus.readChannel(0) < 1450)
+    {
+      r = map(IBus.readChannel(0), 1450, 1000, 1400, 600); // turining radius from 600mm to 1400mm
+    }
+    // Rover speed in % from 0 to 100
+    s = map(IBus.readChannel(2), 1000, 2000, 0, 100); // rover speed from 0% to 100%
+
+    calculateMotorsSpeed(s, s1, s2, s3);
+    calculateServoAngle();
+
+    // Steer right
+    if (IBus.readChannel(0) > 1550)
+    {
+      // Servo motors
+      // Outer wheels
+      servoW1.startEaseTo(97 + thetaInnerFront); // front wheel steer right
+      servoW3.startEaseTo(97 - thetaInnerBack);  // back wheel steer left for overall steering to the right of the rover
+      // Inner wheels
+      servoW4.startEaseTo(94 + thetaOuterFront);
+      servoW6.startEaseTo(96 - thetaOuterBack);
+
       // DC Motors
-      // Motor Wheel 1 - Left Front
-      digitalWrite(motorW1_IN1, LOW); // PWM value
-      digitalWrite(motorW1_IN2, LOW); // Forward
-      // Motor Wheel 2 - Left Middle
-      digitalWrite(motorW2_IN1, LOW);
-      digitalWrite(motorW2_IN2, LOW);
-      // Motor Wheel 3 - Left Back
-      digitalWrite(motorW3_IN1, LOW);
-      digitalWrite(motorW3_IN2, LOW);
-      // right side motors move in opposite direction
-      // Motor Wheel 4 - Right Front
-      digitalWrite(motorW4_IN1, LOW);
-      digitalWrite(motorW4_IN2, LOW);
-      // Motor Wheel 5 - Right Middle
-      digitalWrite(motorW5_IN1, LOW);
-      digitalWrite(motorW5_IN2, LOW);
-      // Motor Wheel 6 - Right Back
-      digitalWrite(motorW6_IN1, LOW);
-      digitalWrite(motorW6_IN2, LOW);
+      if (IBus.readChannel(5) < 1400)
+      { // Move forward
+        // Motor Wheel 1 - Left Front
+        analogWrite(motorW1_IN1, s1PWM); // Outer wheels running at speed1 - max speed
+        digitalWrite(motorW1_IN2, LOW);
+        // Motor Wheel 2 - Left Middle
+        analogWrite(motorW2_IN1, s1PWM);
+        digitalWrite(motorW2_IN2, LOW);
+        // Motor Wheel 3 - Left Back
+        analogWrite(motorW3_IN1, s1PWM);
+        digitalWrite(motorW3_IN2, LOW);
+        // right side motors move in opposite direction
+        // Motor Wheel 4 - Right Front
+        digitalWrite(motorW4_IN1, LOW);
+        analogWrite(motorW4_IN2, s2PWM); // Inner front wheel running at speed2 - lower speed
+        // Motor Wheel 5 - Right Middle
+        digitalWrite(motorW5_IN1, LOW);
+        analogWrite(motorW5_IN2, s3PWM); // Inner middle wheel running at speed3 - lowest speed
+        // Motor Wheel 6 - Right Back
+        digitalWrite(motorW6_IN1, LOW);
+        analogWrite(motorW6_IN2, s2PWM); // Inner back wheel running at speed2 - lower speed
+      }
+      else if (IBus.readChannel(5) > 1600)
+      {
+        // Motor Wheel 1 - Left Front
+        digitalWrite(motorW1_IN1, LOW); // Outer wheels running at speed1 - max speed
+        analogWrite(motorW1_IN2, s1PWM);
+        // Motor Wheel 2 - Left Middle
+        digitalWrite(motorW2_IN1, LOW);
+        analogWrite(motorW2_IN2, s1PWM);
+        // Motor Wheel 3 - Left Back
+        digitalWrite(motorW3_IN1, LOW);
+        analogWrite(motorW3_IN2, s1PWM);
+        // right side motors move in opposite direction
+        // Motor Wheel 4 - Right Front
+        analogWrite(motorW4_IN1, s2PWM);
+        digitalWrite(motorW4_IN2, LOW); // Inner front wheel running at speed2 - lower speed
+        // Motor Wheel 5 - Right Middle
+        analogWrite(motorW5_IN1, s3PWM);
+        digitalWrite(motorW5_IN2, LOW); // Inner middle wheel running at speed3 - lowest speed
+        // Motor Wheel 6 - Right Back
+        analogWrite(motorW6_IN1, s2PWM);
+        digitalWrite(motorW6_IN2, LOW); // Inner back wheel running at speed2 - lower speed
+      }
+      else if (IBus.readChannel(5) > 1400 || IBus.readChannel(5) < 1600) // &&: y ; || ; ó ; ==: igual
+      {
+        // DC Motors
+        // Motor Wheel 1 - Left Front
+        digitalWrite(motorW1_IN1, LOW); // PWM value
+        digitalWrite(motorW1_IN2, LOW); // Forward
+        // Motor Wheel 2 - Left Middle
+        digitalWrite(motorW2_IN1, LOW);
+        digitalWrite(motorW2_IN2, LOW);
+        // Motor Wheel 3 - Left Back
+        digitalWrite(motorW3_IN1, LOW);
+        digitalWrite(motorW3_IN2, LOW);
+        // right side motors move in opposite direction
+        // Motor Wheel 4 - Right Front
+        digitalWrite(motorW4_IN1, LOW);
+        digitalWrite(motorW4_IN2, LOW);
+        // Motor Wheel 5 - Right Middle
+        digitalWrite(motorW5_IN1, LOW);
+        digitalWrite(motorW5_IN2, LOW);
+        // Motor Wheel 6 - Right Back
+        digitalWrite(motorW6_IN1, LOW);
+        digitalWrite(motorW6_IN2, LOW);
+      }
     }
-  }
-  // Move straight
-  else
-  {
-    servoW1.startEaseTo(97);
-    servoW3.startEaseTo(97);
-    servoW4.startEaseTo(94);
-    servoW6.startEaseTo(96);
 
-    // DC Motors
-    if (IBus.readChannel(5) < 1400)
+    // Steer left
+    else if (IBus.readChannel(0) < 1450)
     {
-      // Motor Wheel 1 - Left Front
-      analogWrite(motorW1_IN1, s1PWM); // all wheels move at the same speed
-      digitalWrite(motorW1_IN2, LOW);  // Forward
-      // Motor Wheel 2 - Left Middle
-      analogWrite(motorW2_IN1, s1PWM);
-      digitalWrite(motorW2_IN2, LOW);
-      // Motor Wheel 3 - Left Back
-      analogWrite(motorW3_IN1, s1PWM);
-      digitalWrite(motorW3_IN2, LOW);
-      // right side motors move in opposite direction
-      // Motor Wheel 4 - Right Front
-      digitalWrite(motorW4_IN1, LOW);
-      analogWrite(motorW4_IN2, s1PWM);
-      // Motor Wheel 5 - Right Middle
-      digitalWrite(motorW5_IN1, LOW);
-      analogWrite(motorW5_IN2, s1PWM);
-      // Motor Wheel 6 - Right Back
-      digitalWrite(motorW6_IN1, LOW);
-      analogWrite(motorW6_IN2, s1PWM);
-    }
-    else if (IBus.readChannel(5) > 1600)
-    {
-      // Motor Wheel 1 - Left Front
-      digitalWrite(motorW1_IN1, LOW);  // all wheels move at the same speed
-      analogWrite(motorW1_IN2, s1PWM); // Forward
-      // Motor Wheel 2 - Left Middle
-      digitalWrite(motorW2_IN1, LOW);
-      analogWrite(motorW2_IN2, s1PWM);
-      // Motor Wheel 3 - Left Back
-      digitalWrite(motorW3_IN1, LOW);
-      analogWrite(motorW3_IN2, s1PWM);
-      // right side motors move in opposite direction
-      // Motor Wheel 4 - Right Front
-      analogWrite(motorW4_IN1, s1PWM);
-      digitalWrite(motorW4_IN2, LOW);
-      // Motor Wheel 5 - Right Middle
-      analogWrite(motorW5_IN1, s1PWM);
-      digitalWrite(motorW5_IN2, LOW);
-      // Motor Wheel 6 - Right Back
-      analogWrite(motorW6_IN1, s1PWM);
-      digitalWrite(motorW6_IN2, LOW);
-    }
-    else if (IBus.readChannel(5) > 1400 || IBus.readChannel(5) < 1600)
-    {
+      // Servo motors
+      servoW1.startEaseTo(97 - thetaOuterFront);
+      servoW3.startEaseTo(97 + thetaOuterBack);
+      servoW4.startEaseTo(94 - thetaInnerFront);
+      servoW6.startEaseTo(96 + thetaInnerBack);
+
       // DC Motors
-      // Motor Wheel 1 - Left Front
-      digitalWrite(motorW1_IN1, LOW); // PWM value
-      digitalWrite(motorW1_IN2, LOW); // Forward
-      // Motor Wheel 2 - Left Middle
-      digitalWrite(motorW2_IN1, LOW);
-      digitalWrite(motorW2_IN2, LOW);
-      // Motor Wheel 3 - Left Back
-      digitalWrite(motorW3_IN1, LOW);
-      digitalWrite(motorW3_IN2, LOW);
-      // right side motors move in opposite direction
-      // Motor Wheel 4 - Right Front
-      digitalWrite(motorW4_IN1, LOW);
-      digitalWrite(motorW4_IN2, LOW);
-      // Motor Wheel 5 - Right Middle
-      digitalWrite(motorW5_IN1, LOW);
-      digitalWrite(motorW5_IN2, LOW);
-      // Motor Wheel 6 - Right Back
-      digitalWrite(motorW6_IN1, LOW);
-      digitalWrite(motorW6_IN2, LOW);
+      if (IBus.readChannel(5) < 1400)
+      { // Move forward
+        // Motor Wheel 1 - Left Front
+        analogWrite(motorW1_IN1, s2PWM); // PWM value
+        digitalWrite(motorW1_IN2, LOW);  // Forward
+        // Motor Wheel 2 - Left Middle
+        analogWrite(motorW2_IN1, s3PWM);
+        digitalWrite(motorW2_IN2, LOW);
+        // Motor Wheel 3 - Left Back
+        analogWrite(motorW3_IN1, s2PWM);
+        digitalWrite(motorW3_IN2, LOW);
+        // Motor Wheel 4 - Right Front
+        // right side motors move in opposite direction
+        digitalWrite(motorW4_IN1, LOW);
+        analogWrite(motorW4_IN2, s1PWM);
+        // Motor Wheel 5 - Right Middle
+        digitalWrite(motorW5_IN1, LOW);
+        analogWrite(motorW5_IN2, s1PWM);
+        // Motor Wheel 6 - Right Back
+        digitalWrite(motorW6_IN1, LOW);
+        analogWrite(motorW6_IN2, s1PWM);
+      }
+      else if (IBus.readChannel(5) > 1600)
+      { // Move backward
+        // Motor Wheel 1 - Left Front
+        digitalWrite(motorW1_IN1, LOW);  // PWM value
+        analogWrite(motorW1_IN2, s2PWM); // Forward
+        // Motor Wheel 2 - Left Middle
+        digitalWrite(motorW2_IN1, LOW);
+        analogWrite(motorW2_IN2, s3PWM);
+        // Motor Wheel 3 - Left Back
+        digitalWrite(motorW3_IN1, LOW);
+        analogWrite(motorW3_IN2, s2PWM);
+        // Motor Wheel 4 - Right Front
+        // right side motors move in opposite direction
+        analogWrite(motorW4_IN1, s1PWM);
+        digitalWrite(motorW4_IN2, LOW);
+        // Motor Wheel 5 - Right Middle
+        analogWrite(motorW5_IN1, s1PWM);
+        digitalWrite(motorW5_IN2, LOW);
+        // Motor Wheel 6 - Right Back
+        analogWrite(motorW6_IN1, s1PWM);
+        digitalWrite(motorW6_IN2, LOW);
+      }
+      else if (IBus.readChannel(5) > 1400 || IBus.readChannel(5) < 1600)
+      {
+        // DC Motors
+        // Motor Wheel 1 - Left Front
+        digitalWrite(motorW1_IN1, LOW); // PWM value
+        digitalWrite(motorW1_IN2, LOW); // Forward
+        // Motor Wheel 2 - Left Middle
+        digitalWrite(motorW2_IN1, LOW);
+        digitalWrite(motorW2_IN2, LOW);
+        // Motor Wheel 3 - Left Back
+        digitalWrite(motorW3_IN1, LOW);
+        digitalWrite(motorW3_IN2, LOW);
+        // right side motors move in opposite direction
+        // Motor Wheel 4 - Right Front
+        digitalWrite(motorW4_IN1, LOW);
+        digitalWrite(motorW4_IN2, LOW);
+        // Motor Wheel 5 - Right Middle
+        digitalWrite(motorW5_IN1, LOW);
+        digitalWrite(motorW5_IN2, LOW);
+        // Motor Wheel 6 - Right Back
+        digitalWrite(motorW6_IN1, LOW);
+        digitalWrite(motorW6_IN2, LOW);
+      }
     }
-  }
+    // Move straight
+    else
+    {
+      servoW1.startEaseTo(97);
+      servoW3.startEaseTo(97);
+      servoW4.startEaseTo(94);
+      servoW6.startEaseTo(96);
 
-  //* Monitor the battery voltage
-  int sensorValue = analogRead(A0);
-  float voltage = sensorValue * (5.00 / 1023.00) * 3.02; // Convert the reading values from 5v to suitable 12V
-  // Send battery voltage value to transmitter
-  IBusSensor.loop();
-  IBusSensor.setSensorMeasurement(1, voltage * 100);
-}
+      // DC Motors
+      if (IBus.readChannel(5) < 1400)
+      {
+        // Motor Wheel 1 - Left Front
+        analogWrite(motorW1_IN1, s1PWM); // all wheels move at the same speed
+        digitalWrite(motorW1_IN2, LOW);  // Forward
+        // Motor Wheel 2 - Left Middle
+        analogWrite(motorW2_IN1, s1PWM);
+        digitalWrite(motorW2_IN2, LOW);
+        // Motor Wheel 3 - Left Back
+        analogWrite(motorW3_IN1, s1PWM);
+        digitalWrite(motorW3_IN2, LOW);
+        // right side motors move in opposite direction
+        // Motor Wheel 4 - Right Front
+        digitalWrite(motorW4_IN1, LOW);
+        analogWrite(motorW4_IN2, s1PWM);
+        // Motor Wheel 5 - Right Middle
+        digitalWrite(motorW5_IN1, LOW);
+        analogWrite(motorW5_IN2, s1PWM);
+        // Motor Wheel 6 - Right Back
+        digitalWrite(motorW6_IN1, LOW);
+        analogWrite(motorW6_IN2, s1PWM);
+      }
+      else if (IBus.readChannel(5) > 1600)
+      {
+        // Motor Wheel 1 - Left Front
+        digitalWrite(motorW1_IN1, LOW);  // all wheels move at the same speed
+        analogWrite(motorW1_IN2, s1PWM); // Forward
+        // Motor Wheel 2 - Left Middle
+        digitalWrite(motorW2_IN1, LOW);
+        analogWrite(motorW2_IN2, s1PWM);
+        // Motor Wheel 3 - Left Back
+        digitalWrite(motorW3_IN1, LOW);
+        analogWrite(motorW3_IN2, s1PWM);
+        // right side motors move in opposite direction
+        // Motor Wheel 4 - Right Front
+        analogWrite(motorW4_IN1, s1PWM);
+        digitalWrite(motorW4_IN2, LOW);
+        // Motor Wheel 5 - Right Middle
+        analogWrite(motorW5_IN1, s1PWM);
+        digitalWrite(motorW5_IN2, LOW);
+        // Motor Wheel 6 - Right Back
+        analogWrite(motorW6_IN1, s1PWM);
+        digitalWrite(motorW6_IN2, LOW);
+      }
+      else if (IBus.readChannel(5) > 1400 || IBus.readChannel(5) < 1600)
+      {
+        // DC Motors
+        // Motor Wheel 1 - Left Front
+        digitalWrite(motorW1_IN1, LOW); // PWM value
+        digitalWrite(motorW1_IN2, LOW); // Forward
+        // Motor Wheel 2 - Left Middle
+        digitalWrite(motorW2_IN1, LOW);
+        digitalWrite(motorW2_IN2, LOW);
+        // Motor Wheel 3 - Left Back
+        digitalWrite(motorW3_IN1, LOW);
+        digitalWrite(motorW3_IN2, LOW);
+        // right side motors move in opposite direction
+        // Motor Wheel 4 - Right Front
+        digitalWrite(motorW4_IN1, LOW);
+        digitalWrite(motorW4_IN2, LOW);
+        // Motor Wheel 5 - Right Middle
+        digitalWrite(motorW5_IN1, LOW);
+        digitalWrite(motorW5_IN2, LOW);
+        // Motor Wheel 6 - Right Back
+        digitalWrite(motorW6_IN1, LOW);
+        digitalWrite(motorW6_IN2, LOW);
+      }
+    }
+
+    //* Monitor the battery voltage
+    int sensorValue = analogRead(A0);
+    float voltage = sensorValue * (5.00 / 1023.00) * 3.02; // Convert the reading values from 5v to suitable 12V
+    // Send battery voltage value to transmitter
+    IBusSensor.loop();
+    IBusSensor.setSensorMeasurement(1, voltage * 100);
+  }
