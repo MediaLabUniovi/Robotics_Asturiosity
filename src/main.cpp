@@ -92,11 +92,22 @@ void calculateServoAngle()
   thetaOuterBack = round((atan((d2 / (r - d1)))) * 180 / PI);
 }
 
-void receiveEvent(int bytes)
-{
-  byte distancia_byte = Wire.read(); // Leer el byte de distancia enviado por el maestro
-  distancia = distancia_byte; // Almacenar la distancia medida
-  Wire.endTransmission(); // Indicar al maestro que se han recibido los datos
+void receiveEvent(int bytes) {
+  if (bytes == 4) { // Comprobar que se hayan recibido 4 bytes (la distancia medida)
+    int distancia = 0;
+    distancia = Wire.read() << 24; // Recibir el byte más significativo de la distancia
+    distancia |= Wire.read() << 16; // Recibir el segundo byte más significativo de la distancia
+    distancia |= Wire.read() << 8; // Recibir el segundo byte menos significativo de la distancia
+    distancia |= Wire.read(); // Recibir el byte menos significativo de la distancia
+    Serial.println(distancia); // Imprimir la distancia recibida por el puerto serial
+    delay(1000);
+  }
+
+// void receiveEvent(int bytes)
+// {
+//   byte distancia_byte = Wire.read(); // Leer el byte de distancia enviado por el maestro
+//   distancia = distancia_byte; // Almacenar la distancia medida
+//   Wire.endTransmission(); // Indicar al maestro que se han recibido los datos
 
   // Serial.print("Distancia motorW1: ");
   // Serial.print(distancia); // Enviamos serialmente el valor de la distancia
@@ -163,51 +174,19 @@ void setup()
   digitalWrite(motorW6_IN1, LOW);
   digitalWrite(motorW6_IN2, LOW);
 
-  //* COMUNICACION I2C
-  Wire.begin(8);
-  Wire.onReceive(receiveEvent);
-  // Wire.write(4);
-  // precolision = Wire.read();
-  // Wire.endTransmission();
+  
 
   Serial.begin(115200);
   IBus.begin(Serial1, IBUSBM_NOTIMER);       // Servo IBUS
   IBusSensor.begin(Serial2, IBUSBM_NOTIMER); // Sensor IBUS
   IBusSensor.addSensor(IBUSS_INTV);          // add voltage sensor
 
-  // while (true)
-  //{
-  // IBus.begin(Serial1, IBUSBM_NOTIMER); // Servo IBUS
-  // IBus.
-  // if (recvValue == 0)
-  //{
-
-  // // DC Motors
-  // // Motor Wheel 1 - Left Front
-  // digitalWrite(motorW1_IN1, LOW); // PWM value
-  // digitalWrite(motorW1_IN2, LOW); // Forward
-  // // Motor Wheel 2 - Left Middle
-  // digitalWrite(motorW2_IN1, LOW);
-  // digitalWrite(motorW2_IN2, LOW);
-  // // Motor Wheel 3 - Left Back
-  // digitalWrite(motorW3_IN1, LOW);
-  // digitalWrite(motorW3_IN2, LOW);
-  // // right side motors move in opposite direction
-  // // Motor Wheel 4 - Right Front
-  // digitalWrite(motorW4_IN1, LOW);
-  // digitalWrite(motorW4_IN2, LOW);
-  // // Motor Wheel 5 - Right Middle
-  // digitalWrite(motorW5_IN1, LOW);
-  // digitalWrite(motorW5_IN2, LOW);
-  // // Motor Wheel 6 - Right Back
-  // digitalWrite(motorW6_IN1, LOW);
-  // digitalWrite(motorW6_IN2, LOW);
-  //}
-  //}
-
-  // IBus.begin(Serial1, IBUSBM_NOTIMER);       // Servo IBUS
-  // IBusSensor.begin(Serial2, IBUSBM_NOTIMER); // Sensor IBUS
-  // IBusSensor.addSensor(IBUSS_INTV);          // add voltage sensor
+  //* COMUNICACION I2C
+  Wire.begin(8);
+  Wire.onReceive(receiveEvent);
+  // Wire.write(4);
+  // precolision = Wire.read();
+  // Wire.endTransmission();
 
   servoW1.attach(22);
   servoW3.attach(23);
@@ -230,12 +209,12 @@ void setup()
 void loop()
 {
   // Wire.onReceive(receiveEvent);
-  void receiveEvent(int bytes);
-  Serial.print("Distancia motorW1: ");
-  Serial.print(distancia); // Enviamos serialmente el valor de la distancia
-  Serial.print("cm");
-  Serial.println();
-  delay(1000);
+  // void receiveEvent(int bytes);
+  // Serial.print("Distancia motorW1: ");
+  // Serial.print(distancia); // Enviamos serialmente el valor de la distancia
+  // Serial.print("cm");
+  // Serial.println();
+  // delay(1000);
   // Wire.onReceive(receiveEvent);
   // receiveEvent(int bytes);
 
