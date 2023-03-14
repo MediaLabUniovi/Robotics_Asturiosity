@@ -92,10 +92,18 @@ void calculateServoAngle()
   thetaOuterBack = round((atan((d2 / (r - d1)))) * 180 / PI);
 }
 
-void distanceReceive (int bytes){
-  int valorDistance=Wire.read();
+void receiveEvent(int bytes) {
+  byte distancia_bytes[4]; // Arreglo para almacenar los 4 bytes de la distancia
+  for (int i = 0; i < 4; i++) {
+    distancia_bytes[i] = Wire.read(); // Leer los 4 bytes de la distancia enviada por el maestro
+  }
+  int distancia;
+  memcpy(&distancia, distancia_bytes, 4); // Convertir los 4 bytes en un número entero
+  // Procesar la distancia
+  Wire.endTransmission(); // Indicar al maestro que se han recibido los datos
+
   Serial.print("Distancia motorW1: ");
-  Serial.print(valorDistance); // Enviamos serialmente el valor de la distancia
+  Serial.print(distancia); // Enviamos serialmente el valor de la distancia
   Serial.print("cm");
   Serial.println();
   //if (valorDistance < 20)
@@ -162,7 +170,7 @@ void setup()
 
 //* COMUNICACION I2C
   Wire.begin(0X00);
-  Wire.onReceive(distanceReceive);
+  Wire.onReceive(receiveEvent);
   // Wire.write(4);
   // precolision = Wire.read();
   // Wire.endTransmission();
