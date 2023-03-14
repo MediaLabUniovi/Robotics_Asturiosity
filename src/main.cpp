@@ -56,7 +56,7 @@ float d2 = 278;
 float d3 = 301;
 float d4 = 304;
 
-// int valorDistance;
+int distancia;
 
 void calculateMotorsSpeed(int s, int s1, int s2, int s3)
 {
@@ -94,20 +94,14 @@ void calculateServoAngle()
 
 void receiveEvent(int bytes)
 {
-  byte distancia_bytes[4]; // Arreglo para almacenar los 4 bytes de la distancia
-  for (int i = 0; i < 4; i++)
-  {
-    distancia_bytes[i] = Wire.read(); // Leer los 4 bytes de la distancia enviada por el maestro
-  }
-  int distancia;
-  memcpy(&distancia, distancia_bytes, 4); // Convertir los 4 bytes en un número entero
-  // Procesar la distancia
+  byte distancia_byte = Wire.read(); // Leer el byte de distancia enviado por el maestro
+  distancia = distancia_byte; // Almacenar la distancia medida
   Wire.endTransmission(); // Indicar al maestro que se han recibido los datos
 
-  Serial.print("Distancia motorW1: ");
-  Serial.print(distancia); // Enviamos serialmente el valor de la distancia
-  Serial.print("cm");
-  Serial.println();
+  // Serial.print("Distancia motorW1: ");
+  // Serial.print(distancia); // Enviamos serialmente el valor de la distancia
+  // Serial.print("cm");
+  // Serial.println();
   // if (valorDistance < 20)
   //{
 
@@ -170,7 +164,7 @@ void setup()
   digitalWrite(motorW6_IN2, LOW);
 
   //* COMUNICACION I2C
-  Wire.begin(0X00);
+  Wire.begin(8);
   Wire.onReceive(receiveEvent);
   // Wire.write(4);
   // precolision = Wire.read();
@@ -235,8 +229,12 @@ void setup()
 
 void loop()
 {
-
-  Wire.onReceive(receiveEvent);
+  Serial.print("Distancia motorW1: ");
+  Serial.print(distancia); // Enviamos serialmente el valor de la distancia
+  Serial.print("cm");
+  Serial.println();
+  // Wire.onReceive(receiveEvent);
+  // receiveEvent(int bytes);
 
   // Wire.requestFrom(0x27, valorDistance);
   // valorDistance= Wire.read();
