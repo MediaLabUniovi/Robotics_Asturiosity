@@ -56,8 +56,6 @@ float d2 = 278;
 float d3 = 301;
 float d4 = 304;
 
-int distancia;
-
 void calculateMotorsSpeed(int s, int s1, int s2, int s3)
 {
   // if no steering, all wheels speed is the same - straight move
@@ -92,22 +90,26 @@ void calculateServoAngle()
   thetaOuterBack = round((atan((d2 / (r - d1)))) * 180 / PI);
 }
 
-void receiveEvent(int bytes) {
-  if (bytes == 4) { // Comprobar que se hayan recibido 4 bytes (la distancia medida)
-    int distancia = 0;
-    distancia = Wire.read() << 24; // Recibir el byte más significativo de la distancia
-    distancia |= Wire.read() << 16; // Recibir el segundo byte más significativo de la distancia
-    distancia |= Wire.read() << 8; // Recibir el segundo byte menos significativo de la distancia
-    distancia |= Wire.read(); // Recibir el byte menos significativo de la distancia
-    Serial.println(distancia); // Imprimir la distancia recibida por el puerto serial
-    delay(1000);
+void receiveEvent(int bytes)
+{
+  if (bytes == 4)
+  { // Comprobar que se hayan recibido 4 bytes (la distancia medida)
+    int distancia;
+    distancia = Wire.read() << int(24);  // Recibir el byte más significativo de la distancia
+    distancia |= Wire.read() << int(16); // Recibir el segundo byte más significativo de la distancia
+    distancia |= Wire.read() << 8;  // Recibir el segundo byte menos significativo de la distancia
+    distancia |= Wire.read();       // Recibir el byte menos significativo de la distancia
+    Serial.print("Distancia motorW1: ");
+    Serial.print(distancia); // Enviamos serialmente el valor de la distancia
+    Serial.print("cm");
+    Serial.println();
   }
 
-// void receiveEvent(int bytes)
-// {
-//   byte distancia_byte = Wire.read(); // Leer el byte de distancia enviado por el maestro
-//   distancia = distancia_byte; // Almacenar la distancia medida
-//   Wire.endTransmission(); // Indicar al maestro que se han recibido los datos
+  // void receiveEvent(int bytes)
+  // {
+  //   byte distancia_byte = Wire.read(); // Leer el byte de distancia enviado por el maestro
+  //   distancia = distancia_byte; // Almacenar la distancia medida
+  //   Wire.endTransmission(); // Indicar al maestro que se han recibido los datos
 
   // Serial.print("Distancia motorW1: ");
   // Serial.print(distancia); // Enviamos serialmente el valor de la distancia
@@ -174,8 +176,6 @@ void setup()
   digitalWrite(motorW6_IN1, LOW);
   digitalWrite(motorW6_IN2, LOW);
 
-  
-
   Serial.begin(115200);
   IBus.begin(Serial1, IBUSBM_NOTIMER);       // Servo IBUS
   IBusSensor.begin(Serial2, IBUSBM_NOTIMER); // Sensor IBUS
@@ -209,8 +209,8 @@ void setup()
 void loop()
 {
   // Wire.onReceive(receiveEvent);
-  // void receiveEvent(int bytes);
-  // Serial.print("Distancia motorW1: ");
+  void receiveEvent(int (distancia));
+  Serial.print("Distancia motorW1: ");
   // Serial.print(distancia); // Enviamos serialmente el valor de la distancia
   // Serial.print("cm");
   // Serial.println();
