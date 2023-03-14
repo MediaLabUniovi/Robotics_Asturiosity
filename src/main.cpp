@@ -165,7 +165,7 @@ void setup()
 
   //* COMUNICACION I2C
   Wire.begin(8);
-  // Wire.onReceive(receiveEvent);
+  Wire.onReceive(receiveEvent);
   // Wire.write(4);
   // precolision = Wire.read();
   // Wire.endTransmission();
@@ -229,7 +229,8 @@ void setup()
 
 void loop()
 {
-  Wire.onReceive(receiveEvent);
+  // Wire.onReceive(receiveEvent);
+  void receiveEvent(int bytes);
   Serial.print("Distancia motorW1: ");
   Serial.print(distancia); // Enviamos serialmente el valor de la distancia
   Serial.print("cm");
