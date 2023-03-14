@@ -95,17 +95,14 @@ void receiveEvent(int bytes)
   if (bytes == sizeof(int)) { // Comprobar que se haya recibido el tamaño correcto de datos (4 bytes para un int)
     int distancia = 0;
     Wire.readBytes((byte*)&distancia, sizeof(distancia)); // Recibir la distancia como un array de bytes y convertirlo a un int
+    Serial.print("Distancia recibida: ");
     Serial.println(distancia); // Imprimir la distancia recibida por el puerto serial
-    Serial.print("Distancia motorW1: ");
-    Serial.print(distancia); // Enviamos serialmente el valor de la distancia
-    Serial.print("cm");
-    Serial.println();
-    delay(1000);
-  } 
-  
-
-   
-  
+  } else {
+    Serial.print("Error: se recibieron ");
+    Serial.print(bytes);
+    Serial.println(" bytes en lugar de 4");
+  }
+  delay(1000);
 
   // void receiveEvent(int bytes)
   // {
