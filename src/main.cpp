@@ -92,18 +92,20 @@ void calculateServoAngle()
 
 void receiveEvent(int bytes)
 {
-  if (bytes == 4)
-  { // Comprobar que se hayan recibido 4 bytes (la distancia medida)
-    int distancia;
-    distancia = Wire.read() << int(24);  // Recibir el byte más significativo de la distancia
-    distancia |= Wire.read() << int(16); // Recibir el segundo byte más significativo de la distancia
-    distancia |= Wire.read() << 8;  // Recibir el segundo byte menos significativo de la distancia
-    distancia |= Wire.read();       // Recibir el byte menos significativo de la distancia
+  if (bytes == sizeof(int)) { // Comprobar que se haya recibido el tamaño correcto de datos (4 bytes para un int)
+    int distancia = 0;
+    Wire.readBytes((byte*)&distancia, sizeof(distancia)); // Recibir la distancia como un array de bytes y convertirlo a un int
+    Serial.println(distancia); // Imprimir la distancia recibida por el puerto serial
     Serial.print("Distancia motorW1: ");
     Serial.print(distancia); // Enviamos serialmente el valor de la distancia
     Serial.print("cm");
     Serial.println();
-  }
+    delay(1000);
+  } 
+  
+
+   
+  
 
   // void receiveEvent(int bytes)
   // {
@@ -208,27 +210,8 @@ void setup()
 
 void loop()
 {
-  // Wire.onReceive(receiveEvent);
-  void receiveEvent(int (distancia));
-  Serial.print("Distancia motorW1: ");
-  // Serial.print(distancia); // Enviamos serialmente el valor de la distancia
-  // Serial.print("cm");
-  // Serial.println();
-  // delay(1000);
-  // Wire.onReceive(receiveEvent);
-  // receiveEvent(int bytes);
-
-  // Wire.requestFrom(0x27, valorDistance);
-  // valorDistance= Wire.read();
-  // Serial.println(valorDistance);
-  // delay(1000); // Hacemos una pausa de 100ms
-  // if (valorDistance < 20)
-  // {
-  //   Serial.print("Distancia motorW1: ");
-  //   Serial.print(valorDistance); // Enviamos serialmente el valor de la distancia
-  //   Serial.print("cm");
-  //   Serial.println();
-  // }
+  Wire.available(); // Verificar si hay datos disponibles en el buffer de recepción
+  receiveEvent(Wire.available()); // Llamar a la función receiveEvent si hay datos disponibles
 
   // Reading the data comming from the RC Transmitter
   IBus.loop();
