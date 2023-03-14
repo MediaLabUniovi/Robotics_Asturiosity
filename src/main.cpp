@@ -56,7 +56,7 @@ float d2 = 278;
 float d3 = 301;
 float d4 = 304;
 
-//int valorDistance;
+// int valorDistance;
 
 void calculateMotorsSpeed(int s, int s1, int s2, int s3)
 {
@@ -92,9 +92,11 @@ void calculateServoAngle()
   thetaOuterBack = round((atan((d2 / (r - d1)))) * 180 / PI);
 }
 
-void receiveEvent(int bytes) {
+void receiveEvent(int bytes)
+{
   byte distancia_bytes[4]; // Arreglo para almacenar los 4 bytes de la distancia
-  for (int i = 0; i < 4; i++) {
+  for (int i = 0; i < 4; i++)
+  {
     distancia_bytes[i] = Wire.read(); // Leer los 4 bytes de la distancia enviada por el maestro
   }
   int distancia;
@@ -106,41 +108,40 @@ void receiveEvent(int bytes) {
   Serial.print(distancia); // Enviamos serialmente el valor de la distancia
   Serial.print("cm");
   Serial.println();
-  //if (valorDistance < 20)
+  // if (valorDistance < 20)
   //{
 
+  // while (true)
+  // {
 
-    // while (true)
-    // {
+  //   if ((distanceW1 < 20) || (distanceW3 < 20) || (distanceW4 < 20) || (distanceW6 < 20))
+  //   {
 
-    //   if ((distanceW1 < 20) || (distanceW3 < 20) || (distanceW4 < 20) || (distanceW6 < 20))
-    //   {
-
-    //     // DC Motors
-    //     // Motor Wheel 1 - Left Front
-    //     digitalWrite(motorW1_IN1, LOW); // PWM value
-    //     digitalWrite(motorW1_IN2, LOW); // Forward
-    //     // Motor Wheel 2 - Left Middle
-    //     digitalWrite(motorW2_IN1, LOW);
-    //     digitalWrite(motorW2_IN2, LOW);
-    //     // Motor Wheel 3 - Left Back
-    //     digitalWrite(motorW3_IN1, LOW);
-    //     digitalWrite(motorW3_IN2, LOW);
-    //     // right side motors move in opposite direction
-    //     // Motor Wheel 4 - Right Front
-    //     digitalWrite(motorW4_IN1, LOW);
-    //     digitalWrite(motorW4_IN2, LOW);
-    //     // Motor Wheel 5 - Right Middle
-    //     digitalWrite(motorW5_IN1, LOW);
-    //     digitalWrite(motorW5_IN2, LOW);
-    //     // Motor Wheel 6 - Right Back
-    //     digitalWrite(motorW6_IN1, LOW);
-    //     digitalWrite(motorW6_IN2, LOW);
-    //   }
-    //   else 
-    //   {
-    //     break;
-    //   }
+  //     // DC Motors
+  //     // Motor Wheel 1 - Left Front
+  //     digitalWrite(motorW1_IN1, LOW); // PWM value
+  //     digitalWrite(motorW1_IN2, LOW); // Forward
+  //     // Motor Wheel 2 - Left Middle
+  //     digitalWrite(motorW2_IN1, LOW);
+  //     digitalWrite(motorW2_IN2, LOW);
+  //     // Motor Wheel 3 - Left Back
+  //     digitalWrite(motorW3_IN1, LOW);
+  //     digitalWrite(motorW3_IN2, LOW);
+  //     // right side motors move in opposite direction
+  //     // Motor Wheel 4 - Right Front
+  //     digitalWrite(motorW4_IN1, LOW);
+  //     digitalWrite(motorW4_IN2, LOW);
+  //     // Motor Wheel 5 - Right Middle
+  //     digitalWrite(motorW5_IN1, LOW);
+  //     digitalWrite(motorW5_IN2, LOW);
+  //     // Motor Wheel 6 - Right Back
+  //     digitalWrite(motorW6_IN1, LOW);
+  //     digitalWrite(motorW6_IN2, LOW);
+  //   }
+  //   else
+  //   {
+  //     break;
+  //   }
   //}
 }
 
@@ -168,7 +169,7 @@ void setup()
   digitalWrite(motorW6_IN1, LOW);
   digitalWrite(motorW6_IN2, LOW);
 
-//* COMUNICACION I2C
+  //* COMUNICACION I2C
   Wire.begin(0X00);
   Wire.onReceive(receiveEvent);
   // Wire.write(4);
@@ -179,8 +180,6 @@ void setup()
   IBus.begin(Serial1, IBUSBM_NOTIMER);       // Servo IBUS
   IBusSensor.begin(Serial2, IBUSBM_NOTIMER); // Sensor IBUS
   IBusSensor.addSensor(IBUSS_INTV);          // add voltage sensor
-
-  
 
   // while (true)
   //{
@@ -234,7 +233,6 @@ void setup()
   servoW6.setSpeed(550);
 }
 
-
 void loop()
 {
 
@@ -252,7 +250,6 @@ void loop()
   //   Serial.println();
   // }
 
-  
   // Reading the data comming from the RC Transmitter
   IBus.loop();
   ch0 = IBus.readChannel(0); // Channel 1 Girar
