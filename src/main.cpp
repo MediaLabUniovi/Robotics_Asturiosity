@@ -8,7 +8,7 @@
 // Además, la librería ofrece la capacidad de personalizar la curva de movimiento para adaptarse a diferentes requisitos.
 #include <IBusBM.h>
 #include <AccelStepper.h>
-#include <Wire.h>
+//#include <Wire.h>
 
 #define motorW1_IN1 7
 #define motorW1_IN2 6
