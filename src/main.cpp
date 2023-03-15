@@ -46,7 +46,7 @@ float s1, s2, s3 = 0;
 float s1PWM, s2PWM, s3PWM = 0;
 float thetaInnerFront, thetaInnerBack, thetaOuterFront, thetaOuterBack = 0;
 
-float d1 = 271; // distance in mm
+float d1 = 271; // distancia in mm
 float d2 = 278;
 float d3 = 301;
 float d4 = 304;
@@ -54,7 +54,7 @@ float d4 = 304;
 // const int Trigger1 = 2; // Pin digital 2 para el Trigger del sensor
 // const int Echo1 = 3;    // Pin digital 3 para el echo del sensor
 // long timeW1;     // tiempo que demora en llegar el eco
-int distance= 0; // distancia en cm
+//int distancia= 0; // distancia en cm
 
 
 
@@ -93,7 +93,7 @@ void calculateServoAngle()
   thetaOuterBack = round((atan((d2 / (r - d1)))) * 180 / PI);
 }
 
-// void readDistance(){
+// void readdistancia(){
 //   digitalWrite(Trigger1, HIGH);
 //   delayMicroseconds(10); // Enviamos un pulso de 10us
 //   digitalWrite(Trigger1, LOW);
@@ -114,13 +114,13 @@ void calculateServoAngle()
 //   delay(1000); // Hacemos una pausa de 100ms
   
 
-// if (valorDistance < 20)
+// if (valordistancia < 20)
 //{
 
 // while (true)
 // {
 
-//   if ((distanceW1 < 20) || (distanceW3 < 20) || (distanceW4 < 20) || (distanceW6 < 20))
+//   if ((distanciaW1 < 20) || (distanciaW3 < 20) || (distanciaW4 < 20) || (distanciaW6 < 20))
 //   {
 
 //     // DC Motors
@@ -149,6 +149,15 @@ void calculateServoAngle()
 //     break;
 //   }
 //}
+int readdistancia(){
+  if (Serial.available() > 0) { // Verifica si hay datos disponibles en el puerto serial
+    int distance = Serial.parseInt(); // Lee la distancia enviada por el Arduino Nano
+    Serial.print("Distancia: "); // Imprime el texto "Distancia: "
+    Serial.print(distance); // Imprime la distancia medida
+    Serial.println(" cm"); // Imprime el texto " cm" y salta de línea
+  }
+}
+
 
 void setup()
 {
@@ -201,7 +210,7 @@ void setup()
   servoW6.setSpeed(550);
 
   // pinMode(Trigger1, OUTPUT);   // pin como salida
-  pinMode(distance, INPUT);       // pin como entrada
+  //pinMode(distancia, INPUT);       // pin como entrada
   // digitalWrite(Trigger1, LOW); // Inicializamos el pin con 0
 
 }
@@ -209,7 +218,7 @@ void setup()
 void loop()
 {
 
-  //readDistance();
+  readdistancia();
 
 
   // Reading the data comming from the RC Transmitter
