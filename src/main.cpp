@@ -30,7 +30,7 @@ ServoEasing servoW4;
 ServoEasing servoW6;
 
 IBusBM IBus;
-//IBusBM IBusSensor;
+IBusBM IBusSensor;
 
 int angle = 0; // servo position in degrees
 int ch0, ch1, ch2, ch3, ch4, ch5 = 0;
