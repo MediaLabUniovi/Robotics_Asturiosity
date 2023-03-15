@@ -59,6 +59,9 @@ float d2 = 278;
 float d3 = 301;
 float d4 = 304;
 
+const int Trigger1 = 2; // Pin digital 2 para el Trigger del sensor
+const int Echo1 = 3;    // Pin digital 3 para el echo del sensor
+
 void calculateMotorsSpeed(int s, int s1, int s2, int s3)
 {
   // if no steering, all wheels speed is the same - straight move
