@@ -54,7 +54,7 @@ float d4 = 304;
 // const int Trigger1 = 2; // Pin digital 2 para el Trigger del sensor
 // const int Echo1 = 3;    // Pin digital 3 para el echo del sensor
 // long timeW1;     // tiempo que demora en llegar el eco
-// long distancia; // distancia en cm
+int distance= 0; // distancia en cm
 
 
 
@@ -201,7 +201,7 @@ void setup()
   servoW6.setSpeed(550);
 
   // pinMode(Trigger1, OUTPUT);   // pin como salida
-  // pinMode(Echo1, INPUT);       // pin como entrada
+  pinMode(distance, INPUT);       // pin como entrada
   // digitalWrite(Trigger1, LOW); // Inicializamos el pin con 0
 
 }
