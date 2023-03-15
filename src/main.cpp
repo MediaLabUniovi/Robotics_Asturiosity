@@ -23,8 +23,8 @@
 #define motorW6_IN1 12
 #define motorW6_IN2 11
 
-const int SLAVE_ADDR = 8;
-const int NUM_BYTES = 4;
+// const int SLAVE_ADDR = 8;
+// const int NUM_BYTES = 4;
 
 // int recvValue = digitalRead(19);
 
@@ -93,32 +93,35 @@ void calculateServoAngle()
   thetaOuterBack = round((atan((d2 / (r - d1)))) * 180 / PI);
 }
 
-void readDistance()
-{
-  Wire.requestFrom(SLAVE_ADDR, NUM_BYTES);
-  if (Wire.available() == NUM_BYTES)
-  {
-    int distance = 0;
-    for (int i = 0; i < NUM_BYTES; i++)
-    {
-      distance = distance << 8;
-      distance |= Wire.read();
-    }
-    Serial.print("Distance: ");
-    Serial.println(distance);
-    delay(1000);
-  }
-  else
-  {
-    Serial.println("Error: received incorrect number of bytes");
-    delay(1000);
-  }
+void readDistance(){
+  
 }
+// void readDistance()
+// {
+//   Wire.requestFrom(SLAVE_ADDR, NUM_BYTES);
+//   if (Wire.available() == NUM_BYTES)
+//   {
+//     int distance = 0;
+//     for (int i = 0; i < NUM_BYTES; i++)
+//     {
+//       distance = distance << 8;
+//       distance |= Wire.read();
+//     }
+//     Serial.print("Distance: ");
+//     Serial.println(distance);
+//     delay(1000);
+//   }
+//   else
+//   {
+//     Serial.println("Error: received incorrect number of bytes");
+//     delay(1000);
+//   }
+// }
 
-void receiveEvent(int byteCount)
-{
-  // Do nothing here
-}
+// void receiveEvent(int byteCount)
+// {
+//   // Do nothing here
+// }
 //   // if (byteCount == 4)
 //   //{ // Verificar que se hayan recibido 4 bytes
 //   int distance = 0;
@@ -195,8 +198,8 @@ void setup()
   // Wire.onReceive(receiveEvent);
 
   Serial.begin(115200);
-  Wire.begin(SLAVE_ADDR);
-  Wire.onReceive(receiveEvent);
+  // Wire.begin(SLAVE_ADDR);
+  // Wire.onReceive(receiveEvent);
 
   IBus.begin(Serial1, IBUSBM_NOTIMER);       // Servo IBUS
   IBusSensor.begin(Serial2, IBUSBM_NOTIMER); // Sensor IBUS
