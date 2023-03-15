@@ -61,6 +61,8 @@ float d4 = 304;
 
 const int Trigger1 = 2; // Pin digital 2 para el Trigger del sensor
 const int Echo1 = 3;    // Pin digital 3 para el echo del sensor
+long timeW1;     // tiempo que demora en llegar el eco
+long distancia; // distancia en cm
 
 void calculateMotorsSpeed(int s, int s1, int s2, int s3)
 {
