@@ -6,9 +6,10 @@
 // Esta librería utiliza algoritmos de interpolación para calcular el movimiento de los servos de manera precisa y suave,
 // permitiendo a los usuarios crear patrones de movimiento específicos como ondas sinusoidales, ondas cuadradas, rampas, escalones, etc.
 // Además, la librería ofrece la capacidad de personalizar la curva de movimiento para adaptarse a diferentes requisitos.
-#include <IBusBM.h>
-#include <AccelStepper.h>
-//#include <Wire.h>
+// #include <IBusBM.h>
+// #include <AccelStepper.h>
+// #include <Wire.h>
+#include <ESC.h>
 
 #define motorW1_IN1 7
 #define motorW1_IN2 6
@@ -23,18 +24,10 @@
 #define motorW6_IN1 12
 #define motorW6_IN2 11
 
-// const int SLAVE_ADDR = 8;
-// const int NUM_BYTES = 4;
-
-// int recvValue = digitalRead(19);
-
 ServoEasing servoW1;
 ServoEasing servoW3;
 ServoEasing servoW4;
 ServoEasing servoW6;
-// ServoEasing servoCamTilt;
-
-// AccelStepper camPanStepper(1, 46, 45);  //(Type:driver, STEP, DIR) - Stepper1
 
 IBusBM IBus;
 IBusBM IBusSensor;
@@ -48,8 +41,7 @@ int servo6Angle = 90;
 int s = 0; // rover speed
 int r = 0; // turning radius
 int m1, m2, m3, m4, m5, m6;
-// int camTilt = 90;
-// int camPan = 0;
+
 float s1, s2, s3 = 0;
 float s1PWM, s2PWM, s3PWM = 0;
 float thetaInnerFront, thetaInnerBack, thetaOuterFront, thetaOuterBack = 0;
@@ -59,10 +51,13 @@ float d2 = 278;
 float d3 = 301;
 float d4 = 304;
 
-const int Trigger1 = 2; // Pin digital 2 para el Trigger del sensor
-const int Echo1 = 3;    // Pin digital 3 para el echo del sensor
-long timeW1;     // tiempo que demora en llegar el eco
-long distancia; // distancia en cm
+// const int Trigger1 = 2; // Pin digital 2 para el Trigger del sensor
+// const int Echo1 = 3;    // Pin digital 3 para el echo del sensor
+// long timeW1;     // tiempo que demora en llegar el eco
+// long distancia; // distancia en cm
+
+
+void IBusBM::begin(HardwareSerial&, int8_t, int8_t, int8_t);
 
 void calculateMotorsSpeed(int s, int s1, int s2, int s3)
 {
@@ -118,44 +113,6 @@ void calculateServoAngle()
 //   Serial.println();
 //   delay(1000); // Hacemos una pausa de 100ms
   
-// }
-// void readDistance()
-// {
-//   Wire.requestFrom(SLAVE_ADDR, NUM_BYTES);
-//   if (Wire.available() == NUM_BYTES)
-//   {
-//     int distance = 0;
-//     for (int i = 0; i < NUM_BYTES; i++)
-//     {
-//       distance = distance << 8;
-//       distance |= Wire.read();
-//     }
-//     Serial.print("Distance: ");
-//     Serial.println(distance);
-//     delay(1000);
-//   }
-//   else
-//   {
-//     Serial.println("Error: received incorrect number of bytes");
-//     delay(1000);
-//   }
-// }
-
-// void receiveEvent(int byteCount)
-// {
-//   // Do nothing here
-// }
-//   // if (byteCount == 4)
-//   //{ // Verificar que se hayan recibido 4 bytes
-//   int distance = 0;
-//   Wire.readBytes((byte *)&distance, sizeof(distance)); // Leer los 4 bytes de la distancia medida
-//   // Serial.println(distance);                            // Imprimir la distancia en el monitor serial
-//   Serial.print("Distancia motorW1: ");
-//   Serial.print(distance); // Enviamos serialmente el valor de la distancia
-//   Serial.print("cm");
-//   Serial.println();
-//   delay(1000);
-//}
 
 // if (valorDistance < 20)
 //{
@@ -217,35 +174,26 @@ void setup()
   digitalWrite(motorW6_IN1, LOW);
   digitalWrite(motorW6_IN2, LOW);
 
-  // Wire.begin(ARDUINO_NANO_ADDRESS);
-  // Wire.onReceive(receiveEvent);
 
-  Serial.begin(115200);
-  // Wire.begin(SLAVE_ADDR);
-  // Wire.onReceive(receiveEvent);
 
-  IBus.begin(Serial1, IBUSBM_NOTIMER);       // Servo IBUS
+  // Serial.begin(115200);
+  Serial.begin(115200, SERIAL_8N1);
+
+  IBus.begin(Serial1,  IBUSBM_NOTIMER);       // Servo IBUS
   IBusSensor.begin(Serial2, IBUSBM_NOTIMER); // Sensor IBUS
   IBusSensor.addSensor(IBUSS_INTV);          // add voltage sensor
-
-  //* COMUNICACION I2C
-
-  // Wire.onReceive(receiveEvent);
-  //  Wire.write(4);
-  //  precolision = Wire.read();
-  //  Wire.endTransmission();
 
   servoW1.attach(22);
   servoW3.attach(23);
   servoW4.attach(24);
   servoW6.attach(25);
-  // servoCamTilt.attach(26);
+
 
   servoW1.write(90);
   servoW3.write(90);
   servoW4.write(90);
   servoW6.write(90);
-  // servoCamTilt.write(90);
+  
 
   servoW1.setSpeed(550);
   servoW3.setSpeed(550);
@@ -262,18 +210,7 @@ void loop()
 {
 
   //readDistance();
-  // receiveEvent();
-  // Serial.print("Distancia recibida: ");
-  // Serial.print(distancia);
-  // Serial.print(" (bytes: ");
-  // for (int i = 0; i < DISTANCIA_BYTES; i++) {
-  //   Serial.print(((byte *)&distancia)[i], HEX);
-  //   Serial.print(" ");
-  // }
-  // Serial.println(")");
-  // Wire.onReceive(receiveEvent);   // Llama a la función receiveEvent() cuando se recibe un mensaje I2C
-  // Wire.available();               // Verificar si hay datos disponibles en el buffer de recepción
-  // receiveEvent(Wire.available()); // Llamar a la función receiveEvent si hay datos disponibles
+
 
   // Reading the data comming from the RC Transmitter
   IBus.loop();
