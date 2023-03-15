@@ -6,10 +6,10 @@
 // Esta librería utiliza algoritmos de interpolación para calcular el movimiento de los servos de manera precisa y suave,
 // permitiendo a los usuarios crear patrones de movimiento específicos como ondas sinusoidales, ondas cuadradas, rampas, escalones, etc.
 // Además, la librería ofrece la capacidad de personalizar la curva de movimiento para adaptarse a diferentes requisitos.
-// #include <IBusBM.h>
-// #include <AccelStepper.h>
+#include <IBusBM.h>
+#include <AccelStepper.h>
 // #include <Wire.h>
-#include <ESC.h>
+
 
 #define motorW1_IN1 7
 #define motorW1_IN2 6
