@@ -57,7 +57,7 @@ float d4 = 304;
 // long distancia; // distancia en cm
 
 
-void IBusBM::begin(HardwareSerial&, int8_t, int8_t, int8_t);
+
 
 void calculateMotorsSpeed(int s, int s1, int s2, int s3)
 {
