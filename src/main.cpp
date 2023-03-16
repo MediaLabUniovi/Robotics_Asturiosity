@@ -185,8 +185,8 @@ void setup()
 
 
 
-  // Serial.begin(115200);
-  Serial.begin(115200, SERIAL_8N1);
+  Serial.begin(115200);
+ 
 
   IBus.begin(Serial1,  IBUSBM_NOTIMER);       // Servo IBUS
   IBusSensor.begin(Serial2, IBUSBM_NOTIMER); // Sensor IBUS
