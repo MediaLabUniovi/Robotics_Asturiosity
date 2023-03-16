@@ -149,14 +149,14 @@ void calculateServoAngle()
 //     break;
 //   }
 //}
-int readdistancia(){
-  if (Serial.available() > 0) { // Verifica si hay datos disponibles en el puerto serial
-    int distance = Serial.parseInt(); // Lee la distancia enviada por el Arduino Nano
-    Serial.print("Distancia: "); // Imprime el texto "Distancia: "
-    Serial.print(distance); // Imprime la distancia medida
-    Serial.println(" cm"); // Imprime el texto " cm" y salta de línea
-  }
-}
+// int readdistancia(){
+//   if (Serial.available() > 0) { // Verifica si hay datos disponibles en el puerto serial
+//     int distance = Serial.parseInt(); // Lee la distancia enviada por el Arduino Nano
+//     Serial.print("Distancia: "); // Imprime el texto "Distancia: "
+//     Serial.print(distance); // Imprime la distancia medida
+//     Serial.println(" cm"); // Imprime el texto " cm" y salta de línea
+//   }
+// }
 
 
 void setup()
@@ -218,7 +218,7 @@ void setup()
 void loop()
 {
 
-  readdistancia();
+  //readdistancia();
 
 
   // Reading the data comming from the RC Transmitter
