@@ -95,8 +95,8 @@ void calculateServoAngle()
 }
 
 int receiveData() {
-  while (Serial1.available() == 0) {} // Espera hasta que lleguen datos
-  int data = Serial1.parseInt(); // Lee los datos del puerto serial
+  while (Serial3.available() == 0) {} // Espera hasta que lleguen datos
+  int data = Serial3.parseInt(); // Lee los datos del puerto serial
   return data;
 }
 
