@@ -96,39 +96,51 @@ int receiveData()
 }
 
 // //* 4 SENSORES
-// int distances[4]; // Arreglo para guardar las cuatro distancias
+int distances[4]; // Arreglo para guardar las cuatro distancias
 
-// void receiveDistances() {
-//   if (Serial1.available() > 0) {
-//     String data = Serial1.readStringUntil('\n'); // Lee los datos del puerto serial
-//     int index = 0; // Índice para recorrer el arreglo
-//     while (data.length() > 0) {
-//       int pos = data.indexOf(','); // Busca la posición de la coma
-//       if (pos >= 0) {
-//         distances[index] = data.substring(0, pos).toInt(); // Convierte el texto a un entero
-//         data = data.substring(pos + 1); // Elimina el valor leído del texto
-//       } else {
-//         distances[index] = data.toInt(); // Convierte el texto a un entero
-//         data = ""; // Marca el final del texto
-//       }
-//       index++; // Avanza al siguiente valor en el arreglo
-//     }
+void receiveDistances() {
+  if (Serial3.available() > 0) {
+    String data = Serial3.readStringUntil('\n'); // Lee los datos del puerto serial
+    int index = 0; // Índice para recorrer el arreglo
+    while (data.length() > 0) {
+      int pos = data.indexOf(','); // Busca la posición de la coma
+      if (pos >= 0) {
+        distances[index] = data.substring(0, pos).toInt(); // Convierte el texto a un entero
+        data = data.substring(pos + 1); // Elimina el valor leído del texto
+      } else {
+        distances[index] = data.toInt(); // Convierte el texto a un entero
+        data = ""; // Marca el final del texto
+      }
+      index++; // Avanza al siguiente valor en el arreglo
+    }
     
-//     // Imprime las distancias individualmente en el monitor serial
-//     Serial.print("Distance 1: ");
-//     Serial.print(distances[0]);
-//     Serial.println(" cm ");
-//     Serial.print("Distance 2: ");
-//     Serial.print(distances[1]);
-//     Serial.println(" cm ");
-//     Serial.print("Distance 3: ");
-//     Serial.print(distances[2]);
-//     Serial.println(" cm ");
-//     Serial.print("Distance 4: ");
-//     Serial.print(distances[3]);
-//     Serial.println(" cm ");
-//   }
-// }
+    // Imprime las distancias individualmente en el monitor serial
+    Serial.print("Distancia motorW1: ");
+    Serial.print(distances[0]);
+    Serial.println(" cm ");
+    Serial.println();
+    delay(1000); // Hacemos una pausa de 100ms
+
+    Serial.print("Distancia motorW3: ");
+    Serial.print(distances[1]);
+    Serial.println(" cm ");
+    Serial.println();
+    delay(1000); // Hacemos una pausa de 100ms
+
+    Serial.print("Distancia motorW4: ");
+    Serial.print(distances[2]);
+    Serial.println(" cm ");
+    Serial.println();
+    delay(1000); // Hacemos una pausa de 100ms
+
+    Serial.print("Distancia motorW6: ");
+    Serial.print(distances[3]);
+    Serial.println(" cm ");
+    Serial.println();
+    delay(1000); // Hacemos una pausa de 100ms
+   
+  }
+}
 
 
 // if (valordistancia < 20)
@@ -225,15 +237,15 @@ void setup()
 void loop()
 {
 
-  //* 1 SENSOR
-  int distance = receiveData(); // Lee los datos del Arduino Nano
-  Serial.print("Distance: ");
-  Serial.print(distance);
-  Serial.println(" cm");
+  // //* 1 SENSOR
+  // int distance = receiveData(); // Lee los datos del Arduino Nano
+  // Serial.print("Distance: ");
+  // Serial.print(distance);
+  // Serial.println(" cm");
 
 
   //* 4 SENSORES
-  // receiveDistances(); // Lee las distancias desde el Arduino Nano
+  receiveDistances(); // Lee las distancias desde el Arduino Nano
   // delay(500);
 
   // Reading the data comming from the RC Transmitter
