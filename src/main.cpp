@@ -8,6 +8,7 @@
 // Además, la librería ofrece la capacidad de personalizar la curva de movimiento para adaptarse a diferentes requisitos.
 #include <IBusBM.h>
 #include <AccelStepper.h>
+#include <SoftwareSerial.h>
 // #include <Wire.h>
 
 
@@ -93,14 +94,20 @@ void calculateServoAngle()
   thetaOuterBack = round((atan((d2 / (r - d1)))) * 180 / PI);
 }
 
-void readdistancia(){
-  if (Serial.available()) {
-    int distance = Serial.parseInt();
-    Serial.print("Distance: ");
-    Serial.print(distance);
-    Serial.println(" cm");
-  }
+int receiveData() {
+  while (Serial1.available() == 0) {} // Espera hasta que lleguen datos
+  int data = Serial1.parseInt(); // Lee los datos del puerto serial
+  return data;
 }
+
+// void readdistancia(){
+//   if (Serial.available()) {
+//     int distancia = Serial.parseInt();
+//     Serial.print("Distancia: ");
+//     Serial.print(distancia);
+//     Serial.println(" cm");
+//   }
+// }
 // void readdistancia(){
 //   digitalWrite(Trigger1, HIGH);
 //   delayMicroseconds(10); // Enviamos un pulso de 10us
@@ -198,6 +205,7 @@ void setup()
 
   IBus.begin(Serial1,  IBUSBM_NOTIMER);       // Servo IBUS
   IBusSensor.begin(Serial2, IBUSBM_NOTIMER); // Sensor IBUS
+  Serial3.begin(115200);
   IBusSensor.addSensor(IBUSS_INTV);          // add voltage sensor
 
   servoW1.attach(22);
@@ -226,8 +234,11 @@ void setup()
 void loop()
 {
 
-  readdistancia();
-
+  //readdistancia();
+  int distance = receiveData(); // Lee los datos del Arduino Nano
+  Serial.print("Distance: ");
+  Serial.print(distance);
+  Serial.println(" cm");
 
   // Reading the data comming from the RC Transmitter
   IBus.loop();
