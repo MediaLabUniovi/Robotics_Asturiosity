@@ -94,11 +94,11 @@ void calculateServoAngle()
   thetaOuterBack = round((atan((d2 / (r - d1)))) * 180 / PI);
 }
 
-int receiveData() {
-  while (Serial3.available() == 0) {} // Espera hasta que lleguen datos
-  int data = Serial3.parseInt(); // Lee los datos del puerto serial
-  return data;
-}
+// int receiveData() {
+//   while (Serial3.available() == 0) {} // Espera hasta que lleguen datos
+//   int data = Serial3.parseInt(); // Lee los datos del puerto serial
+//   return data;
+// }
 
 // void readdistancia(){
 //   if (Serial.available()) {
@@ -205,7 +205,7 @@ void setup()
 
   IBus.begin(Serial1,  IBUSBM_NOTIMER);       // Servo IBUS
   IBusSensor.begin(Serial2, IBUSBM_NOTIMER); // Sensor IBUS
-  Serial3.begin(115200);
+  //Serial3.begin(115200);
   IBusSensor.addSensor(IBUSS_INTV);          // add voltage sensor
 
   servoW1.attach(22);
@@ -234,11 +234,11 @@ void setup()
 void loop()
 {
 
-  //readdistancia();
-  int distance = receiveData(); // Lee los datos del Arduino Nano
-  Serial.print("Distance: ");
-  Serial.print(distance);
-  Serial.println(" cm");
+  // //readdistancia();
+  // int distance = receiveData(); // Lee los datos del Arduino Nano
+  // Serial.print("Distance: ");
+  // Serial.print(distance);
+  // Serial.println(" cm");
 
   // Reading the data comming from the RC Transmitter
   IBus.loop();
