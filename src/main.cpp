@@ -11,7 +11,6 @@
 #include <SoftwareSerial.h>
 // #include <Wire.h>
 
-
 #define motorW1_IN1 7
 #define motorW1_IN2 6
 #define motorW2_IN1 5
@@ -52,14 +51,6 @@ float d2 = 278;
 float d3 = 301;
 float d4 = 304;
 
-// const int Trigger1 = 2; // Pin digital 2 para el Trigger del sensor
-// const int Echo1 = 3;    // Pin digital 3 para el echo del sensor
-// long timeW1;     // tiempo que demora en llegar el eco
-//int distancia= 0; // distancia en cm
-
-
-
-
 void calculateMotorsSpeed(int s, int s1, int s2, int s3)
 {
   // if no steering, all wheels speed is the same - straight move
@@ -94,40 +85,36 @@ void calculateServoAngle()
   thetaOuterBack = round((atan((d2 / (r - d1)))) * 180 / PI);
 }
 
-int receiveData() {
-  while (Serial3.available() == 0) {} // Espera hasta que lleguen datos
+//* 1 SENSOR
+int receiveData()
+{
+  while (Serial3.available() == 0)
+  {
+  }                              // Espera hasta que lleguen datos
   int data = Serial3.parseInt(); // Lee los datos del puerto serial
   return data;
 }
 
-// void readdistancia(){
-//   if (Serial.available()) {
-//     int distancia = Serial.parseInt();
-//     Serial.print("Distancia: ");
-//     Serial.print(distancia);
-//     Serial.println(" cm");
+//* 4 SENSORES
+// int distances[4]; // Arreglo para guardar las cuatro distancias
+
+// void receiveDistances() {
+//   if (Serial1.available() > 0) {
+//     String data = Serial1.readStringUntil('\n'); // Lee los datos del puerto serial
+//     int index = 0; // Índice para recorrer el arreglo
+//     while (data.length() > 0) {
+//       int pos = data.indexOf(','); // Busca la posición de la coma
+//       if (pos >= 0) {
+//         distances[index] = data.substring(0, pos).toInt(); // Convierte el texto a un entero
+//         data = data.substring(pos + 1); // Elimina el valor leído del texto
+//       } else {
+//         distances[index] = data.toInt(); // Convierte el texto a un entero
+//         data = ""; // Marca el final del texto
+//       }
+//       index++; // Avanza al siguiente valor en el arreglo
+//     }
 //   }
 // }
-// void readdistancia(){
-//   digitalWrite(Trigger1, HIGH);
-//   delayMicroseconds(10); // Enviamos un pulso de 10us
-//   digitalWrite(Trigger1, LOW);
-
-//   timeW1 = pulseIn(Echo1, HIGH); // obtenemos el ancho del pulso
-//   distancia = timeW1 / 59;      // escalamos el tiempo a una distancia en cm
-
-//   digitalWrite(Trigger1, HIGH);
-//   delayMicroseconds(10); // Enviamos un pulso de 10us
-//   digitalWrite(Trigger1, LOW);
-
-//   // //* PRINTEO DE distanciaS
-//   // Sensor motorW1
-//   Serial.print("distancia motorW1: ");
-//   Serial.print(distancia); // Enviamos serialmente el valor de la distancia
-//   Serial.print("cm");
-//   Serial.println();
-//   delay(1000); // Hacemos una pausa de 100ms
-  
 
 // if (valordistancia < 20)
 //{
@@ -173,7 +160,6 @@ int receiveData() {
 //   }
 // }
 
-
 void setup()
 {
 
@@ -198,47 +184,51 @@ void setup()
   digitalWrite(motorW6_IN1, LOW);
   digitalWrite(motorW6_IN2, LOW);
 
-
-
   Serial.begin(115200);
- 
 
-  IBus.begin(Serial1,  IBUSBM_NOTIMER);       // Servo IBUS
+  IBus.begin(Serial1, IBUSBM_NOTIMER);       // Servo IBUS
   IBusSensor.begin(Serial2, IBUSBM_NOTIMER); // Sensor IBUS
   Serial3.begin(115200);
-  IBusSensor.addSensor(IBUSS_INTV);          // add voltage sensor
+  IBusSensor.addSensor(IBUSS_INTV); // add voltage sensor
 
   servoW1.attach(22);
   servoW3.attach(23);
   servoW4.attach(24);
   servoW6.attach(25);
 
-
   servoW1.write(90);
   servoW3.write(90);
   servoW4.write(90);
   servoW6.write(90);
-  
 
   servoW1.setSpeed(550);
   servoW3.setSpeed(550);
   servoW4.setSpeed(550);
   servoW6.setSpeed(550);
-
-  // pinMode(Trigger1, OUTPUT);   // pin como salida
-  //pinMode(distancia, INPUT);       // pin como entrada
-  // digitalWrite(Trigger1, LOW); // Inicializamos el pin con 0
-
 }
 
 void loop()
 {
 
-  //readdistancia();
+  //* 1 SENSOR
   int distance = receiveData(); // Lee los datos del Arduino Nano
   Serial.print("Distance: ");
   Serial.print(distance);
   Serial.println(" cm");
+
+
+  //* 4 SENSORES
+  // receiveDistances(); // Lee las distancias desde el Arduino Nano
+
+  // Hacer algo con las distancias, por ejemplo:
+  // Serial.print("Distances: ");
+  // for (int i = 0; i < 4; i++) {
+  //   Serial.print(distances[i]);
+  //   Serial.print(" cm ");
+  // }
+  // Serial.println();
+
+  // delay(500);
 
   // Reading the data comming from the RC Transmitter
   IBus.loop();
