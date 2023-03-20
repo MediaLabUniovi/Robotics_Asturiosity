@@ -95,7 +95,7 @@ int receiveData()
   return data;
 }
 
-//* 4 SENSORES
+// //* 4 SENSORES
 // int distances[4]; // Arreglo para guardar las cuatro distancias
 
 // void receiveDistances() {
@@ -113,8 +113,23 @@ int receiveData()
 //       }
 //       index++; // Avanza al siguiente valor en el arreglo
 //     }
+    
+//     // Imprime las distancias individualmente en el monitor serial
+//     Serial.print("Distance 1: ");
+//     Serial.print(distances[0]);
+//     Serial.println(" cm ");
+//     Serial.print("Distance 2: ");
+//     Serial.print(distances[1]);
+//     Serial.println(" cm ");
+//     Serial.print("Distance 3: ");
+//     Serial.print(distances[2]);
+//     Serial.println(" cm ");
+//     Serial.print("Distance 4: ");
+//     Serial.print(distances[3]);
+//     Serial.println(" cm ");
 //   }
 // }
+
 
 // if (valordistancia < 20)
 //{
@@ -219,15 +234,6 @@ void loop()
 
   //* 4 SENSORES
   // receiveDistances(); // Lee las distancias desde el Arduino Nano
-
-  // Hacer algo con las distancias, por ejemplo:
-  // Serial.print("Distances: ");
-  // for (int i = 0; i < 4; i++) {
-  //   Serial.print(distances[i]);
-  //   Serial.print(" cm ");
-  // }
-  // Serial.println();
-
   // delay(500);
 
   // Reading the data comming from the RC Transmitter
