@@ -93,6 +93,14 @@ void calculateServoAngle()
   thetaOuterBack = round((atan((d2 / (r - d1)))) * 180 / PI);
 }
 
+void readdistancia(){
+  if (Serial.available()) {
+    int distance = Serial.parseInt();
+    Serial.print("Distance: ");
+    Serial.print(distance);
+    Serial.println(" cm");
+  }
+}
 // void readdistancia(){
 //   digitalWrite(Trigger1, HIGH);
 //   delayMicroseconds(10); // Enviamos un pulso de 10us
@@ -218,7 +226,7 @@ void setup()
 void loop()
 {
 
-  //readdistancia();
+  readdistancia();
 
 
   // Reading the data comming from the RC Transmitter
