@@ -95,61 +95,60 @@ void calculateServoAngle()
 //   return data;
 // }
 
-// //* 4 SENSORES
-int distances[4]; // Arreglo para guardar las cuatro distancias
+//* 4 SENSORES
+bool recibirDistancias() {
 
-void receiveDistances() {
-  if (Serial3.available() > 0) {
-    String data = Serial3.readStringUntil('\n'); // Lee los datos del puerto serial
-    int index = 0; // Índice para recorrer el arreglo
-    while (data.length() > 0) {
-      int pos = data.indexOf(','); // Busca la posición de la coma
-      if (pos >= 0) {
-        distances[index] = data.substring(0, pos).toInt(); // Convierte el texto a un entero
-        data = data.substring(pos + 1); // Elimina el valor leído del texto
-      } else {
-        distances[index] = data.toInt(); // Convierte el texto a un entero
-        data = ""; // Marca el final del texto
-      }
-      index++; // Avanza al siguiente valor en el arreglo
-    }
-    
-    // Imprime las distancias individualmente en el monitor serial
-    Serial.print("Distancia motorW1: ");
-    Serial.print(distances[0]);
-    Serial.println(" cm ");
-    Serial.println();
-    delay(1000); // Hacemos una pausa de 100ms
+  // esperar hasta que se reciba un mensaje completo
+  if (Serial3.available() >= 4){
+    ; // esperar a que se reciban 4 bytes
 
-    Serial.print("Distancia motorW3: ");
-    Serial.print(distances[1]);
-    Serial.println(" cm ");
-    Serial.println();
-    delay(1000); // Hacemos una pausa de 100ms
+  // leer los 4 bytes recibidos y convertirlos a enteros
+  int distanciaW1 = Serial3.read();
+  int distanciaW3 = Serial3.read();
+  int distanciaW4 = Serial3.read();
+  int distanciaW6 = Serial3.read();
 
-    Serial.print("Distancia motorW4: ");
-    Serial.print(distances[2]);
-    Serial.println(" cm ");
-    Serial.println();
-    delay(1000); // Hacemos una pausa de 100ms
+  // imprimir las distancias en el monitor serie Serial
+  Serial.print("Distancia motorW1: ");
+  Serial.print(distanciaW1);
+  Serial.println(" cm ");
+  Serial.println();
+  delay(1000); // Hacemos una pausa de 100ms
 
-    Serial.print("Distancia motorW6: ");
-    Serial.print(distances[3]);
-    Serial.println(" cm ");
-    Serial.println();
-    delay(1000); // Hacemos una pausa de 100ms
-   
+  Serial.print("Distancia motorW3: ");
+  Serial.print(distanciaW3);
+  Serial.println(" cm ");
+  Serial.println();
+  delay(1000); // Hacemos una pausa de 100ms
+
+  Serial.print("Distancia motorW4: ");
+  Serial.print(distanciaW4);
+  Serial.println(" cm ");
+  Serial.println();
+  delay(1000); // Hacemos una pausa de 100ms
+
+  Serial.print("Distancia motorW6: ");
+  Serial.print(distanciaW6);
+  Serial.println(" cm ");
+  Serial.println();
+  delay(1000); // Hacemos una pausa de 100ms
+
+  return true;
+  } else {
+    return false;
   }
 }
+  //   Serial.print("Distancias recibidas: ");
+  //   Serial.print(distanciaW1);
+  //   Serial.print(", ");
+  //   Serial.print(distanciaW3);
+  //   Serial.print(", ");
+  //   Serial.print(distanciaW4);
+  //   Serial.print(", ");
+  //   Serial.println(distanciaW6);
 
 
-// if (valordistancia < 20)
-//{
-
-// while (true)
-// {
-
-//   if ((distanciaW1 < 20) || (distanciaW3 < 20) || (distanciaW4 < 20) || (distanciaW6 < 20))
+//   if ((distanciaW1 < 30) || (distanciaW3 < 30) || (distanciaW4 < 30) || (distanciaW6 < 30))
 //   {
 
 //     // DC Motors
@@ -178,12 +177,10 @@ void receiveDistances() {
 //     break;
 //   }
 //}
-// int readdistancia(){
-//   if (Serial.available() > 0) { // Verifica si hay datos disponibles en el puerto serial
-//     int distance = Serial.parseInt(); // Lee la distancia enviada por el Arduino Nano
-//     Serial.print("Distancia: "); // Imprime el texto "Distancia: "
-//     Serial.print(distance); // Imprime la distancia medida
-//     Serial.println(" cm"); // Imprime el texto " cm" y salta de línea
+
+// return true;
+//   } else {
+//     return false;
 //   }
 // }
 
@@ -243,10 +240,10 @@ void loop()
   // Serial.print(distance);
   // Serial.println(" cm");
 
-
   //* 4 SENSORES
-  receiveDistances(); // Lee las distancias desde el Arduino Nano
+  // receiveDistances(); // Lee las distancias desde el Arduino Nano
   // delay(500);
+  recibirDistancias();
 
   // Reading the data comming from the RC Transmitter
   IBus.loop();
