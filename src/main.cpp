@@ -115,25 +115,25 @@ bool recibirDistancias()
     Serial.print(distanciaW1);
     Serial.println(" cm ");
     Serial.println();
-    delay(1000); // Hacemos una pausa de 100ms
+    //delay(1000); // Hacemos una pausa de 100ms
 
     Serial.print("Distancia motorW3: ");
     Serial.print(distanciaW3);
     Serial.println(" cm ");
     Serial.println();
-    delay(1000); // Hacemos una pausa de 100ms
+    //delay(1000); // Hacemos una pausa de 100ms
 
     Serial.print("Distancia motorW4: ");
     Serial.print(distanciaW4);
     Serial.println(" cm ");
     Serial.println();
-    delay(1000); // Hacemos una pausa de 100ms
+    //delay(1000); // Hacemos una pausa de 100ms
 
     Serial.print("Distancia motorW6: ");
     Serial.print(distanciaW6);
     Serial.println(" cm ");
     Serial.println();
-    delay(1000); // Hacemos una pausa de 100ms
+    delay(3000); // Hacemos una pausa de 100ms
 
   //   if ((distanciaW1 < 30) || (distanciaW3 < 30) || (distanciaW4 < 30) || (distanciaW6 < 30))
   //   {
@@ -498,10 +498,10 @@ void loop()
     }
   }
 
-  //* Monitor the battery voltage
-  int sensorValue = analogRead(A0);
-  float voltage = sensorValue * (5.00 / 1023.00) * 3.02; // Convert the reading values from 5v to suitable 12V
-  // Send battery voltage value to transmitter
-  IBusSensor.loop();
-  IBusSensor.setSensorMeasurement(1, voltage * 100);
+  // //* Monitor the battery voltage
+  // int sensorValue = analogRead(A0);
+  // float voltage = sensorValue * (5.00 / 1023.00) * 3.02; // Convert the reading values from 5v to suitable 12V
+  // // Send battery voltage value to transmitter
+  // IBusSensor.loop();
+  // IBusSensor.setSensorMeasurement(1, voltage * 100);
 }
