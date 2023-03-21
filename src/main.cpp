@@ -96,93 +96,76 @@ void calculateServoAngle()
 // }
 
 //* 4 SENSORES
-bool recibirDistancias() {
+bool recibirDistancias()
+{
 
   // esperar hasta que se reciba un mensaje completo
-  if (Serial3.available() >= 4){
+  if (Serial3.available() >= 4)
+  {
     ; // esperar a que se reciban 4 bytes
 
-  // leer los 4 bytes recibidos y convertirlos a enteros
-  int distanciaW1 = Serial3.read();
-  int distanciaW3 = Serial3.read();
-  int distanciaW4 = Serial3.read();
-  int distanciaW6 = Serial3.read();
+    // leer los 4 bytes recibidos y convertirlos a enteros
+    int distanciaW1 = Serial3.read();
+    int distanciaW3 = Serial3.read();
+    int distanciaW4 = Serial3.read();
+    int distanciaW6 = Serial3.read();
 
-  // imprimir las distancias en el monitor serie Serial
-  Serial.print("Distancia motorW1: ");
-  Serial.print(distanciaW1);
-  Serial.println(" cm ");
-  Serial.println();
-  delay(1000); // Hacemos una pausa de 100ms
+    // imprimir las distancias en el monitor serie Serial
+    Serial.print("Distancia motorW1: ");
+    Serial.print(distanciaW1);
+    Serial.println(" cm ");
+    Serial.println();
+    delay(1000); // Hacemos una pausa de 100ms
 
-  Serial.print("Distancia motorW3: ");
-  Serial.print(distanciaW3);
-  Serial.println(" cm ");
-  Serial.println();
-  delay(1000); // Hacemos una pausa de 100ms
+    Serial.print("Distancia motorW3: ");
+    Serial.print(distanciaW3);
+    Serial.println(" cm ");
+    Serial.println();
+    delay(1000); // Hacemos una pausa de 100ms
 
-  Serial.print("Distancia motorW4: ");
-  Serial.print(distanciaW4);
-  Serial.println(" cm ");
-  Serial.println();
-  delay(1000); // Hacemos una pausa de 100ms
+    Serial.print("Distancia motorW4: ");
+    Serial.print(distanciaW4);
+    Serial.println(" cm ");
+    Serial.println();
+    delay(1000); // Hacemos una pausa de 100ms
 
-  Serial.print("Distancia motorW6: ");
-  Serial.print(distanciaW6);
-  Serial.println(" cm ");
-  Serial.println();
-  delay(1000); // Hacemos una pausa de 100ms
+    Serial.print("Distancia motorW6: ");
+    Serial.print(distanciaW6);
+    Serial.println(" cm ");
+    Serial.println();
+    delay(1000); // Hacemos una pausa de 100ms
 
-  return true;
-  } else {
-    return false;
+  //   if ((distanciaW1 < 30) || (distanciaW3 < 30) || (distanciaW4 < 30) || (distanciaW6 < 30))
+  //   {
+
+  //     // DC Motors
+  //     // Motor Wheel 1 - Left Front
+  //     digitalWrite(motorW1_IN1, LOW); // PWM value
+  //     digitalWrite(motorW1_IN2, LOW); // Forward
+  //     // Motor Wheel 2 - Left Middle
+  //     digitalWrite(motorW2_IN1, LOW);
+  //     digitalWrite(motorW2_IN2, LOW);
+  //     // Motor Wheel 3 - Left Back
+  //     digitalWrite(motorW3_IN1, LOW);
+  //     digitalWrite(motorW3_IN2, LOW);
+  //     // right side motors move in opposite direction
+  //     // Motor Wheel 4 - Right Front
+  //     digitalWrite(motorW4_IN1, LOW);
+  //     digitalWrite(motorW4_IN2, LOW);
+  //     // Motor Wheel 5 - Right Middle
+  //     digitalWrite(motorW5_IN1, LOW);
+  //     digitalWrite(motorW5_IN2, LOW);
+  //     // Motor Wheel 6 - Right Back
+  //     digitalWrite(motorW6_IN1, LOW);
+  //     digitalWrite(motorW6_IN2, LOW);
+  //   }
+  //   return true;
+  // }
+  // else
+  // {
+  //   return false;
   }
 }
-  //   Serial.print("Distancias recibidas: ");
-  //   Serial.print(distanciaW1);
-  //   Serial.print(", ");
-  //   Serial.print(distanciaW3);
-  //   Serial.print(", ");
-  //   Serial.print(distanciaW4);
-  //   Serial.print(", ");
-  //   Serial.println(distanciaW6);
-
-
-//   if ((distanciaW1 < 30) || (distanciaW3 < 30) || (distanciaW4 < 30) || (distanciaW6 < 30))
-//   {
-
-//     // DC Motors
-//     // Motor Wheel 1 - Left Front
-//     digitalWrite(motorW1_IN1, LOW); // PWM value
-//     digitalWrite(motorW1_IN2, LOW); // Forward
-//     // Motor Wheel 2 - Left Middle
-//     digitalWrite(motorW2_IN1, LOW);
-//     digitalWrite(motorW2_IN2, LOW);
-//     // Motor Wheel 3 - Left Back
-//     digitalWrite(motorW3_IN1, LOW);
-//     digitalWrite(motorW3_IN2, LOW);
-//     // right side motors move in opposite direction
-//     // Motor Wheel 4 - Right Front
-//     digitalWrite(motorW4_IN1, LOW);
-//     digitalWrite(motorW4_IN2, LOW);
-//     // Motor Wheel 5 - Right Middle
-//     digitalWrite(motorW5_IN1, LOW);
-//     digitalWrite(motorW5_IN2, LOW);
-//     // Motor Wheel 6 - Right Back
-//     digitalWrite(motorW6_IN1, LOW);
-//     digitalWrite(motorW6_IN2, LOW);
-//   }
-//   else
-//   {
-//     break;
-//   }
-//}
-
-// return true;
-//   } else {
-//     return false;
-//   }
-// }
 
 void setup()
 {
