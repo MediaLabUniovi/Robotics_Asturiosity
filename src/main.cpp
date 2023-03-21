@@ -86,14 +86,14 @@ void calculateServoAngle()
 }
 
 //* 1 SENSOR
-int receiveData()
-{
-  while (Serial3.available() == 0)
-  {
-  }                              // Espera hasta que lleguen datos
-  int data = Serial3.parseInt(); // Lee los datos del puerto serial
-  return data;
-}
+// int receiveData()
+// {
+//   while (Serial3.available() == 0)
+//   {
+//   }                              // Espera hasta que lleguen datos
+//   int data = Serial3.parseInt(); // Lee los datos del puerto serial
+//   return data;
+// }
 
 // //* 4 SENSORES
 int distances[4]; // Arreglo para guardar las cuatro distancias
