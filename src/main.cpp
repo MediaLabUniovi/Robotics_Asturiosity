@@ -135,35 +135,35 @@ bool recibirDistancias()
     Serial.println();
     delay(3000); // Hacemos una pausa de 100ms
 
-  //   if ((distanciaW1 < 30) || (distanciaW3 < 30) || (distanciaW4 < 30) || (distanciaW6 < 30))
-  //   {
-
-  //     // DC Motors
-  //     // Motor Wheel 1 - Left Front
-  //     digitalWrite(motorW1_IN1, LOW); // PWM value
-  //     digitalWrite(motorW1_IN2, LOW); // Forward
-  //     // Motor Wheel 2 - Left Middle
-  //     digitalWrite(motorW2_IN1, LOW);
-  //     digitalWrite(motorW2_IN2, LOW);
-  //     // Motor Wheel 3 - Left Back
-  //     digitalWrite(motorW3_IN1, LOW);
-  //     digitalWrite(motorW3_IN2, LOW);
-  //     // right side motors move in opposite direction
-  //     // Motor Wheel 4 - Right Front
-  //     digitalWrite(motorW4_IN1, LOW);
-  //     digitalWrite(motorW4_IN2, LOW);
-  //     // Motor Wheel 5 - Right Middle
-  //     digitalWrite(motorW5_IN1, LOW);
-  //     digitalWrite(motorW5_IN2, LOW);
-  //     // Motor Wheel 6 - Right Back
-  //     digitalWrite(motorW6_IN1, LOW);
-  //     digitalWrite(motorW6_IN2, LOW);
-  //   }
-  //   return true;
-  // }
-  // else
-  // {
-  //   return false;
+    if ((distanciaW1 < 30) )
+    {
+    //|| (distanciaW3 < 30) || (distanciaW4 < 30) || (distanciaW6 < 30)
+      // DC Motors
+      // Motor Wheel 1 - Left Front
+      digitalWrite(motorW1_IN1, LOW); // PWM value
+      digitalWrite(motorW1_IN2, LOW); // Forward
+      // Motor Wheel 2 - Left Middle
+      digitalWrite(motorW2_IN1, LOW);
+      digitalWrite(motorW2_IN2, LOW);
+      // Motor Wheel 3 - Left Back
+      digitalWrite(motorW3_IN1, LOW);
+      digitalWrite(motorW3_IN2, LOW);
+      // right side motors move in opposite direction
+      // Motor Wheel 4 - Right Front
+      digitalWrite(motorW4_IN1, LOW);
+      digitalWrite(motorW4_IN2, LOW);
+      // Motor Wheel 5 - Right Middle
+      digitalWrite(motorW5_IN1, LOW);
+      digitalWrite(motorW5_IN2, LOW);
+      // Motor Wheel 6 - Right Back
+      digitalWrite(motorW6_IN1, LOW);
+      digitalWrite(motorW6_IN2, LOW);
+    }
+    return true;
+  }
+  else
+  {
+    return false;
   }
 }
 
