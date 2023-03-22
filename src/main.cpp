@@ -157,11 +157,11 @@ bool recibirDistancias()
       analogWrite(motorW6_IN1, s1PWM);
       digitalWrite(motorW6_IN2, LOW);
     }
-    else
-    {
-      break;
-      
-    }
+    else{
+      break;}
+  }
+}
+
     //     return true;
     //   }
 
@@ -169,9 +169,6 @@ bool recibirDistancias()
     // else
     // {
     //   return false;
-  }
-}
-
 void setup()
 {
 
