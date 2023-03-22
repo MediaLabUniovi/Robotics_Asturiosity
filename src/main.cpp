@@ -138,7 +138,7 @@ bool recibirDistancias()
     while (true)
     {
 
-      if ((distanciaW1 < 80) || (distanciaW3 < 60) || (distanciaW4 < 80) || (distanciaW6 < 60))
+      if ((distanciaW1 < 80) || (distanciaW3 < 60) || (distanciaW4 < 80) || (distanciaW6 < 60)) //Los motores van para atras
       {
         // Motor Wheel 1 - Left Front
         digitalWrite(motorW1_IN1, LOW);  // all wheels move at the same speed
