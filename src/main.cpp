@@ -135,7 +135,7 @@ bool recibirDistancias()
     // Serial.println();
     // delay(50); // Hacemos una pausa de 50ms
 
-    if ((distanciaW1 < 80) || (distanciaW3 < 60) || (distanciaW4 < 80) || (distanciaW6 < 60)) // Los motores van hacia atras
+    while ((distanciaW1 < 80) || (distanciaW3 < 60) || (distanciaW4 < 80) || (distanciaW6 < 60)) // Los motores van hacia atras
     {
       // Motor Wheel 1 - Left Front
       digitalWrite(motorW1_IN1, LOW);  // all wheels move at the same speed
@@ -157,7 +157,8 @@ bool recibirDistancias()
       analogWrite(motorW6_IN1, s1PWM);
       digitalWrite(motorW6_IN2, LOW);
     }
-    else{
+    else
+    {
       break;}
   }
 }
