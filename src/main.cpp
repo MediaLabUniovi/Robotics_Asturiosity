@@ -115,19 +115,19 @@ bool recibirDistancias()
     Serial.print(distanciaW1);
     Serial.println(" cm ");
     Serial.println();
-    //delay(1000); // Hacemos una pausa de 100ms
-
-    Serial.print("Distancia motorW3: ");
-    Serial.print(distanciaW3);
-    Serial.println(" cm ");
-    Serial.println();
-    //delay(1000); // Hacemos una pausa de 100ms
+    // delay(1000); // Hacemos una pausa de 100ms
 
     Serial.print("Distancia motorW4: ");
     Serial.print(distanciaW4);
     Serial.println(" cm ");
     Serial.println();
-    //delay(1000); // Hacemos una pausa de 100ms
+
+    // delay(1000); // Hacemos una pausa de 100m
+    Serial.print("Distancia motorW3: ");
+    Serial.print(distanciaW3);
+    Serial.println(" cm ");
+    Serial.println();
+    // delay(1000); // Hacemos una pausa de 100ms
 
     Serial.print("Distancia motorW6: ");
     Serial.print(distanciaW6);
@@ -135,9 +135,9 @@ bool recibirDistancias()
     Serial.println();
     delay(3000); // Hacemos una pausa de 100ms
 
-    if ((distanciaW1 < 30) )
+    if ((distanciaW1 < 30))
     {
-    //|| (distanciaW3 < 30) || (distanciaW4 < 30) || (distanciaW6 < 30)
+      //|| (distanciaW3 < 30) || (distanciaW4 < 30) || (distanciaW6 < 30)
       // DC Motors
       // Motor Wheel 1 - Left Front
       digitalWrite(motorW1_IN1, LOW); // PWM value
