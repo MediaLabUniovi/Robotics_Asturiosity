@@ -135,7 +135,7 @@ bool recibirDistancias()
     // Serial.println();
     // delay(50); // Hacemos una pausa de 50ms
 
-    if ((distanciaW1 < 80) || (distanciaW3 < 60) || (distanciaW4 < 80) || (distanciaW6 < 60)) //Los motores van hacia atras
+    if ((distanciaW1 < 80) || (distanciaW3 < 60) || (distanciaW4 < 80) || (distanciaW6 < 60)) // Los motores van hacia atras
     {
       // Motor Wheel 1 - Left Front
       digitalWrite(motorW1_IN1, LOW);  // all wheels move at the same speed
@@ -156,13 +156,19 @@ bool recibirDistancias()
       // Motor Wheel 6 - Right Back
       analogWrite(motorW6_IN1, s1PWM);
       digitalWrite(motorW6_IN2, LOW);
-      return true;
     }
-    
-  }
-  else
-  {
-    return false;
+    else
+    {
+      break;
+      
+    }
+    //     return true;
+    //   }
+
+    // }
+    // else
+    // {
+    //   return false;
   }
 }
 
@@ -450,7 +456,7 @@ void loop()
       digitalWrite(motorW6_IN1, LOW);
       analogWrite(motorW6_IN2, s1PWM);
     }
-    else if (IBus.readChannel(5) > 1600) //HACIA ATRAS
+    else if (IBus.readChannel(5) > 1600) // HACIA ATRAS
     {
       // Motor Wheel 1 - Left Front
       digitalWrite(motorW1_IN1, LOW);  // all wheels move at the same speed
