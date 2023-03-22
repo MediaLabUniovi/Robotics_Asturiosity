@@ -110,56 +110,55 @@ bool recibirDistancias()
     int distanciaW4 = Serial3.read();
     int distanciaW6 = Serial3.read();
 
-    // imprimir las distancias en el monitor serie Serial
-    Serial.print("Distancia motorW1: ");
-    Serial.print(distanciaW1);
-    Serial.println(" cm ");
-    Serial.println();
-    // delay(1000); // Hacemos una pausa de 100ms
+    // // imprimir las distancias en el monitor serie Serial
+    // Serial.print("Distancia motorW1: ");
+    // Serial.print(distanciaW1);
+    // Serial.println(" cm ");
+    // Serial.println();
+    // // delay(1000); // Hacemos una pausa de 100ms
 
-    Serial.print("Distancia motorW4: ");
-    Serial.print(distanciaW4);
-    Serial.println(" cm ");
-    Serial.println();
+    // Serial.print("Distancia motorW4: ");
+    // Serial.print(distanciaW4);
+    // Serial.println(" cm ");
+    // Serial.println();
 
-    // delay(1000); // Hacemos una pausa de 100m
-    Serial.print("Distancia motorW3: ");
-    Serial.print(distanciaW3);
-    Serial.println(" cm ");
-    Serial.println();
-    // delay(1000); // Hacemos una pausa de 100ms
+    // // delay(1000); // Hacemos una pausa de 100m
+    // Serial.print("Distancia motorW3: ");
+    // Serial.print(distanciaW3);
+    // Serial.println(" cm ");
+    // Serial.println();
+    // // delay(1000); // Hacemos una pausa de 100ms
 
-    Serial.print("Distancia motorW6: ");
-    Serial.print(distanciaW6);
-    Serial.println(" cm ");
-    Serial.println();
-    delay(3000); // Hacemos una pausa de 100ms
+    // Serial.print("Distancia motorW6: ");
+    // Serial.print(distanciaW6);
+    // Serial.println(" cm ");
+    // Serial.println();
+    // delay(50); // Hacemos una pausa de 50ms
 
-    if ((distanciaW1 < 30))
+    if ((distanciaW1 < 80) || (distanciaW3 < 60) || (distanciaW4 < 80) || (distanciaW6 < 60)) //Los motores van hacia atras
     {
-      //|| (distanciaW3 < 30) || (distanciaW4 < 30) || (distanciaW6 < 30)
-      // DC Motors
       // Motor Wheel 1 - Left Front
-      digitalWrite(motorW1_IN1, LOW); // PWM value
-      digitalWrite(motorW1_IN2, LOW); // Forward
+      digitalWrite(motorW1_IN1, LOW);  // all wheels move at the same speed
+      analogWrite(motorW1_IN2, s1PWM); // Forward
       // Motor Wheel 2 - Left Middle
       digitalWrite(motorW2_IN1, LOW);
-      digitalWrite(motorW2_IN2, LOW);
+      analogWrite(motorW2_IN2, s1PWM);
       // Motor Wheel 3 - Left Back
       digitalWrite(motorW3_IN1, LOW);
-      digitalWrite(motorW3_IN2, LOW);
+      analogWrite(motorW3_IN2, s1PWM);
       // right side motors move in opposite direction
       // Motor Wheel 4 - Right Front
-      digitalWrite(motorW4_IN1, LOW);
+      analogWrite(motorW4_IN1, s1PWM);
       digitalWrite(motorW4_IN2, LOW);
       // Motor Wheel 5 - Right Middle
-      digitalWrite(motorW5_IN1, LOW);
+      analogWrite(motorW5_IN1, s1PWM);
       digitalWrite(motorW5_IN2, LOW);
       // Motor Wheel 6 - Right Back
-      digitalWrite(motorW6_IN1, LOW);
+      analogWrite(motorW6_IN1, s1PWM);
       digitalWrite(motorW6_IN2, LOW);
+      return true;
     }
-    return true;
+    
   }
   else
   {
@@ -451,7 +450,7 @@ void loop()
       digitalWrite(motorW6_IN1, LOW);
       analogWrite(motorW6_IN2, s1PWM);
     }
-    else if (IBus.readChannel(5) > 1600)
+    else if (IBus.readChannel(5) > 1600) //HACIA ATRAS
     {
       // Motor Wheel 1 - Left Front
       digitalWrite(motorW1_IN1, LOW);  // all wheels move at the same speed
