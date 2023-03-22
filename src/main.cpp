@@ -135,41 +135,45 @@ bool recibirDistancias()
     // Serial.println();
     // delay(50); // Hacemos una pausa de 50ms
 
-    while ((distanciaW1 < 80) || (distanciaW3 < 60) || (distanciaW4 < 80) || (distanciaW6 < 60)) // Los motores van hacia atras
+    while (true)
     {
-      // Motor Wheel 1 - Left Front
-      digitalWrite(motorW1_IN1, LOW);  // all wheels move at the same speed
-      analogWrite(motorW1_IN2, s1PWM); // Forward
-      // Motor Wheel 2 - Left Middle
-      digitalWrite(motorW2_IN1, LOW);
-      analogWrite(motorW2_IN2, s1PWM);
-      // Motor Wheel 3 - Left Back
-      digitalWrite(motorW3_IN1, LOW);
-      analogWrite(motorW3_IN2, s1PWM);
-      // right side motors move in opposite direction
-      // Motor Wheel 4 - Right Front
-      analogWrite(motorW4_IN1, s1PWM);
-      digitalWrite(motorW4_IN2, LOW);
-      // Motor Wheel 5 - Right Middle
-      analogWrite(motorW5_IN1, s1PWM);
-      digitalWrite(motorW5_IN2, LOW);
-      // Motor Wheel 6 - Right Back
-      analogWrite(motorW6_IN1, s1PWM);
-      digitalWrite(motorW6_IN2, LOW);
+
+      if ((distanciaW1 < 80) || (distanciaW3 < 60) || (distanciaW4 < 80) || (distanciaW6 < 60))
+      {
+        // Motor Wheel 1 - Left Front
+        digitalWrite(motorW1_IN1, LOW);  // all wheels move at the same speed
+        analogWrite(motorW1_IN2, s1PWM); // Forward
+        // Motor Wheel 2 - Left Middle
+        digitalWrite(motorW2_IN1, LOW);
+        analogWrite(motorW2_IN2, s1PWM);
+        // Motor Wheel 3 - Left Back
+        digitalWrite(motorW3_IN1, LOW);
+        analogWrite(motorW3_IN2, s1PWM);
+        // right side motors move in opposite direction
+        // Motor Wheel 4 - Right Front
+        analogWrite(motorW4_IN1, s1PWM);
+        digitalWrite(motorW4_IN2, LOW);
+        // Motor Wheel 5 - Right Middle
+        analogWrite(motorW5_IN1, s1PWM);
+        digitalWrite(motorW5_IN2, LOW);
+        // Motor Wheel 6 - Right Back
+        analogWrite(motorW6_IN1, s1PWM);
+        digitalWrite(motorW6_IN2, LOW);
+      }
+      else
+      {
+        break;
+      }
     }
-    else
-    {
-      break;}
   }
 }
+//     return true;
+//   }
 
-    //     return true;
-    //   }
-
-    // }
-    // else
-    // {
-    //   return false;
+// }
+// else
+// {
+//   return false;
 void setup()
 {
 
