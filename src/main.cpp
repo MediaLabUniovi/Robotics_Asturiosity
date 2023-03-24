@@ -199,11 +199,11 @@ void setup()
 {
 
   // Use this if you need to change the frequency of the PWM signals
-  TCCR4B = TCCR4B & B11111000 | B00000101; // D6,D7,D8 PWM frequency of 30.64 Hz
-  TCCR2B = TCCR2B & B11111000 | B00000111; // D9, D10 PWM frequency of 30.64 Hz
-  TCCR1B = TCCR1B & B11111000 | B00000101; // D11, D12  PWM frequency of 30.64 Hz
-  TCCR5B = TCCR5B & B11111000 | B00000101; // D4, D13 PWM frequency of 30.64 Hz
-  TCCR3B = TCCR3B & B11111000 | B00000101; // D2, D3, D5 PWM frequency of 30.64 Hz
+  // TCCR4B = TCCR4B & B11111000 | B00000101; // D6,D7,D8 PWM frequency of 30.64 Hz
+  // TCCR2B = TCCR2B & B11111000 | B00000111; // D9, D10 PWM frequency of 30.64 Hz
+  // TCCR1B = TCCR1B & B11111000 | B00000101; // D11, D12  PWM frequency of 30.64 Hz
+  // TCCR5B = TCCR5B & B11111000 | B00000101; // D4, D13 PWM frequency of 30.64 Hz
+  // TCCR3B = TCCR3B & B11111000 | B00000101; // D2, D3, D5 PWM frequency of 30.64 Hz
 
   // DC Motors
   // Motor Wheel 1 - Left Front
@@ -261,7 +261,7 @@ void loop()
   //* 4 SENSORES
   // receiveDistances(); // Lee las distancias desde el Arduino Nano
   // delay(500);
-  void recibirDistancias();
+  
 
   // Reading the data comming from the RC Transmitter
   IBus.loop();
@@ -296,6 +296,7 @@ void loop()
   calculateMotorsSpeed(s, s1, s2, s3);
   calculateServoAngle();
 
+  recibirDistancias();
   // Steer right
   if (IBus.readChannel(0) > 1550)
   {
