@@ -96,7 +96,7 @@ void calculateServoAngle()
 // }
 
 //* 4 SENSORES
-bool recibirDistancias()
+void recibirDistancias()
 {
 
   // esperar hasta que se reciba un mensaje completo
@@ -138,7 +138,7 @@ bool recibirDistancias()
     while (true)
     {
 
-      if ((distanciaW1 < 80) || (distanciaW3 < 60) || (distanciaW4 < 80) || (distanciaW6 < 60)) //Los motores van para atras
+      if ((distanciaW1 < 80) || (distanciaW4 < 80)) // Los motores van para atras
       {
         // Motor Wheel 1 - Left Front
         digitalWrite(motorW1_IN1, LOW);  // all wheels move at the same speed
@@ -164,9 +164,35 @@ bool recibirDistancias()
       {
         break;
       }
+
+      if ((distanciaW3 < 60) || (distanciaW6 < 60)) // Los motores van para adelante
+      {
+        // Motor Wheel 1 - Left Front
+        analogWrite(motorW1_IN1, s1PWM); // all wheels move at the same speed
+        digitalWrite(motorW1_IN2, LOW);  // Forward
+        // Motor Wheel 2 - Left Middle
+        analogWrite(motorW2_IN1, s1PWM);
+        digitalWrite(motorW2_IN2, LOW);
+        // Motor Wheel 3 - Left Back
+        analogWrite(motorW3_IN1, s1PWM);
+        digitalWrite(motorW3_IN2, LOW);
+        // right side motors move in opposite direction
+        // Motor Wheel 4 - Right Front
+        digitalWrite(motorW4_IN1, LOW);
+        analogWrite(motorW4_IN2, s1PWM);
+        // Motor Wheel 5 - Right Middle
+        digitalWrite(motorW5_IN1, LOW);
+        analogWrite(motorW5_IN2, s1PWM);
+        // Motor Wheel 6 - Right Back
+        digitalWrite(motorW6_IN1, LOW);
+        analogWrite(motorW6_IN2, s1PWM);
+      }
+      else
+      {
+        break;
+      }
     }
   }
-  return false;
 }
 //     return true;
 //   }
@@ -234,7 +260,7 @@ void loop()
   //* 4 SENSORES
   // receiveDistances(); // Lee las distancias desde el Arduino Nano
   // delay(500);
-  recibirDistancias();
+  void recibirDistancias();
 
   // Reading the data comming from the RC Transmitter
   IBus.loop();
