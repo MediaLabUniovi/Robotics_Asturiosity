@@ -133,7 +133,7 @@ void recibirDistancias()
     // Serial.print(distanciaW6);
     // Serial.println(" cm ");
     // Serial.println();
-    // delay(50); // Hacemos una pausa de 50ms
+    // //delay(50); // Hacemos una pausa de 50ms
 
     while (true)
     {
@@ -297,6 +297,7 @@ void loop()
   calculateServoAngle();
 
   recibirDistancias();
+
   // Steer right
   if (IBus.readChannel(0) > 1550)
   {
