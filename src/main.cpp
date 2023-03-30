@@ -329,7 +329,7 @@ void loop()
   calculateServoAngle();
 
   //* Sensors available
-  if (IBus.readChannel(4) < 1400)
+  while (IBus.readChannel(4) < 1400)
   {
     recibirDistancias();
     if ((distances[0] < 60) || (distances[1]) < 60 || (distances[2]) < 60 || (distances[3]) < 60)
@@ -354,15 +354,11 @@ void loop()
       // Motor Wheel 6 - Right Back
       digitalWrite(motorW6_IN1, LOW);
       digitalWrite(motorW6_IN2, LOW);
-
-      while(1){
-
-      }
+      
     }
-
-    // else if (IBus.readChannel(4) > 1600){
-    //   break;
-    // }
+    else if (IBus.readChannel(4) > 1600){
+      break;
+    }
   }
 
   //* Steer right
