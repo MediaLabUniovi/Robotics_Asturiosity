@@ -186,7 +186,7 @@ void recibirDistancias()
     Serial.println();
     // //delay(50); // Hacemos una pausa de 50ms
 
-    if ((distanciaW1 < 80) || (distanciaW4 < 80)) // Los motores van para atras
+    if ((distanciaW1 < 60) || (distanciaW4 < 60)) // Los motores van para atras
     {
       motorBackward();
       if (!motor_backwards)
