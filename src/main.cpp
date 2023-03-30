@@ -52,6 +52,7 @@ float d3 = 301;
 float d4 = 304;
 
 unsigned long start_backwards_time = 0; // Tiempo en milisegundos cuando se inició el movimiento hacia atrás
+bool motor_backwards;
 
 void calculateMotorsSpeed(int s, int s1, int s2, int s3)
 {
@@ -204,18 +205,13 @@ void recibirDistancias()
       }
     }
 
-    if (!motor_backwards)
-    { // Si el motor no está moviéndose hacia atrás, lo movemos hacia adelante
-      motorForward();
-    }
-    }
-
     if ((distanciaW3 < 60) || (distanciaW6 < 60)) // Los motores van para adelante
     {
       motorForwards();
     }
   }
 }
+
 
 void setup()
 {
