@@ -110,6 +110,8 @@ void recibirDistancias()
     int distanciaW4 = Serial3.read();
     int distanciaW6 = Serial3.read();
 
+    
+
     // // imprimir las distancias en el monitor serie Serial
     // Serial.print("Distancia motorW1: ");
     // Serial.print(distanciaW1);
@@ -134,6 +136,7 @@ void recibirDistancias()
     // Serial.println(" cm ");
     // Serial.println();
     // //delay(50); // Hacemos una pausa de 50ms
+    
 
     while (true)
     {
