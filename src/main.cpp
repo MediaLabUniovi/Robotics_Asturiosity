@@ -186,47 +186,47 @@ void recibirDistancias()
     Serial.println();
     // //delay(50); // Hacemos una pausa de 50ms
 
-    if ((distanciaW1 < 60) || (distanciaW4 < 60)) // Los motores van para atras
-    {
-      motorBackward();
-      if (!motor_backwards)
-      {
-        motor_backwards = true;
-        start_backwards_time = millis(); // Guardamos el tiempo en milisegundos
-      }
-    }
-    else
-    {
-      if (motor_backwards && millis() - start_backwards_time > 1000)
-      {                          // Si han pasado 10 segundos desde que empezó el movimiento hacia atrás
-        motor_backwards = false; // Reiniciamos el estado del motor
-      }
-      else
-      { // Si no han pasado 10 segundos, seguimos moviendo el motor hacia atrás
-        motorBackward();
-      }
-    }
+    // if ((distanciaW1 < 60) || (distanciaW4 < 60)) // Los motores van para atras
+    // {
+    //   motorBackward();
+    //   if (!motor_backwards)
+    //   {
+    //     motor_backwards = true;
+    //     start_backwards_time = millis(); // Guardamos el tiempo en milisegundos
+    //   }
+    // }
+    // else
+    // {
+    //   if (motor_backwards && millis() - start_backwards_time > 1000)
+    //   {                          // Si han pasado 10 segundos desde que empezó el movimiento hacia atrás
+    //     motor_backwards = false; // Reiniciamos el estado del motor
+    //   }
+    //   else
+    //   { // Si no han pasado 10 segundos, seguimos moviendo el motor hacia atrás
+    //     motorBackward();
+    //   }
+    // }
 
-    if ((distanciaW3 < 60) || (distanciaW6 < 60)) // Los motores van para adelante
-    {
-      motorForward();
-      if (!motor_forwards)
-      {
-        motor_forwards = true;
-        start_forwards_time = millis(); // Guardamos el tiempo en milisegundos
-      }
-    }
-    else
-    {
-      if (motor_forwards && millis() - start_forwards_time > 1000)
-      {                          // Si han pasado 10 segundos desde que empezó el movimiento hacia adelante
-        motor_forwards = false; // Reiniciamos el estado del motor
-      }
-      else
-      { // Si no han pasado 10 segundos, seguimos moviendo el motor hacia adelante
-        motorForward();
-      }
-    }
+    // if ((distanciaW3 < 60) || (distanciaW6 < 60)) // Los motores van para adelante
+    // {
+    //   motorForward();
+    //   if (!motor_forwards)
+    //   {
+    //     motor_forwards = true;
+    //     start_forwards_time = millis(); // Guardamos el tiempo en milisegundos
+    //   }
+    // }
+    // else
+    // {
+    //   if (motor_forwards && millis() - start_forwards_time > 1000)
+    //   {                          // Si han pasado 10 segundos desde que empezó el movimiento hacia adelante
+    //     motor_forwards = false; // Reiniciamos el estado del motor
+    //   }
+    //   else
+    //   { // Si no han pasado 10 segundos, seguimos moviendo el motor hacia adelante
+    //     motorForward();
+    //   }
+    // }
     
   }
 }
