@@ -186,6 +186,28 @@ void recibirDistancias()
     if ((distanciaW1 < 80) || (distanciaW4 < 80)) // Los motores van para atras
     {
       motorBackwards();
+      if (!motor_backwards)
+      {
+        motor_backwards = true;
+        start_backwards_time = millis(); // Guardamos el tiempo en milisegundos
+      }
+    }
+    else
+    {
+      if (motor_backwards && millis() - start_backwards_time > 1000)
+      {                          // Si han pasado 10 segundos desde que empezó el movimiento hacia atrás
+        motor_backwards = false; // Reiniciamos el estado del motor
+      }
+      else
+      { // Si no han pasado 10 segundos, seguimos moviendo el motor hacia atrás
+        motorBackward();
+      }
+    }
+
+    if (!motor_backwards)
+    { // Si el motor no está moviéndose hacia atrás, lo movemos hacia adelante
+      motorForward();
+    }
     }
 
     if ((distanciaW3 < 60) || (distanciaW6 < 60)) // Los motores van para adelante
