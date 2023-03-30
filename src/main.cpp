@@ -53,7 +53,6 @@ float d4 = 304;
 
 unsigned long start_backwards_time = 0; // Tiempo en milisegundos cuando se inició el movimiento hacia atrás
 
-
 void calculateMotorsSpeed(int s, int s1, int s2, int s3)
 {
   // if no steering, all wheels speed is the same - straight move
@@ -98,6 +97,52 @@ void calculateServoAngle()
 //   return data;
 // }
 
+void motorForwards()
+{
+  // Motor Wheel 1 - Left Front
+  analogWrite(motorW1_IN1, s1PWM); // all wheels move at the same speed
+  digitalWrite(motorW1_IN2, LOW);  // Forward
+  // Motor Wheel 2 - Left Middle
+  analogWrite(motorW2_IN1, s1PWM);
+  digitalWrite(motorW2_IN2, LOW);
+  // Motor Wheel 3 - Left Back
+  analogWrite(motorW3_IN1, s1PWM);
+  digitalWrite(motorW3_IN2, LOW);
+  // right side motors move in opposite direction
+  // Motor Wheel 4 - Right Front
+  digitalWrite(motorW4_IN1, LOW);
+  analogWrite(motorW4_IN2, s1PWM);
+  // Motor Wheel 5 - Right Middle
+  digitalWrite(motorW5_IN1, LOW);
+  analogWrite(motorW5_IN2, s1PWM);
+  // Motor Wheel 6 - Right Back
+  digitalWrite(motorW6_IN1, LOW);
+  analogWrite(motorW6_IN2, s1PWM);
+}
+
+void motorBackwards()
+{
+  // Motor Wheel 1 - Left Front
+  digitalWrite(motorW1_IN1, LOW);  // all wheels move at the same speed
+  analogWrite(motorW1_IN2, s1PWM); // Forward
+  // Motor Wheel 2 - Left Middle
+  digitalWrite(motorW2_IN1, LOW);
+  analogWrite(motorW2_IN2, s1PWM);
+  // Motor Wheel 3 - Left Back
+  digitalWrite(motorW3_IN1, LOW);
+  analogWrite(motorW3_IN2, s1PWM);
+  // right side motors move in opposite direction
+  // Motor Wheel 4 - Right Front
+  analogWrite(motorW4_IN1, s1PWM);
+  digitalWrite(motorW4_IN2, LOW);
+  // Motor Wheel 5 - Right Middle
+  analogWrite(motorW5_IN1, s1PWM);
+  digitalWrite(motorW5_IN2, LOW);
+  // Motor Wheel 6 - Right Back
+  analogWrite(motorW6_IN1, s1PWM);
+  digitalWrite(motorW6_IN2, LOW);
+}
+
 //* 4 SENSORES
 void recibirDistancias()
 {
@@ -140,48 +185,12 @@ void recibirDistancias()
 
     if ((distanciaW1 < 80) || (distanciaW4 < 80)) // Los motores van para atras
     {
-      // Motor Wheel 1 - Left Front
-      digitalWrite(motorW1_IN1, LOW);  // all wheels move at the same speed
-      analogWrite(motorW1_IN2, s1PWM); // Forward
-      // Motor Wheel 2 - Left Middle
-      digitalWrite(motorW2_IN1, LOW);
-      analogWrite(motorW2_IN2, s1PWM);
-      // Motor Wheel 3 - Left Back
-      digitalWrite(motorW3_IN1, LOW);
-      analogWrite(motorW3_IN2, s1PWM);
-      // right side motors move in opposite direction
-      // Motor Wheel 4 - Right Front
-      analogWrite(motorW4_IN1, s1PWM);
-      digitalWrite(motorW4_IN2, LOW);
-      // Motor Wheel 5 - Right Middle
-      analogWrite(motorW5_IN1, s1PWM);
-      digitalWrite(motorW5_IN2, LOW);
-      // Motor Wheel 6 - Right Back
-      analogWrite(motorW6_IN1, s1PWM);
-      digitalWrite(motorW6_IN2, LOW);
+      motorBackwards();
     }
 
     if ((distanciaW3 < 60) || (distanciaW6 < 60)) // Los motores van para adelante
     {
-      // Motor Wheel 1 - Left Front
-      analogWrite(motorW1_IN1, s1PWM); // all wheels move at the same speed
-      digitalWrite(motorW1_IN2, LOW);  // Forward
-      // Motor Wheel 2 - Left Middle
-      analogWrite(motorW2_IN1, s1PWM);
-      digitalWrite(motorW2_IN2, LOW);
-      // Motor Wheel 3 - Left Back
-      analogWrite(motorW3_IN1, s1PWM);
-      digitalWrite(motorW3_IN2, LOW);
-      // right side motors move in opposite direction
-      // Motor Wheel 4 - Right Front
-      digitalWrite(motorW4_IN1, LOW);
-      analogWrite(motorW4_IN2, s1PWM);
-      // Motor Wheel 5 - Right Middle
-      digitalWrite(motorW5_IN1, LOW);
-      analogWrite(motorW5_IN2, s1PWM);
-      // Motor Wheel 6 - Right Back
-      digitalWrite(motorW6_IN1, LOW);
-      analogWrite(motorW6_IN2, s1PWM);
+      motorForwards();
     }
   }
 }
