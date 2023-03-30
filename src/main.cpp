@@ -54,10 +54,10 @@ float d2 = 278;
 float d3 = 301;
 float d4 = 304;
 
-unsigned long start_backwards_time = 0; // Tiempo en milisegundos cuando se inició el movimiento hacia atrás
-bool motor_backwards;
-unsigned long start_forwards_time = 0; // Tiempo en milisegundos cuando se inició el movimiento hacia adelante
-bool motor_forwards;
+// unsigned long start_backwards_time = 0; // Tiempo en milisegundos cuando se inició el movimiento hacia atrás
+// bool motor_backwards;
+// unsigned long start_forwards_time = 0; // Tiempo en milisegundos cuando se inició el movimiento hacia adelante
+// bool motor_forwards;
 int distances[4];
 
 void calculateMotorsSpeed(int s, int s1, int s2, int s3)
@@ -150,6 +150,30 @@ void motorBackward()
   digitalWrite(motorW6_IN2, LOW);
 }
 
+void motorStop()
+{
+  // DC Motors
+  // Motor Wheel 1 - Left Front
+  digitalWrite(motorW1_IN1, LOW); // PWM value
+  digitalWrite(motorW1_IN2, LOW); // Forward
+  // Motor Wheel 2 - Left Middle
+  digitalWrite(motorW2_IN1, LOW);
+  digitalWrite(motorW2_IN2, LOW);
+  // Motor Wheel 3 - Left Back
+  digitalWrite(motorW3_IN1, LOW);
+  digitalWrite(motorW3_IN2, LOW);
+  // right side motors move in opposite direction
+  // Motor Wheel 4 - Right Front
+  digitalWrite(motorW4_IN1, LOW);
+  digitalWrite(motorW4_IN2, LOW);
+  // Motor Wheel 5 - Right Middle
+  digitalWrite(motorW5_IN1, LOW);
+  digitalWrite(motorW5_IN2, LOW);
+  // Motor Wheel 6 - Right Back
+  digitalWrite(motorW6_IN1, LOW);
+  digitalWrite(motorW6_IN2, LOW);
+}
+
 //* 4 SENSORES
 void recibirDistancias()
 {
@@ -167,39 +191,41 @@ void recibirDistancias()
       Serial.print(" ");
     }
     Serial.println();
-  }
-  // while (true)
-  // {
-  //   if ((distances[0] < 60) || (distances[3] < 60)) // Los motores van para atras
-  //   {
-  //     motorBackward();
-  //     start_backwards_time = millis(); // Guardamos el tiempo en milisegundos
-  //   }
-  //   else
-  //   {
-  //     if (motor_backwards && millis() - start_backwards_time > 1000 && ((distances[0] < 60) || (distances[3] < 60)))
-  //     {                          // Si han pasado 10 segundos desde que empezó el movimiento hacia atrás
-  //       motor_backwards = false; // Reiniciamos el estado del motor
-  //     }
-  //     else
-  //     { // Si no han pasado 10 segundos, seguimos moviendo el motor hacia atrás
-  //       motorBackward();
-  //     }
-  //   }
 
-  //   if ((distances[2] < 60) || (distances[4] < 60)) // Los motores van para adelante
-  //   {
-  //     motorForward();
-  //     start_forwards_time = millis(); // Guardamos el tiempo en milisegundos
-  //   }
-  //   else
-  //   {
-  //     if (motor_forwards && millis() - start_forwards_time > 1000 && ((distances[2] < 60) || (distances[4] < 60)))
-  //     {
-  //       break;
-  //     }
-  //   }
-  // }
+    // if ((distances[0] < 60) || (distances[3] < 60)) // Los motores van para atras
+    // {
+    //   motorBackward();
+    //   start_backwards_time = millis(); // Guardamos el tiempo en milisegundos
+    // }
+    // else
+    // {
+    //   if (motor_backwards && millis() - start_backwards_time > 1000 && ((distances[0] < 60) || (distances[3] < 60)))
+    //   {                          // Si han pasado 10 segundos desde que empezó el movimiento hacia atrás
+    //     motor_backwards = false; // Reiniciamos el estado del motor
+    //   }
+    //   else
+    //   { // Si no han pasado 10 segundos, seguimos moviendo el motor hacia atrás
+    //     motorBackward();
+    //   }
+    // }
+
+    // if ((distances[2] < 60) || (distances[4] < 60)) // Los motores van para adelante
+    // {
+    //   motorForward();
+    //   start_forwards_time = millis(); // Guardamos el tiempo en milisegundos
+    // }
+    // else
+    // {
+    //   if (motor_forwards && millis() - start_forwards_time > 1000 && ((distances[2] < 60) || (distances[4] < 60)))
+    //   {                         // Si han pasado 10 segundos desde que empezó el movimiento hacia atrás
+    //     motor_forwards = false; // Reiniciamos el estado del motor
+    //   }
+    //   else
+    //   { // Si no han pasado 10 segundos, seguimos moviendo el motor hacia atrás
+    //     motorForward();
+    //   }
+    // }
+  }
 }
 
 void setup()
@@ -274,7 +300,7 @@ void loop()
   ch0 = IBus.readChannel(0); // Channel 1 Girar
   ch1 = IBus.readChannel(1); // Channel 2 NO
   ch2 = IBus.readChannel(2); // Channel 3 Speed
-  ch3 = IBus.readChannel(3); // Channel 4 NO
+  ch3 = IBus.readChannel(3); // Channel 4  SENSORS
   ch4 = IBus.readChannel(4); // Channel 5 NO
   ch5 = IBus.readChannel(5); // Channel 6 Direction
 
@@ -302,9 +328,44 @@ void loop()
   calculateMotorsSpeed(s, s1, s2, s3);
   calculateServoAngle();
 
-  recibirDistancias();
+  //* Sensors available
+  if (IBus.readChannel(4) < 1400)
+  {
+    recibirDistancias();
+    if ((distances[0] < 60) || (distances[1]) < 60 || (distances[2]) < 60 || (distances[3]) < 60)
+    {
+      // DC Motors
+      // Motor Wheel 1 - Left Front
+      digitalWrite(motorW1_IN1, LOW); // PWM value
+      digitalWrite(motorW1_IN2, LOW); // Forward
+      // Motor Wheel 2 - Left Middle
+      digitalWrite(motorW2_IN1, LOW);
+      digitalWrite(motorW2_IN2, LOW);
+      // Motor Wheel 3 - Left Back
+      digitalWrite(motorW3_IN1, LOW);
+      digitalWrite(motorW3_IN2, LOW);
+      // right side motors move in opposite direction
+      // Motor Wheel 4 - Right Front
+      digitalWrite(motorW4_IN1, LOW);
+      digitalWrite(motorW4_IN2, LOW);
+      // Motor Wheel 5 - Right Middle
+      digitalWrite(motorW5_IN1, LOW);
+      digitalWrite(motorW5_IN2, LOW);
+      // Motor Wheel 6 - Right Back
+      digitalWrite(motorW6_IN1, LOW);
+      digitalWrite(motorW6_IN2, LOW);
 
-  // Steer right
+      while(1){
+
+      }
+    }
+
+    // else if (IBus.readChannel(4) > 1600){
+    //   break;
+    // }
+  }
+
+  //* Steer right
   if (IBus.readChannel(0) > 1550)
   {
     // Servo motors
