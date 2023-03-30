@@ -329,10 +329,11 @@ void loop()
   calculateServoAngle();
 
   //* Sensors available
-  while (IBus.readChannel(4) < 1400)
+  if (IBus.readChannel(4) < 1600)
   {
+    Serial.println("hola");
     recibirDistancias();
-    if ((distances[0] < 60) || (distances[1]) < 60 || (distances[2]) < 60 || (distances[3]) < 60)
+    while ((distances[0] < 60) || (distances[1]) < 60 || (distances[2]) < 60 || (distances[3]) < 60)
     {
       // DC Motors
       // Motor Wheel 1 - Left Front
@@ -356,11 +357,8 @@ void loop()
       digitalWrite(motorW6_IN2, LOW);
       
     }
-    else if (IBus.readChannel(4) > 1600){
-      break;
-    }
   }
-
+  
   //* Steer right
   if (IBus.readChannel(0) > 1550)
   {
