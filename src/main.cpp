@@ -53,6 +53,8 @@ float d4 = 304;
 
 unsigned long start_backwards_time = 0; // Tiempo en milisegundos cuando se inició el movimiento hacia atrás
 bool motor_backwards;
+unsigned long start_forwards_time = 0; // Tiempo en milisegundos cuando se inició el movimiento hacia adelante
+bool motor_forwards;
 
 void calculateMotorsSpeed(int s, int s1, int s2, int s3)
 {
@@ -98,7 +100,7 @@ void calculateServoAngle()
 //   return data;
 // }
 
-void motorForwards()
+void motorForward()
 {
   // Motor Wheel 1 - Left Front
   analogWrite(motorW1_IN1, s1PWM); // all wheels move at the same speed
@@ -121,7 +123,7 @@ void motorForwards()
   analogWrite(motorW6_IN2, s1PWM);
 }
 
-void motorBackwards()
+void motorBackward()
 {
   // Motor Wheel 1 - Left Front
   digitalWrite(motorW1_IN1, LOW);  // all wheels move at the same speed
@@ -186,7 +188,7 @@ void recibirDistancias()
 
     if ((distanciaW1 < 80) || (distanciaW4 < 80)) // Los motores van para atras
     {
-      motorBackwards();
+      motorBackward();
       if (!motor_backwards)
       {
         motor_backwards = true;
@@ -207,8 +209,25 @@ void recibirDistancias()
 
     if ((distanciaW3 < 60) || (distanciaW6 < 60)) // Los motores van para adelante
     {
-      motorForwards();
+      motorForward();
+      if (!motor_forwards)
+      {
+        motor_forwards = true;
+        start_forwards_time = millis(); // Guardamos el tiempo en milisegundos
+      }
     }
+    else
+    {
+      if (motor_forwards && millis() - start_forwards_time > 1000)
+      {                          // Si han pasado 10 segundos desde que empezó el movimiento hacia adelante
+        motor_forwards = false; // Reiniciamos el estado del motor
+      }
+      else
+      { // Si no han pasado 10 segundos, seguimos moviendo el motor hacia adelante
+        motorForward();
+      }
+    }
+    
   }
 }
 
