@@ -162,28 +162,28 @@ void recibirDistancias()
     int distanciaW6 = Serial3.read();
 
     // // imprimir las distancias en el monitor serie Serial
-    // Serial.print("Distancia motorW1: ");
-    // Serial.print(distanciaW1);
-    // Serial.println(" cm ");
-    // Serial.println();
+    Serial.print("Distancia motorW1: ");
+    Serial.print(distanciaW1);
+    Serial.println(" cm ");
+    Serial.println();
     // // delay(1000); // Hacemos una pausa de 100ms
 
-    // Serial.print("Distancia motorW4: ");
-    // Serial.print(distanciaW4);
-    // Serial.println(" cm ");
-    // Serial.println();
+    Serial.print("Distancia motorW4: ");
+    Serial.print(distanciaW4);
+    Serial.println(" cm ");
+    Serial.println();
 
     // // delay(1000); // Hacemos una pausa de 100m
-    // Serial.print("Distancia motorW3: ");
-    // Serial.print(distanciaW3);
-    // Serial.println(" cm ");
-    // Serial.println();
+    Serial.print("Distancia motorW3: ");
+    Serial.print(distanciaW3);
+    Serial.println(" cm ");
+    Serial.println();
     // // delay(1000); // Hacemos una pausa de 100ms
 
-    // Serial.print("Distancia motorW6: ");
-    // Serial.print(distanciaW6);
-    // Serial.println(" cm ");
-    // Serial.println();
+    Serial.print("Distancia motorW6: ");
+    Serial.print(distanciaW6);
+    Serial.println(" cm ");
+    Serial.println();
     // //delay(50); // Hacemos una pausa de 50ms
 
     if ((distanciaW1 < 80) || (distanciaW4 < 80)) // Los motores van para atras
