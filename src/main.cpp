@@ -110,8 +110,6 @@ void recibirDistancias()
     int distanciaW4 = Serial3.read();
     int distanciaW6 = Serial3.read();
 
-    
-
     // // imprimir las distancias en el monitor serie Serial
     // Serial.print("Distancia motorW1: ");
     // Serial.print(distanciaW1);
@@ -136,64 +134,51 @@ void recibirDistancias()
     // Serial.println(" cm ");
     // Serial.println();
     // //delay(50); // Hacemos una pausa de 50ms
-    
 
-    while (true)
+    if ((distanciaW1 < 80) || (distanciaW4 < 80)) // Los motores van para atras
     {
+      // Motor Wheel 1 - Left Front
+      digitalWrite(motorW1_IN1, LOW);  // all wheels move at the same speed
+      analogWrite(motorW1_IN2, s1PWM); // Forward
+      // Motor Wheel 2 - Left Middle
+      digitalWrite(motorW2_IN1, LOW);
+      analogWrite(motorW2_IN2, s1PWM);
+      // Motor Wheel 3 - Left Back
+      digitalWrite(motorW3_IN1, LOW);
+      analogWrite(motorW3_IN2, s1PWM);
+      // right side motors move in opposite direction
+      // Motor Wheel 4 - Right Front
+      analogWrite(motorW4_IN1, s1PWM);
+      digitalWrite(motorW4_IN2, LOW);
+      // Motor Wheel 5 - Right Middle
+      analogWrite(motorW5_IN1, s1PWM);
+      digitalWrite(motorW5_IN2, LOW);
+      // Motor Wheel 6 - Right Back
+      analogWrite(motorW6_IN1, s1PWM);
+      digitalWrite(motorW6_IN2, LOW);
+    }
 
-      if ((distanciaW1 < 80) || (distanciaW4 < 80)) // Los motores van para atras
-      {
-        // Motor Wheel 1 - Left Front
-        digitalWrite(motorW1_IN1, LOW);  // all wheels move at the same speed
-        analogWrite(motorW1_IN2, s1PWM); // Forward
-        // Motor Wheel 2 - Left Middle
-        digitalWrite(motorW2_IN1, LOW);
-        analogWrite(motorW2_IN2, s1PWM);
-        // Motor Wheel 3 - Left Back
-        digitalWrite(motorW3_IN1, LOW);
-        analogWrite(motorW3_IN2, s1PWM);
-        // right side motors move in opposite direction
-        // Motor Wheel 4 - Right Front
-        analogWrite(motorW4_IN1, s1PWM);
-        digitalWrite(motorW4_IN2, LOW);
-        // Motor Wheel 5 - Right Middle
-        analogWrite(motorW5_IN1, s1PWM);
-        digitalWrite(motorW5_IN2, LOW);
-        // Motor Wheel 6 - Right Back
-        analogWrite(motorW6_IN1, s1PWM);
-        digitalWrite(motorW6_IN2, LOW);
-      }
-      else
-      {
-        break;
-      }
-
-      if ((distanciaW3 < 60) || (distanciaW6 < 60)) // Los motores van para adelante
-      {
-        // Motor Wheel 1 - Left Front
-        analogWrite(motorW1_IN1, s1PWM); // all wheels move at the same speed
-        digitalWrite(motorW1_IN2, LOW);  // Forward
-        // Motor Wheel 2 - Left Middle
-        analogWrite(motorW2_IN1, s1PWM);
-        digitalWrite(motorW2_IN2, LOW);
-        // Motor Wheel 3 - Left Back
-        analogWrite(motorW3_IN1, s1PWM);
-        digitalWrite(motorW3_IN2, LOW);
-        // right side motors move in opposite direction
-        // Motor Wheel 4 - Right Front
-        digitalWrite(motorW4_IN1, LOW);
-        analogWrite(motorW4_IN2, s1PWM);
-        // Motor Wheel 5 - Right Middle
-        digitalWrite(motorW5_IN1, LOW);
-        analogWrite(motorW5_IN2, s1PWM);
-        // Motor Wheel 6 - Right Back
-        digitalWrite(motorW6_IN1, LOW);
-        analogWrite(motorW6_IN2, s1PWM);
-      }
-      else
-      {
-        break;
-      }
+    if ((distanciaW3 < 60) || (distanciaW6 < 60)) // Los motores van para adelante
+    {
+      // Motor Wheel 1 - Left Front
+      analogWrite(motorW1_IN1, s1PWM); // all wheels move at the same speed
+      digitalWrite(motorW1_IN2, LOW);  // Forward
+      // Motor Wheel 2 - Left Middle
+      analogWrite(motorW2_IN1, s1PWM);
+      digitalWrite(motorW2_IN2, LOW);
+      // Motor Wheel 3 - Left Back
+      analogWrite(motorW3_IN1, s1PWM);
+      digitalWrite(motorW3_IN2, LOW);
+      // right side motors move in opposite direction
+      // Motor Wheel 4 - Right Front
+      digitalWrite(motorW4_IN1, LOW);
+      analogWrite(motorW4_IN2, s1PWM);
+      // Motor Wheel 5 - Right Middle
+      digitalWrite(motorW5_IN1, LOW);
+      analogWrite(motorW5_IN2, s1PWM);
+      // Motor Wheel 6 - Right Back
+      digitalWrite(motorW6_IN1, LOW);
+      analogWrite(motorW6_IN2, s1PWM);
     }
   }
 }
@@ -264,7 +249,6 @@ void loop()
   //* 4 SENSORES
   // receiveDistances(); // Lee las distancias desde el Arduino Nano
   // delay(500);
-  
 
   // Reading the data comming from the RC Transmitter
   IBus.loop();
