@@ -51,6 +51,9 @@ float d2 = 278;
 float d3 = 301;
 float d4 = 304;
 
+unsigned long start_backwards_time = 0; // Tiempo en milisegundos cuando se inició el movimiento hacia atrás
+
+
 void calculateMotorsSpeed(int s, int s1, int s2, int s3)
 {
   // if no steering, all wheels speed is the same - straight move
