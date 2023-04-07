@@ -35,18 +35,18 @@ ServoEasing servoW6;
 IBusBM IBus;
 IBusBM IBusSensor;
 
-int angle = 0; // servo position in degrees
+int angle = 0; // posición del servo en grados
 int ch0, ch1, ch2, ch3, ch4, ch5 = 0;
-int servo1Angle = 90;
+int servo1Angle = 90; // En el instante primero de encendido los 4 servos de ponen a 90º
 int servo3Angle = 90;
 int servo4Angle = 90;
 int servo6Angle = 90;
-int s = 0; // rover speed
-int r = 0; // turning radius
+int s = 0; // velocidad del rover
+int r = 0; // radio de giro
 int m1, m2, m3, m4, m5, m6;
 
-float s1, s2, s3 = 0;
-float s1PWM, s2PWM, s3PWM = 0;
+float s1, s2, s3 = 0; // 3 velocidades distintas
+float s1PWM, s2PWM, s3PWM = 0; // Velocidades de los PWM escaladas
 float thetaInnerFront, thetaInnerBack, thetaOuterFront, thetaOuterBack = 0;
 
 float d1 = 271; // distancia in mm
@@ -58,8 +58,12 @@ float d4 = 304;
 // bool motor_backwards;
 // unsigned long start_forwards_time = 0; // Tiempo en milisegundos cuando se inició el movimiento hacia adelante
 // bool motor_forwards;
-int distances[4];
+int distances[4]; // 4 distancias enviadas por comunicación serial
 
+//* DECLARACIÓN DE FUNCIONES
+
+
+//* Calcular las 3 velocidades que puede tener el rover segun el radio de giro
 void calculateMotorsSpeed(int s, int s1, int s2, int s3)
 {
   // if no steering, all wheels speed is the same - straight move
@@ -85,6 +89,8 @@ void calculateMotorsSpeed(int s, int s1, int s2, int s3)
   s3PWM = map(round(s3), 0, 100, 0, 255);
 }
 
+
+//* Calcular angulo de los servos
 void calculateServoAngle()
 {
   // Calculate the angle for each servo for the input turning radius "r"
@@ -103,6 +109,8 @@ void calculateServoAngle()
 //   int data = Serial3.parseInt(); // Lee los datos del puerto serial
 //   return data;
 // }
+
+//* Función para que el rover vaya hacia delante y recto
 
 void motorForward()
 {
@@ -127,6 +135,7 @@ void motorForward()
   analogWrite(motorW6_IN2, s1PWM);
 }
 
+//* Función para que el rover vaya hacia atrás y recto
 void motorBackward()
 {
   // Motor Wheel 1 - Left Front
@@ -150,6 +159,7 @@ void motorBackward()
   digitalWrite(motorW6_IN2, LOW);
 }
 
+//* Función en la que el rover para sus motores y está sin moverse
 void motorStop()
 {
   // DC Motors
@@ -295,7 +305,7 @@ void loop()
   // receiveDistances(); // Lee las distancias desde el Arduino Nano
   // delay(500);
 
-  // Reading the data comming from the RC Transmitter
+  //* Declaración de los canales en los que se leerán los datos que se reciben del trasmisor RC.
   IBus.loop();
   ch0 = IBus.readChannel(0); // Channel 1 Girar
   ch1 = IBus.readChannel(1); // Channel 2 NO
@@ -356,6 +366,8 @@ void loop()
       digitalWrite(motorW6_IN1, LOW);
       digitalWrite(motorW6_IN2, LOW);
       
+      if ((distances[0] > 60) || (distances[1]) > 60 || (distances[2]) > 60 || (distances[3]) > 60)
+      break;
     }
   }
   
