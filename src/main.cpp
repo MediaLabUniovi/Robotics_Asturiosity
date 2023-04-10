@@ -330,7 +330,7 @@ void setup()
 
   IBus.begin(Serial1, IBUSBM_NOTIMER);       // Servo IBUS
   IBusSensor.begin(Serial2, IBUSBM_NOTIMER); // Sensor IBUS
-  //Serial3.begin(115200);
+  // Serial3.begin(115200);
   IBusSensor.addSensor(IBUSS_INTV); // add voltage sensor
 
   servoW1.attach(22);
@@ -439,7 +439,8 @@ void loop()
       digitalWrite(motorW6_IN1, LOW);
       digitalWrite(motorW6_IN2, LOW);
 
-      if ((distanceW1 > 60) || (distanceW3) > 60 || (distanceW4) > 60 || (distanceW6) > 60)
+      if (IBus.readChannel(4) > 1800)
+        // if ((distanceW1 > 60) || (distanceW3) > 60 || (distanceW4) > 60 || (distanceW6) > 60)
         break;
     }
   }
