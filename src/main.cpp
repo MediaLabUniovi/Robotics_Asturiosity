@@ -187,55 +187,22 @@ void motorStop()
 //* 4 SENSORES
 void recibirDistancias()
 {
-  if (Serial3.available() >= 4 * sizeof(int))
-  {
-    for (int i = 0; i < 4; i++)
-    {
-      Serial3.readBytes((byte *)&distances[i], sizeof(int));
-    }
+  // if (Serial3.available() >= 4 * sizeof(int))
+  // {
+  //   for (int i = 0; i < 4; i++)
+  //   {
+  //     Serial3.readBytes((byte *)&distances[i], sizeof(int));
+  //   }
 
-    Serial.print("Distancias: ");
-    for (int i = 0; i < 4; i++)
-    {
-      Serial.print(distances[i]);
-      Serial.print(" ");
-    }
-    Serial.println();
+  //   Serial.print("Distancias: ");
+  //   for (int i = 0; i < 4; i++)
+  //   {
+  //     Serial.print(distances[i]);
+  //     Serial.print(" ");
+  //   }
+  //   Serial.println();
 
-    // if ((distances[0] < 60) || (distances[3] < 60)) // Los motores van para atras
-    // {
-    //   motorBackward();
-    //   start_backwards_time = millis(); // Guardamos el tiempo en milisegundos
-    // }
-    // else
-    // {
-    //   if (motor_backwards && millis() - start_backwards_time > 1000 && ((distances[0] < 60) || (distances[3] < 60)))
-    //   {                          // Si han pasado 10 segundos desde que empezó el movimiento hacia atrás
-    //     motor_backwards = false; // Reiniciamos el estado del motor
-    //   }
-    //   else
-    //   { // Si no han pasado 10 segundos, seguimos moviendo el motor hacia atrás
-    //     motorBackward();
-    //   }
-    // }
-
-    // if ((distances[2] < 60) || (distances[4] < 60)) // Los motores van para adelante
-    // {
-    //   motorForward();
-    //   start_forwards_time = millis(); // Guardamos el tiempo en milisegundos
-    // }
-    // else
-    // {
-    //   if (motor_forwards && millis() - start_forwards_time > 1000 && ((distances[2] < 60) || (distances[4] < 60)))
-    //   {                         // Si han pasado 10 segundos desde que empezó el movimiento hacia atrás
-    //     motor_forwards = false; // Reiniciamos el estado del motor
-    //   }
-    //   else
-    //   { // Si no han pasado 10 segundos, seguimos moviendo el motor hacia atrás
-    //     motorForward();
-    //   }
-    // }
-  }
+  
 }
 
 void setup()
