@@ -45,7 +45,7 @@ int s = 0; // velocidad del rover
 int r = 0; // radio de giro
 int m1, m2, m3, m4, m5, m6;
 
-float s1, s2, s3 = 0; // 3 velocidades distintas
+float s1, s2, s3 = 0;          // 3 velocidades distintas
 float s1PWM, s2PWM, s3PWM = 0; // Velocidades de los PWM escaladas
 float thetaInnerFront, thetaInnerBack, thetaOuterFront, thetaOuterBack = 0;
 
@@ -53,15 +53,34 @@ float d1 = 271; // distancia in mm
 float d2 = 278;
 float d3 = 301;
 float d4 = 304;
+const int Trigger1 = 2; // Pin digital 2 para el Trigger del sensor
+const int Echo1 = 3;    // Pin digital 3 para el echo del sensor
+const int Trigger3 = 4;
+const int Echo3 = 5;
+const int Trigger4 = 6;
+const int Echo4 = 7;
+const int Trigger6 = 8;
+const int Echo6 = 9;
+
+long timeW1;     // tiempo que demora en llegar el eco
+long distanceW1; // distancia en cm
+
+long timeW3;     // tiempo que demora en llegar el eco
+long distanceW3; // distancia en cm
+
+long timeW4;     // tiempo que demora en llegar el eco
+long distanceW4; // distancia en cm
+
+long timeW6;     // tiempo que demora en llegar el eco
+long distanceW6; // distancia en cm
 
 // unsigned long start_backwards_time = 0; // Tiempo en milisegundos cuando se inició el movimiento hacia atrás
 // bool motor_backwards;
 // unsigned long start_forwards_time = 0; // Tiempo en milisegundos cuando se inició el movimiento hacia adelante
 // bool motor_forwards;
-int distances[4]; // 4 distancias enviadas por comunicación serial
+// int distances[4]; // 4 distancias enviadas por comunicación serial
 
 //* DECLARACIÓN DE FUNCIONES
-
 
 //* Calcular las 3 velocidades que puede tener el rover segun el radio de giro
 void calculateMotorsSpeed(int s, int s1, int s2, int s3)
@@ -88,7 +107,6 @@ void calculateMotorsSpeed(int s, int s1, int s2, int s3)
   s2PWM = map(round(s2), 0, 100, 0, 255);
   s3PWM = map(round(s3), 0, 100, 0, 255);
 }
-
 
 //* Calcular angulo de los servos
 void calculateServoAngle()
@@ -202,7 +220,79 @@ void recibirDistancias()
   //   }
   //   Serial.println();
 
-  
+  //  SENSOR MOTORW1
+
+  digitalWrite(Trigger1, LOW);
+  delayMicroseconds(2); // Enviamos un pulso de 10us
+  digitalWrite(Trigger1, HIGH);
+  delayMicroseconds(10); // Enviamos un pulso de 10us
+
+  digitalWrite(Trigger1, LOW);
+
+  timeW1 = pulseIn(Echo1, HIGH); // obtenemos el ancho del pulso
+  distanceW1 = timeW1 / 59;      // escalamos el tiempo a una distancia en cm
+
+  // SENSOR MOTORW3
+
+  digitalWrite(Trigger3, LOW); /* Por cuestión de estabilización del sensor*/
+  delayMicroseconds(2);
+  digitalWrite(Trigger3, HIGH);
+  delayMicroseconds(10); // Enviamos un pulso de 10us
+
+  digitalWrite(Trigger3, LOW);
+
+  timeW3 = pulseIn(Echo3, HIGH); // obtenemos el ancho del pulso
+  distanceW3 = timeW3 / 59;      // escalamos el tiempo a una distancia en cm
+
+  // SENSOR MOTORW4
+
+  digitalWrite(Trigger4, LOW);
+  delayMicroseconds(2); // Enviamos un pulso de 10us
+  digitalWrite(Trigger4, HIGH);
+  delayMicroseconds(10);
+
+  digitalWrite(Trigger4, LOW);
+
+  timeW4 = pulseIn(Echo4, HIGH); // obtenemos el ancho del pulso
+  distanceW4 = timeW4 / 59;      // escalamos el tiempo a una distancia en cm
+
+  // SENSOR MOTORW6
+
+  digitalWrite(Trigger6, LOW);
+  delayMicroseconds(2); // Enviamos un pulso de 10us
+  digitalWrite(Trigger6, HIGH);
+  delayMicroseconds(10);
+
+  digitalWrite(Trigger6, LOW);
+
+  timeW6 = pulseIn(Echo6, HIGH); // obtenemos el ancho del pulso
+  distanceW6 = timeW6 / 59;      // escalamos el tiempo a una distancia en cm
+
+  // //* PRINTEO DE distanciaS
+  //   // Sensor motorW1
+  //   Serial.print("distancia motorW1: ");
+  //   Serial.print(distanceW1); // Enviamos serialmente el valor de la distancia
+  //   Serial.print("cm");
+  //   Serial.println();
+
+  //   // Sensor motorW4
+  //   Serial.print("distancia motorW4: ");
+  //   Serial.print(distanceW4); // Enviamos serialmente el valor de la distancia
+  //   Serial.print("cm");
+  //   Serial.println();
+
+  //   // Sensor motorW3
+  //   Serial.print("distancia motorW3: ");
+  //   Serial.print(distanceW3); // Enviamos serialmente el valor de la distancia
+  //   Serial.print("cm");
+  //   Serial.println();
+
+  //   // Sensor motorW6
+  //   Serial.print("distancia motorW6: ");
+  //   Serial.print(distanceW6); // Enviamos serialmente el valor de la distancia
+  //   Serial.print("cm");
+  //   Serial.println();
+  //   delay(1000);
 }
 
 void setup()
@@ -240,7 +330,7 @@ void setup()
 
   IBus.begin(Serial1, IBUSBM_NOTIMER);       // Servo IBUS
   IBusSensor.begin(Serial2, IBUSBM_NOTIMER); // Sensor IBUS
-  Serial3.begin(115200);
+  //Serial3.begin(115200);
   IBusSensor.addSensor(IBUSS_INTV); // add voltage sensor
 
   servoW1.attach(22);
@@ -257,6 +347,22 @@ void setup()
   servoW3.setSpeed(550);
   servoW4.setSpeed(550);
   servoW6.setSpeed(550);
+
+  pinMode(Trigger1, OUTPUT);   // pin como salida
+  pinMode(Echo1, INPUT);       // pin como entrada
+  digitalWrite(Trigger1, LOW); // Inicializamos el pin con 0
+
+  pinMode(Trigger3, OUTPUT);   // pin como salida
+  pinMode(Echo3, INPUT);       // pin como entrada
+  digitalWrite(Trigger3, LOW); // Inicializamos el pin con 0
+
+  pinMode(Trigger4, OUTPUT);   // pin como salida
+  pinMode(Echo4, INPUT);       // pin como entrada
+  digitalWrite(Trigger4, LOW); // Inicializamos el pin con 0
+
+  pinMode(Trigger6, OUTPUT);   // pin como salida
+  pinMode(Echo6, INPUT);       // pin como entrada
+  digitalWrite(Trigger6, LOW); // Inicializamos el pin con 0
 }
 
 void loop()
@@ -310,7 +416,7 @@ void loop()
   {
     Serial.println("hola");
     recibirDistancias();
-    while ((distances[0] < 60) || (distances[1]) < 60 || (distances[2]) < 60 || (distances[3]) < 60)
+    while ((distanceW1 < 60) || (distanceW3) < 60 || (distanceW4) < 60 || (distanceW6) < 60)
     {
       // DC Motors
       // Motor Wheel 1 - Left Front
@@ -332,12 +438,12 @@ void loop()
       // Motor Wheel 6 - Right Back
       digitalWrite(motorW6_IN1, LOW);
       digitalWrite(motorW6_IN2, LOW);
-      
-      if ((distances[0] > 60) || (distances[1]) > 60 || (distances[2]) > 60 || (distances[3]) > 60)
-      break;
+
+      if ((distanceW1 > 60) || (distanceW3) > 60 || (distanceW4) > 60 || (distanceW6) > 60)
+        break;
     }
   }
-  
+
   //* Steer right
   if (IBus.readChannel(0) > 1550)
   {
