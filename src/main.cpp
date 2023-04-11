@@ -221,15 +221,16 @@ void recibirDistancias()
         Serial.print(" ");
       }
     }
-    else
-    {
-      distances[0] = 80;
-      distances[1] = 80;
-      distances[2] = 80;
-      distances[3] = 80;
 
-      Serial.println("channel 4 >1600");
-    }
+  // else
+  // {
+  //   distances[0] = 80;
+  //   distances[1] = 80;
+  //   distances[2] = 80;
+  //   distances[3] = 80;
+
+  //   Serial.println("channel 4 >1600");
+  // }
 
     //   Serial.println();
     //     if (IBus.readChannel(4) < 1600)
