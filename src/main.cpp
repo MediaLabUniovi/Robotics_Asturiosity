@@ -53,26 +53,26 @@ float d1 = 271; // distancia in mm
 float d2 = 278;
 float d3 = 301;
 float d4 = 304;
-const int Trigger1 = 35; // Pin digital 2 para el Trigger del sensor
-const int Echo1 = 34;    // Pin digital 3 para el echo del sensor
-const int Trigger3 = 37;
-const int Echo3 = 36;
-const int Trigger4 = 41;
-const int Echo4 = 40;
-const int Trigger6 = 39;
-const int Echo6 = 38;
+// const int Trigger1 = 35; // Pin digital 2 para el Trigger del sensor
+// const int Echo1 = 34;    // Pin digital 3 para el echo del sensor
+// const int Trigger3 = 37;
+// const int Echo3 = 36;
+// const int Trigger4 = 41;
+// const int Echo4 = 40;
+// const int Trigger6 = 39;
+// const int Echo6 = 38;
 
-long timeW1;     // tiempo que demora en llegar el eco
-long distanceW1; // distancia en cm
+// long timeW1;     // tiempo que demora en llegar el eco
+// long distanceW1; // distancia en cm
 
-long timeW3;     // tiempo que demora en llegar el eco
-long distanceW3; // distancia en cm
+// long timeW3;     // tiempo que demora en llegar el eco
+// long distanceW3; // distancia en cm
 
-long timeW4;     // tiempo que demora en llegar el eco
-long distanceW4; // distancia en cm
+// long timeW4;     // tiempo que demora en llegar el eco
+// long distanceW4; // distancia en cm
 
-long timeW6;     // tiempo que demora en llegar el eco
-long distanceW6; // distancia en cm
+// long timeW6;     // tiempo que demora en llegar el eco
+// long distanceW6; // distancia en cm
 
 // unsigned long start_backwards_time = 0; // Tiempo en milisegundos cuando se inició el movimiento hacia atrás
 // bool motor_backwards;
@@ -352,7 +352,7 @@ void recibirDistancias()
 
     IBus.begin(Serial1, IBUSBM_NOTIMER);       // Servo IBUS
     IBusSensor.begin(Serial2, IBUSBM_NOTIMER); // Sensor IBUS
-    // Serial3.begin(115200);
+    Serial3.begin(115200);
     IBusSensor.addSensor(IBUSS_INTV); // add voltage sensor
 
     servoW1.attach(22);
