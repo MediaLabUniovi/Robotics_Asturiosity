@@ -64,12 +64,12 @@ float d4 = 304;
 #define ECHO_PIN_4     38
 #define TRIGGER_PIN_6  41
 #define ECHO_PIN_6     40
-#define MAX_DISTANCE 0
+#define MAX_DISTANCE 
 
-NewPing sonar1(TRIGGER_PIN_1, ECHO_PIN_1, MAX_DISTANCE);
-NewPing sonar3(TRIGGER_PIN_3, ECHO_PIN_3, MAX_DISTANCE);
-NewPing sonar4(TRIGGER_PIN_4, ECHO_PIN_4, MAX_DISTANCE);
-NewPing sonar6(TRIGGER_PIN_6, ECHO_PIN_6, MAX_DISTANCE);
+NewPing sonar1(TRIGGER_PIN_1, ECHO_PIN_1);
+NewPing sonar3(TRIGGER_PIN_3, ECHO_PIN_3);
+NewPing sonar4(TRIGGER_PIN_4, ECHO_PIN_4);
+NewPing sonar6(TRIGGER_PIN_6, ECHO_PIN_6);
 
 // const int Trigger1 = 35; // Pin digital 2 para el Trigger del sensor
 // const int Echo1 = 34;    // Pin digital 3 para el echo del sensor
@@ -497,7 +497,7 @@ void loop()
   // {
   //   Serial.println("hola");
   recibirDistancias();
-  while ((distances[0] < 30) || (distances[1]) < 3 || (distances[2]) < 30 || (distances[3]) < 30)
+  while ((distances[0] < 30) || (distances[1] < 30) || (distances[2] < 30) || (distances[3] < 30))
   {
     IBus.loop();
     // DC Motors
