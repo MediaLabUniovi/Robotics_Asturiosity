@@ -53,6 +53,9 @@ float d1 = 271; // distancia in mm
 float d2 = 278;
 float d3 = 301;
 float d4 = 304;
+
+
+
 // const int Trigger1 = 35; // Pin digital 2 para el Trigger del sensor
 // const int Echo1 = 34;    // Pin digital 3 para el echo del sensor
 // const int Trigger3 = 37;
@@ -263,6 +266,15 @@ void recibirDistancias()
 
     // delay(3000);
   }
+  else
+    {
+      distances[0] = 80;
+      distances[1] = 80;
+      distances[2] = 80;
+      distances[3] = 80;
+
+      Serial.println("channel 4 >1600");
+    }
   //     digitalWrite(Trigger1, LOW);
   //     delayMicroseconds(2); // Enviamos un pulso de 10us
   //     digitalWrite(Trigger1, HIGH);
