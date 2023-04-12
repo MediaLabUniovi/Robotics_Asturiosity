@@ -11,6 +11,7 @@
 #include <AccelStepper.h>
 #include <SoftwareSerial.h>
 // #include <Wire.h>
+#include <NewPing.h>
 
 //* DECLARACIÓN DE VARIABLES
 
@@ -55,6 +56,20 @@ float d3 = 301;
 float d4 = 304;
 
 
+#define TRIGGER_PIN_1  35
+#define ECHO_PIN_1     34
+#define TRIGGER_PIN_3  37
+#define ECHO_PIN_3     36
+#define TRIGGER_PIN_4  39
+#define ECHO_PIN_4     38
+#define TRIGGER_PIN_6  41
+#define ECHO_PIN_6     40
+#define MAX_DISTANCE 0
+
+NewPing sonar1(TRIGGER_PIN_1, ECHO_PIN_1, MAX_DISTANCE);
+NewPing sonar3(TRIGGER_PIN_3, ECHO_PIN_3, MAX_DISTANCE);
+NewPing sonar4(TRIGGER_PIN_4, ECHO_PIN_4, MAX_DISTANCE);
+NewPing sonar6(TRIGGER_PIN_6, ECHO_PIN_6, MAX_DISTANCE);
 
 // const int Trigger1 = 35; // Pin digital 2 para el Trigger del sensor
 // const int Echo1 = 34;    // Pin digital 3 para el echo del sensor
