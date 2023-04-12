@@ -407,7 +407,7 @@ void setup()
 
   IBus.begin(Serial1, IBUSBM_NOTIMER);       // Servo IBUS
   IBusSensor.begin(Serial2, IBUSBM_NOTIMER); // Sensor IBUS
-  Serial3.begin(115200);
+  //Serial3.begin(115200);
   IBusSensor.addSensor(IBUSS_INTV); // add voltage sensor
 
   servoW1.attach(22);
@@ -497,37 +497,37 @@ void loop()
   // {
   //   Serial.println("hola");
   recibirDistancias();
-  // while ((distances[0] < 30) || (distances[1]) < 3 || (distances[2]) < 30 || (distances[3]) < 30)
-  // {
-  //   IBus.loop();
-  //   // DC Motors
-  //   // Motor Wheel 1 - Left Front
-  //   digitalWrite(motorW1_IN1, LOW); // PWM value
-  //   digitalWrite(motorW1_IN2, LOW); // Forward
-  //   // Motor Wheel 2 - Left Middle
-  //   digitalWrite(motorW2_IN1, LOW);
-  //   digitalWrite(motorW2_IN2, LOW);
-  //   // Motor Wheel 3 - Left Back
-  //   digitalWrite(motorW3_IN1, LOW);
-  //   digitalWrite(motorW3_IN2, LOW);
-  //   // right side motors move in opposite direction
-  //   // Motor Wheel 4 - Right Front
-  //   digitalWrite(motorW4_IN1, LOW);
-  //   digitalWrite(motorW4_IN2, LOW);
-  //   // Motor Wheel 5 - Right Middle
-  //   digitalWrite(motorW5_IN1, LOW);
-  //   digitalWrite(motorW5_IN2, LOW);
-  //   // Motor Wheel 6 - Right Back
-  //   digitalWrite(motorW6_IN1, LOW);
-  //   digitalWrite(motorW6_IN2, LOW);
-  //   Serial.println("blucle");
+  while ((distances[0] < 30) || (distances[1]) < 3 || (distances[2]) < 30 || (distances[3]) < 30)
+  {
+    IBus.loop();
+    // DC Motors
+    // Motor Wheel 1 - Left Front
+    digitalWrite(motorW1_IN1, LOW); // PWM value
+    digitalWrite(motorW1_IN2, LOW); // Forward
+    // Motor Wheel 2 - Left Middle
+    digitalWrite(motorW2_IN1, LOW);
+    digitalWrite(motorW2_IN2, LOW);
+    // Motor Wheel 3 - Left Back
+    digitalWrite(motorW3_IN1, LOW);
+    digitalWrite(motorW3_IN2, LOW);
+    // right side motors move in opposite direction
+    // Motor Wheel 4 - Right Front
+    digitalWrite(motorW4_IN1, LOW);
+    digitalWrite(motorW4_IN2, LOW);
+    // Motor Wheel 5 - Right Middle
+    digitalWrite(motorW5_IN1, LOW);
+    digitalWrite(motorW5_IN2, LOW);
+    // Motor Wheel 6 - Right Back
+    digitalWrite(motorW6_IN1, LOW);
+    digitalWrite(motorW6_IN2, LOW);
+    Serial.println("blucle");
 
-  //   if (IBus.readChannel(4) > 1700)
-  //   {
-  //     break;
-  //   }
-  //   //     //   // if ((distanceW1 > 60) || (distanceW3) > 60 || (distanceW4) > 60 || (distanceW6) > 60)
-  // }
+    if (IBus.readChannel(4) > 1700)
+    {
+      break;
+    }
+    //     //   // if ((distanceW1 > 60) || (distanceW3) > 60 || (distanceW4) > 60 || (distanceW6) > 60)
+  }
 
   //* Steer right
   if (IBus.readChannel(0) > 1550)
