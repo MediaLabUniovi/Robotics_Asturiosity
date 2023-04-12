@@ -205,117 +205,144 @@ void motorStop()
 //* 4 SENSORES
 void recibirDistancias()
 {
+  // if (IBus.readChannel(4) < 1600)
+  // {
+  //   if (Serial3.available() >= 4 * sizeof(int))
+  //   {
+  //     for (int i = 0; i < 4; i++)
+  //     {
+  //       Serial3.readBytes((byte *)&distances[i], sizeof(int));
+  //     }
+
+  //     Serial.print("Distancias: ");
+
+  //     for (int i = 0; i < 4; i++)
+  //     {
+  //       Serial.print(distances[i]);
+  //       Serial.print(" ");
+  //     }
+  //   }
+  // }
+  // else
+  // {
+  //   distances[0] = 80;
+  //   distances[1] = 80;
+  //   distances[2] = 80;
+  //   distances[3] = 80;
+  //   Serial.println("channel 4 >1600");
+  // }
+
+  //   Serial.println();
   if (IBus.readChannel(4) < 1600)
   {
-    if (Serial3.available() >= 4 * sizeof(int))
-    {
-      for (int i = 0; i < 4; i++)
-      {
-        Serial3.readBytes((byte *)&distances[i], sizeof(int));
-      }
 
-      Serial.print("Distancias: ");
+    int distances[4];                // Arreglo para guardar las cuatro distancias
+    distances[0] = sonar1.ping_cm(); // Mide la distancia con el sensor 1 y guarda el valor en el arreglo
+    distances[1] = sonar4.ping_cm(); // Mide la distancia con el sensor 2 y guarda el valor en el arreglo
+    distances[2] = sonar3.ping_cm(); // Mide la distancia con el sensor 3 y guarda el valor en el arreglo
+    distances[3] = sonar6.ping_cm(); // Mide la distancia con el sensor 4 y guarda el valor en el arreglo
+    Serial.print("distancia motorW1: ");
+    Serial.print(distances[0]);
+    Serial.print("cm");
+    Serial.println();
 
-      for (int i = 0; i < 4; i++)
-      {
-        Serial.print(distances[i]);
-        Serial.print(" ");
-      }
-    }
+    Serial.print("distancia motorW4: ");
+    Serial.print(distances[1]);
+    Serial.print("cm");
+    Serial.println();
+
+    Serial.print("distancia motorW3: ");
+    Serial.print(distances[2]);
+    Serial.print("cm");
+    Serial.println();
+
+    Serial.print("distancia motorW6: ");
+    Serial.print(distances[3]);
+    Serial.print("cm");
+    Serial.println();
+
+    // delay(3000);
   }
-  else
-  {
-    distances[0] = 80;
-    distances[1] = 80;
-    distances[2] = 80;
-    distances[3] = 80;
-    Serial.println("channel 4 >1600");
-  }
+  //     digitalWrite(Trigger1, LOW);
+  //     delayMicroseconds(2); // Enviamos un pulso de 10us
+  //     digitalWrite(Trigger1, HIGH);
+  //     delayMicroseconds(10); // Enviamos un pulso de 10us
 
-    //   Serial.println();
-    //     if (IBus.readChannel(4) < 1600)
-    //   {
-    //     digitalWrite(Trigger1, LOW);
-    //     delayMicroseconds(2); // Enviamos un pulso de 10us
-    //     digitalWrite(Trigger1, HIGH);
-    //     delayMicroseconds(10); // Enviamos un pulso de 10us
+  //     digitalWrite(Trigger1, LOW);
 
-    //     digitalWrite(Trigger1, LOW);
+  //     timeW1 = pulseIn(Echo1, HIGH); // obtenemos el ancho del pulso
+  //     distanceW1 = timeW1 / 59;      // escalamos el tiempo a una distancia en cm
 
-    //     timeW1 = pulseIn(Echo1, HIGH); // obtenemos el ancho del pulso
-    //     distanceW1 = timeW1 / 59;      // escalamos el tiempo a una distancia en cm
+  //     // SENSOR MOTORW3
 
-    //     // SENSOR MOTORW3
+  //     digitalWrite(Trigger3, LOW); /* Por cuestión de estabilización del sensor*/
+  //     delayMicroseconds(2);
+  //     digitalWrite(Trigger3, HIGH);
+  //     delayMicroseconds(10); // Enviamos un pulso de 10us
 
-    //     digitalWrite(Trigger3, LOW); /* Por cuestión de estabilización del sensor*/
-    //     delayMicroseconds(2);
-    //     digitalWrite(Trigger3, HIGH);
-    //     delayMicroseconds(10); // Enviamos un pulso de 10us
+  //     digitalWrite(Trigger3, LOW);
 
-    //     digitalWrite(Trigger3, LOW);
+  //     timeW3 = pulseIn(Echo3, HIGH); // obtenemos el ancho del pulso
+  //     distanceW3 = timeW3 / 59;      // escalamos el tiempo a una distancia en cm
 
-    //     timeW3 = pulseIn(Echo3, HIGH); // obtenemos el ancho del pulso
-    //     distanceW3 = timeW3 / 59;      // escalamos el tiempo a una distancia en cm
+  //     // SENSOR MOTORW4
 
-    //     // SENSOR MOTORW4
+  //     digitalWrite(Trigger4, LOW);
+  //     delayMicroseconds(2); // Enviamos un pulso de 10us
+  //     digitalWrite(Trigger4, HIGH);
+  //     delayMicroseconds(10);
 
-    //     digitalWrite(Trigger4, LOW);
-    //     delayMicroseconds(2); // Enviamos un pulso de 10us
-    //     digitalWrite(Trigger4, HIGH);
-    //     delayMicroseconds(10);
+  //     digitalWrite(Trigger4, LOW);
 
-    //     digitalWrite(Trigger4, LOW);
+  //     timeW4 = pulseIn(Echo4, HIGH); // obtenemos el ancho del pulso
+  //     distanceW4 = timeW4 / 59;      // escalamos el tiempo a una distancia en cm
 
-    //     timeW4 = pulseIn(Echo4, HIGH); // obtenemos el ancho del pulso
-    //     distanceW4 = timeW4 / 59;      // escalamos el tiempo a una distancia en cm
+  //     // SENSOR MOTORW6
 
-    //     // SENSOR MOTORW6
+  //     digitalWrite(Trigger6, LOW);
+  //     delayMicroseconds(2); // Enviamos un pulso de 10us
+  //     digitalWrite(Trigger6, HIGH);
+  //     delayMicroseconds(10);
 
-    //     digitalWrite(Trigger6, LOW);
-    //     delayMicroseconds(2); // Enviamos un pulso de 10us
-    //     digitalWrite(Trigger6, HIGH);
-    //     delayMicroseconds(10);
+  //     digitalWrite(Trigger6, LOW);
 
-    //     digitalWrite(Trigger6, LOW);
+  //     timeW6 = pulseIn(Echo6, HIGH); // obtenemos el ancho del pulso
+  //     distanceW6 = timeW6 / 59;      // escalamos el tiempo a una distancia en cm
 
-    //     timeW6 = pulseIn(Echo6, HIGH); // obtenemos el ancho del pulso
-    //     distanceW6 = timeW6 / 59;      // escalamos el tiempo a una distancia en cm
+  //     //* PRINTEO DE distanciaS
+  //     // Sensor motorW1
+  //     Serial.print("distancia motorW1: ");
+  //     Serial.print(distanceW1); // Enviamos serialmente el valor de la distancia
+  //     Serial.print("cm");
+  //     Serial.println();
 
-    //     //* PRINTEO DE distanciaS
-    //     // Sensor motorW1
-    //     Serial.print("distancia motorW1: ");
-    //     Serial.print(distanceW1); // Enviamos serialmente el valor de la distancia
-    //     Serial.print("cm");
-    //     Serial.println();
+  //     // Sensor motorW4
+  //     Serial.print("distancia motorW4: ");
+  //     Serial.print(distanceW4); // Enviamos serialmente el valor de la distancia
+  //     Serial.print("cm");
+  //     Serial.println();
 
-    //     // Sensor motorW4
-    //     Serial.print("distancia motorW4: ");
-    //     Serial.print(distanceW4); // Enviamos serialmente el valor de la distancia
-    //     Serial.print("cm");
-    //     Serial.println();
+  //     // Sensor motorW3
+  //     Serial.print("distancia motorW3: ");
+  //     Serial.print(distanceW3); // Enviamos serialmente el valor de la distancia
+  //     Serial.print("cm");
+  //     Serial.println();
 
-    //     // Sensor motorW3
-    //     Serial.print("distancia motorW3: ");
-    //     Serial.print(distanceW3); // Enviamos serialmente el valor de la distancia
-    //     Serial.print("cm");
-    //     Serial.println();
+  //     // Sensor motorW6
+  //     Serial.print("distancia motorW6: ");
+  //     Serial.print(distanceW6); // Enviamos serialmente el valor de la distancia
+  //     Serial.print("cm");
+  //     Serial.println();
+  //   }
+  //   else
+  //   {
+  //     distanceW1 = 80;
+  //     distanceW3 = 80;
+  //     distanceW4 = 80;
+  //     distanceW6 = 80;
 
-    //     // Sensor motorW6
-    //     Serial.print("distancia motorW6: ");
-    //     Serial.print(distanceW6); // Enviamos serialmente el valor de la distancia
-    //     Serial.print("cm");
-    //     Serial.println();
-    //   }
-    //   else
-    //   {
-    //     distanceW1 = 80;
-    //     distanceW3 = 80;
-    //     distanceW4 = 80;
-    //     distanceW6 = 80;
-
-    //     Serial.println("channel 4 >1600");
-    //   }
-  
+  //     Serial.println("channel 4 >1600");
+  //   }
 }
 
 void setup()
