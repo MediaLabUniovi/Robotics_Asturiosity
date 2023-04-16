@@ -253,8 +253,7 @@ void recibirDistancias()
   //   Serial.println();
   if (IBus.readChannel(4) < 1600)
   {
-
-    int distances[4];                // Arreglo para guardar las cuatro distancias
+    
     distances[0] = sonar1.ping_cm(); // Mide la distancia con el sensor 1 y guarda el valor en el arreglo
     distances[1] = sonar4.ping_cm(); // Mide la distancia con el sensor 2 y guarda el valor en el arreglo
     distances[2] = sonar3.ping_cm(); // Mide la distancia con el sensor 3 y guarda el valor en el arreglo
@@ -280,6 +279,8 @@ void recibirDistancias()
     Serial.println();
 
     // delay(3000);
+
+    
   }
   else
     {
@@ -528,6 +529,7 @@ void loop()
     }
     //     //   // if ((distanceW1 > 60) || (distanceW3) > 60 || (distanceW4) > 60 || (distanceW6) > 60)
   }
+  
 
   //* Steer right
   if (IBus.readChannel(0) > 1550)
