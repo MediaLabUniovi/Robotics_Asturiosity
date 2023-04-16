@@ -425,6 +425,7 @@ void setup()
   servoW3.setSpeed(550);
   servoW4.setSpeed(550);
   servoW6.setSpeed(550);
+  
 
   // pinMode(Trigger1, OUTPUT);   // pin como salida
   // pinMode(Echo1, INPUT);       // pin como entrada
@@ -498,7 +499,7 @@ void loop()
   // {
   //   Serial.println("hola");
   recibirDistancias();
-  while ((distances[0] < 30) || (distances[1] < 30) || (distances[2] < 30) || (distances[3] < 30))
+  while ((distances[0] < 20) || (distances[1] < 20) || (distances[2] < 20) || (distances[3] < 20))
   {
     IBus.loop();
     // DC Motors
