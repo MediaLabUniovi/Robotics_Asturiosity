@@ -184,7 +184,7 @@ void recibirDistancias()
 {
   if (IBus.readChannel(4) < 1600)
   {
-    if (Serial3.available() >= 4 * sizeof(int))
+    if (sizeof(Serial3.available() ) >= 4 * sizeof(int))
     {
       for (int i = 0; i < 4; i++)
       {
@@ -320,7 +320,7 @@ void loop()
   // {
   //   Serial.println("hola");
   recibirDistancias();
-  while ((distances[0] >=10) && (distances[0]<= 30) || (distances[1] >=10) && (distances[1]<= 30) || (distances[2] >=10) && (distances[21]<= 30) || (distances[3] >=10) && (distances[3]<= 30))
+  while ((distances[0] >=10 && distances[0]<= 30) || (distances[1] >=10 && distances[1]<= 30) || (distances[2] >=10 && distances[2]<= 30) || (distances[3] >=10 && distances[3]<= 30))
   {
     IBus.loop();
     // DC Motors
