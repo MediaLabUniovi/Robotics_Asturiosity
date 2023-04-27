@@ -265,7 +265,6 @@ void setup()
 
 void loop()
 {
-  
 
   // //* 1 SENSOR
   // int distance = receiveData(); // Lee los datos del Arduino Nano
@@ -286,22 +285,22 @@ void loop()
   ch4 = IBus.readChannel(4); // Channel 5 sENSORES
   ch5 = IBus.readChannel(5); // Channel 6 Direction
 
-
+  ch4 = 0;
   ch1 = 0; // Le damos valor 0 a los canales que no usamos para que si cambian los valores en el mando no cree problemas en el código
   ch3 = 0;
 
   // //*MOTORES PARADOS INICIALMENTE HASTA RECIBIR SEÑAL DEL MANDO
-  // while (ch0==0 && ch2==0 && ch4==0 && ch5==0)
+  // while (IBus.readChannel(0)==0 && IBus.readChannel(2)==0 && IBus.readChannel(5))
 
   // {
   //   motorStop();
 
-  //   if(ch0==0 || ch2==0 || ch4==0 || ch5==0)
+  //   if(IBus.readChannel(0)==0 || IBus.readChannel(2)==0 || IBus.readChannel(5)==0)
   //   {
   //     break;
   //   }
   // }
-
+  
 
   // Convertign the incoming data
   //* Steering right
