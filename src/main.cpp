@@ -53,7 +53,7 @@ float d2 = 278;
 float d3 = 301;
 float d4 = 304;
 
-int distances[4]; // 4 distancias enviadas por comunicación serial
+int distances[2]; // 2 distancias enviadas por comunicación serial
 
 //* DECLARACIÓN DE FUNCIONES
 
@@ -177,21 +177,21 @@ void motorStop()
   digitalWrite(motorW6_IN2, LOW);
 }
 
-// //* 4 SENSORES
+// //* 2 SENSORES
 void recibirDistancias()
 {
   if (IBus.readChannel(4) < 1600)
   {
-    if (sizeof(Serial3.available()) >= 4 * sizeof(int))
+    if (sizeof(Serial3.available()) >= 2 * sizeof(int))
     {
-      for (int i = 0; i < 4; i++)
+      for (int i = 0; i < 2; i++)
       {
         Serial3.readBytes((byte *)&distances[i], sizeof(int));
       }
 
       Serial.print("Distancias: ");
 
-      for (int i = 0; i < 4; i++)
+      for (int i = 0; i < 2; i++)
       {
         Serial.print(distances[i]);
         Serial.print(" ");
@@ -202,8 +202,8 @@ void recibirDistancias()
   {
     distances[0] = 80;
     distances[1] = 80;
-    distances[2] = 80;
-    distances[3] = 80;
+    // distances[2] = 80;
+    // distances[3] = 80;
     Serial.println("channel 4 >1600");
   }
 }
@@ -326,7 +326,7 @@ void loop()
   {
     Serial.println("hola");
     recibirDistancias();
-    while ((distances[0] >= 10 && distances[0] <= 30) || (distances[1] >= 10 && distances[1] <= 30) || (distances[2] >= 10 && distances[2] <= 30) || (distances[3] >= 10 && distances[3] <= 30))
+    while ((distances[0] <= 40) || ( distances[1] <= 40))
     {
       IBus.loop();
       // DC Motors
