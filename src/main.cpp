@@ -220,7 +220,7 @@ void motorStop()
 void setup()
 {
   Serial.begin(115200);
-  Serial3.begin(115200);
+  //Serial3.begin(115200);
   IBus.begin(Serial1, IBUSBM_NOTIMER);       // Servo IBUS
   IBusSensor.begin(Serial2, IBUSBM_NOTIMER); // Sensor IBUS
   IBusSensor.addSensor(IBUSS_INTV);          // add voltage sensor
