@@ -53,7 +53,7 @@ float d2 = 278;
 float d3 = 301;
 float d4 = 304;
 
-int distances[2]; // 2 distancias enviadas por comunicación serial
+//int distances[2]; // 2 distancias enviadas por comunicación serial
 
 //* DECLARACIÓN DE FUNCIONES
 
@@ -178,38 +178,65 @@ void motorStop()
 }
 
 // //* 2 SENSORES
-void recibirDistancias()
-{
-  if (IBus.readChannel(4) < 1600)
-  {
-    if (sizeof(Serial3.available()) >= 2 * sizeof(int))
-    {
-      for (int i = 0; i < 2; i++)
-      {
-        Serial3.readBytes((byte *)&distances[i], sizeof(int));
-      }
+// void recibirDistancias()
+// {
+//   if (IBus.readChannel(4) < 1600)
+//   {
+//     if (sizeof(Serial3.available()) >= 2 * sizeof(int))
+//     {
+//       for (int i = 0; i < 2; i++)
+//       {
+//         Serial3.readBytes((byte *)&distances[i], sizeof(int));
+//       }
 
-      Serial.print("Distancias: ");
+//       Serial.print("Distancias: ");
 
-      for (int i = 0; i < 2; i++)
-      {
-        Serial.print(distances[i]);
-        Serial.print(" ");
-      }
-    }
-  }
-  else
-  {
-    distances[0] = 80;
-    distances[1] = 80;
-    // distances[2] = 80;
-    // distances[3] = 80;
-    Serial.println("channel 4 >1600");
-  }
-}
+//       for (int i = 0; i < 2; i++)
+//       {
+//         Serial.print(distances[i]);
+//         Serial.print(" ");
+//       }
+//     }
+//     Serial.print("distancia motorW3: ");
+//     Serial.print(distances[0]);
+//     Serial.print("cm");
+//     Serial.println();
+
+//     Serial.print("distancia motorW6: ");
+//     Serial.print(distances[1]);
+//     Serial.print("cm");
+//     Serial.println();
+//   }
+//   else
+//   {
+//     distances[0] = 80;
+//     distances[1] = 80;
+//     // distances[2] = 80;
+//     // distances[3] = 80;
+//     Serial.println("channel 4 >1600");
+//   }
+// }
 
 void setup()
 {
+  Serial.begin(115200);
+  Serial3.begin(115200);
+  IBus.begin(Serial1, IBUSBM_NOTIMER);       // Servo IBUS
+  IBusSensor.begin(Serial2, IBUSBM_NOTIMER); // Sensor IBUS
+  IBusSensor.addSensor(IBUSS_INTV);          // add voltage sensor
+
+  // // //*MOTORES PARADOS INICIALMENTE HASTA RECIBIR SEÑAL DEL MANDO
+  // while (!Serial1.available())
+  // {
+  //   Serial.println("Conectar mando");
+  //   delay(1000);
+  //   motorStop();
+  //   // delay(1000);
+  //   if (Serial1.available())
+  //   {
+  //     break;
+  //   }
+  // }
 
   // Use this if you need to change the frequency of the PWM signals
   // TCCR4B = TCCR4B & B11111000 | B00000101; // D6,D7,D8 PWM frequency of 30.64 Hz
@@ -239,13 +266,6 @@ void setup()
   digitalWrite(motorW6_IN1, LOW);
   digitalWrite(motorW6_IN2, LOW);
 
-  Serial.begin(115200);
-
-  IBus.begin(Serial1, IBUSBM_NOTIMER);       // Servo IBUS
-  IBusSensor.begin(Serial2, IBUSBM_NOTIMER); // Sensor IBUS
-  Serial3.begin(115200);
-  IBusSensor.addSensor(IBUSS_INTV); // add voltage sensor
-
   servoW1.attach(22);
   servoW3.attach(23);
   servoW4.attach(24);
@@ -264,17 +284,6 @@ void setup()
 
 void loop()
 {
-// //*MOTORES PARADOS INICIALMENTE HASTA RECIBIR SEÑAL DEL MANDO
-  while(!Serial1.available())
-  {
-    Serial.println("Conectar mando");
-    motorStop();
-    //delay(1000);
-    if (Serial1.available())
-    {
-        break;
-      }
-  }
 
   // //* 1 SENSOR
   // int distance = receiveData(); // Lee los datos del Arduino Nano
@@ -291,7 +300,7 @@ void loop()
   ch4 = IBus.readChannel(4); // Channel 5 sENSORES
   ch5 = IBus.readChannel(5); // Channel 6 Direction
 
-  //ch4 = 0;
+  // ch4 = 0;
   ch1 = 0; // Le damos valor 0 a los canales que no usamos para que si cambian los valores en el mando no cree problemas en el código
   ch3 = 0;
 
@@ -313,51 +322,50 @@ void loop()
   calculateServoAngle();
 
   //* 4 SENSORES
-  Serial.println("chanel4");
-  Serial.println(IBus.readChannel(4));
-  //delay(1000);
+  // Serial.println("chanel4");
+  // Serial.println(IBus.readChannel(4));
+  // delay(1000);
 
-  
   // recibirDistancias(); // Lee las distancias desde el Arduino Nano
 
   //* Sensors available
-  //if (IBus.readChannel(4) < 1600 && millis() >= 4000)
-  if (IBus.readChannel(4) < 1600)
-  {
-    Serial.println("hola");
-    recibirDistancias();
-    while ((distances[0] <= 40) || ( distances[1] <= 40))
-    {
-      IBus.loop();
-      // DC Motors
-      // Motor Wheel 1 - Left Front
-      digitalWrite(motorW1_IN1, LOW); // PWM value
-      digitalWrite(motorW1_IN2, LOW); // Forward
-      // Motor Wheel 2 - Left Middle
-      digitalWrite(motorW2_IN1, LOW);
-      digitalWrite(motorW2_IN2, LOW);
-      // Motor Wheel 3 - Left Back
-      digitalWrite(motorW3_IN1, LOW);
-      digitalWrite(motorW3_IN2, LOW);
-      // right side motors move in opposite direction
-      // Motor Wheel 4 - Right Front
-      digitalWrite(motorW4_IN1, LOW);
-      digitalWrite(motorW4_IN2, LOW);
-      // Motor Wheel 5 - Right Middle
-      digitalWrite(motorW5_IN1, LOW);
-      digitalWrite(motorW5_IN2, LOW);
-      // Motor Wheel 6 - Right Back
-      digitalWrite(motorW6_IN1, LOW);
-      digitalWrite(motorW6_IN2, LOW);
-      Serial.println("blucle");
+  // if (IBus.readChannel(4) < 1600 && millis() >= 4000)
+  // // if (IBus.readChannel(4) < 1600)
+  // {
+  //   Serial.println("hola");
+  //   recibirDistancias();
+  //   while ((distances[0] <= 40) || (distances[1] <= 40))
+  //   {
+  //     IBus.loop();
+  //     // DC Motors
+  //     // Motor Wheel 1 - Left Front
+  //     digitalWrite(motorW1_IN1, LOW); // PWM value
+  //     digitalWrite(motorW1_IN2, LOW); // Forward
+  //     // Motor Wheel 2 - Left Middle
+  //     digitalWrite(motorW2_IN1, LOW);
+  //     digitalWrite(motorW2_IN2, LOW);
+  //     // Motor Wheel 3 - Left Back
+  //     digitalWrite(motorW3_IN1, LOW);
+  //     digitalWrite(motorW3_IN2, LOW);
+  //     // right side motors move in opposite direction
+  //     // Motor Wheel 4 - Right Front
+  //     digitalWrite(motorW4_IN1, LOW);
+  //     digitalWrite(motorW4_IN2, LOW);
+  //     // Motor Wheel 5 - Right Middle
+  //     digitalWrite(motorW5_IN1, LOW);
+  //     digitalWrite(motorW5_IN2, LOW);
+  //     // Motor Wheel 6 - Right Back
+  //     digitalWrite(motorW6_IN1, LOW);
+  //     digitalWrite(motorW6_IN2, LOW);
+  //     Serial.println("blucle");
 
-      if (IBus.readChannel(4) > 1700)
-      {
-        break;
-      }
-      //     //   // if ((distanceW1 > 60) || (distanceW3) > 60 || (distanceW4) > 60 || (distanceW6) > 60)
-    }
-  }
+  //     if (IBus.readChannel(4) > 1700)
+  //     {
+  //       break;
+  //     }
+  //     //     //   // if ((distanceW1 > 60) || (distanceW3) > 60 || (distanceW4) > 60 || (distanceW6) > 60)
+  //   }
+  // }
 
   //* Steer right
   if (IBus.readChannel(0) > 1550)
