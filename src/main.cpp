@@ -52,7 +52,7 @@ float d1 = 271; // distancia in mm
 float d2 = 278;
 float d3 = 301;
 float d4 = 304;
-#define STOP_SIGNAL "STOP"
+bool STOP_SIGNAL; 
 
 // int distances[2]; // 2 distancias enviadas por comunicación serial
 
@@ -371,8 +371,8 @@ void loop()
   //* RECIBIR STOP
   if ((Serial3.available()) && (IBus.readChannel(4))<1600)
   {
-    String incoming = Serial.readStringUntil('\n');
-    while (incoming == STOP_SIGNAL)
+    STOP_SIGNAL = Serial3.read();
+    while (STOP_SIGNAL)
     {
       IBus.loop();
       // DC Motors
@@ -397,8 +397,9 @@ void loop()
       digitalWrite(motorW6_IN2, LOW);
       Serial.println("blucle");
 
-      if (IBus.readChannel(4) > 1700)
+      if (IBus.readChannel(4) > 1700) 
       {
+        STOP_SIGNAL=false;
         break;
       }
     }
