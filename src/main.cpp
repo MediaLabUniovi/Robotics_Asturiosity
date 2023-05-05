@@ -369,7 +369,7 @@ void loop()
   // }
 
   //* RECIBIR STOP
-  if ((Serial.available()) && (IBus.readChannel(4))<1600)
+  if ((Serial3.available()) && (IBus.readChannel(4))<1600)
   {
     String incoming = Serial.readStringUntil('\n');
     while (incoming == STOP_SIGNAL)
