@@ -52,8 +52,9 @@ float d1 = 271; // distancia in mm
 float d2 = 278;
 float d3 = 301;
 float d4 = 304;
+#define STOP_SIGNAL "STOP"
 
-//int distances[2]; // 2 distancias enviadas por comunicación serial
+// int distances[2]; // 2 distancias enviadas por comunicación serial
 
 //* DECLARACIÓN DE FUNCIONES
 
@@ -220,7 +221,7 @@ void motorStop()
 void setup()
 {
   Serial.begin(115200);
-  //Serial3.begin(115200);
+  // Serial3.begin(115200);
   IBus.begin(Serial1, IBUSBM_NOTIMER);       // Servo IBUS
   IBusSensor.begin(Serial2, IBUSBM_NOTIMER); // Sensor IBUS
   IBusSensor.addSensor(IBUSS_INTV);          // add voltage sensor
@@ -367,7 +368,43 @@ void loop()
   //   }
   // }
 
+  //* RECIBIR STOP
+  if ((Serial.available()) && (IBus.readChannel(4))<1600)
+  {
+    String incoming = Serial.readStringUntil('\n');
+    while (incoming == STOP_SIGNAL)
+    {
+      IBus.loop();
+      // DC Motors
+      // Motor Wheel 1 - Left Front
+      digitalWrite(motorW1_IN1, LOW); // PWM value
+      digitalWrite(motorW1_IN2, LOW); // Forward
+      // Motor Wheel 2 - Left Middle
+      digitalWrite(motorW2_IN1, LOW);
+      digitalWrite(motorW2_IN2, LOW);
+      // Motor Wheel 3 - Left Back
+      digitalWrite(motorW3_IN1, LOW);
+      digitalWrite(motorW3_IN2, LOW);
+      // right side motors move in opposite direction
+      // Motor Wheel 4 - Right Front
+      digitalWrite(motorW4_IN1, LOW);
+      digitalWrite(motorW4_IN2, LOW);
+      // Motor Wheel 5 - Right Middle
+      digitalWrite(motorW5_IN1, LOW);
+      digitalWrite(motorW5_IN2, LOW);
+      // Motor Wheel 6 - Right Back
+      digitalWrite(motorW6_IN1, LOW);
+      digitalWrite(motorW6_IN2, LOW);
+      Serial.println("blucle");
+
+      if (IBus.readChannel(4) > 1700)
+      {
+        break;
+      }
+    }
+  }
   //* Steer right
+
   if (IBus.readChannel(0) > 1550)
   {
     // Servo motors
