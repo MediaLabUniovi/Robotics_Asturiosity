@@ -8,8 +8,8 @@
 // permitiendo a los usuarios crear patrones de movimiento específicos como ondas sinusoidales, ondas cuadradas, rampas, escalones, etc.
 // Además, la librería ofrece la capacidad de personalizar la curva de movimiento para adaptarse a diferentes requisitos.
 #include <IBusBM.h>
-#include <AccelStepper.h>
-#include <SoftwareSerial.h>
+//#include <AccelStepper.h>
+//#include <SoftwareSerial.h>
 
 //* DECLARACIÓN DE VARIABLES
 
@@ -221,6 +221,7 @@ void motorStop()
 void setup()
 {
   Serial.begin(115200);
+  
   // Serial3.begin(115200);
   IBus.begin(Serial1, IBUSBM_NOTIMER);       // Servo IBUS
   IBusSensor.begin(Serial2, IBUSBM_NOTIMER); // Sensor IBUS
@@ -304,6 +305,7 @@ void loop()
   // ch4 = 0;
   ch1 = 0; // Le damos valor 0 a los canales que no usamos para que si cambian los valores en el mando no cree problemas en el código
   ch3 = 0;
+  ch4 = 0;
 
   // Convertign the incoming data
   //* Steering right
@@ -404,6 +406,7 @@ void loop()
   //     }
   //   }
   // }
+
   //* Steer right
 
   if (IBus.readChannel(0) > 1550)
@@ -642,10 +645,10 @@ void loop()
     }
   }
 
-  // //* Monitor the battery voltage
-  // int sensorValue = analogRead(A0);
-  // float voltage = sensorValue * (5.00 / 1023.00) * 3.02; // Convert the reading values from 5v to suitable 12V
-  // // Send battery voltage value to transmitter
-  // IBusSensor.loop();
-  // IBusSensor.setSensorMeasurement(1, voltage * 100);
+  //* Monitor the battery voltage
+  int sensorValue = analogRead(A0);
+  float voltage = sensorValue * (5.00 / 1023.00) * 3.02; // Convert the reading values from 5v to suitable 12V
+  // Send battery voltage value to transmitter
+  IBusSensor.loop();
+  IBusSensor.setSensorMeasurement(1, voltage * 100);
 }
