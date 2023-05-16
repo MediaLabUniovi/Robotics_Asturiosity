@@ -8,8 +8,8 @@
 // permitiendo a los usuarios crear patrones de movimiento específicos como ondas sinusoidales, ondas cuadradas, rampas, escalones, etc.
 // Además, la librería ofrece la capacidad de personalizar la curva de movimiento para adaptarse a diferentes requisitos.
 #include <IBusBM.h>
-//#include <AccelStepper.h>
-//#include <SoftwareSerial.h>
+// #include <AccelStepper.h>
+// #include <SoftwareSerial.h>
 
 //* DECLARACIÓN DE VARIABLES
 
@@ -52,7 +52,7 @@ float d1 = 271; // distancia in mm
 float d2 = 278;
 float d3 = 301;
 float d4 = 304;
-//bool STOP_SIGNAL; 
+// bool STOP_SIGNAL;
 
 // int distances[2]; // 2 distancias enviadas por comunicación serial
 
@@ -94,15 +94,6 @@ void calculateServoAngle()
   thetaOuterBack = round((atan((d2 / (r - d1)))) * 180 / PI);
 }
 
-//* 1 SENSOR
-// int receiveData()
-// {
-//   while (Serial3.available() == 0)
-//   {
-//   }                              // Espera hasta que lleguen datos
-//   int data = Serial3.parseInt(); // Lee los datos del puerto serial
-//   return data;
-// }
 
 //* Función para que el rover vaya hacia delante y recto
 
@@ -178,50 +169,11 @@ void motorStop()
   digitalWrite(motorW6_IN2, LOW);
 }
 
-// //* 2 SENSORES
-// void recibirDistancias()
-// {
-//   if (IBus.readChannel(4) < 1600)
-//   {
-//     if (sizeof(Serial3.available()) >= 2 * sizeof(int))
-//     {
-//       for (int i = 0; i < 2; i++)
-//       {
-//         Serial3.readBytes((byte *)&distances[i], sizeof(int));
-//       }
-
-//       Serial.print("Distancias: ");
-
-//       for (int i = 0; i < 2; i++)
-//       {
-//         Serial.print(distances[i]);
-//         Serial.print(" ");
-//       }
-//     }
-//     Serial.print("distancia motorW3: ");
-//     Serial.print(distances[0]);
-//     Serial.print("cm");
-//     Serial.println();
-
-//     Serial.print("distancia motorW6: ");
-//     Serial.print(distances[1]);
-//     Serial.print("cm");
-//     Serial.println();
-//   }
-//   else
-//   {
-//     distances[0] = 80;
-//     distances[1] = 80;
-//     // distances[2] = 80;
-//     // distances[3] = 80;
-//     Serial.println("channel 4 >1600");
-//   }
-// }
 
 void setup()
 {
   Serial.begin(115200);
-  
+
   // Serial3.begin(115200);
   IBus.begin(Serial1, IBUSBM_NOTIMER);       // Servo IBUS
   IBusSensor.begin(Serial2, IBUSBM_NOTIMER); // Sensor IBUS
@@ -287,12 +239,6 @@ void setup()
 void loop()
 {
 
-  // //* 1 SENSOR
-  // int distance = receiveData(); // Lee los datos del Arduino Nano
-  // Serial.print("Distance: ");
-  // Serial.print(distance);
-  // Serial.println(" cm");
-
   //* Declaración de los canales en los que se leerán los datos que se reciben del trasmisor RC.
   IBus.loop();
   ch0 = IBus.readChannel(0); // Channel 1 Girar
@@ -302,10 +248,9 @@ void loop()
   ch4 = IBus.readChannel(4); // Channel 5 sENSORES
   ch5 = IBus.readChannel(5); // Channel 6 Direction
 
-  // ch4 = 0;
   ch1 = 0; // Le damos valor 0 a los canales que no usamos para que si cambian los valores en el mando no cree problemas en el código
   ch3 = 0;
-  ch4 = 0;
+  ch4 = 0; // sensores no
 
   // Convertign the incoming data
   //* Steering right
@@ -323,89 +268,6 @@ void loop()
 
   calculateMotorsSpeed(s, s1, s2, s3);
   calculateServoAngle();
-
-  //* 4 SENSORES
-  // Serial.println("chanel4");
-  // Serial.println(IBus.readChannel(4));
-  // delay(1000);
-
-  // recibirDistancias(); // Lee las distancias desde el Arduino Nano
-
-  //* Sensors available
-  // if (IBus.readChannel(4) < 1600 && millis() >= 4000)
-  // // if (IBus.readChannel(4) < 1600)
-  // {
-  //   Serial.println("hola");
-  //   recibirDistancias();
-  //   while ((distances[0] <= 40) || (distances[1] <= 40))
-  //   {
-  //     IBus.loop();
-  //     // DC Motors
-  //     // Motor Wheel 1 - Left Front
-  //     digitalWrite(motorW1_IN1, LOW); // PWM value
-  //     digitalWrite(motorW1_IN2, LOW); // Forward
-  //     // Motor Wheel 2 - Left Middle
-  //     digitalWrite(motorW2_IN1, LOW);
-  //     digitalWrite(motorW2_IN2, LOW);
-  //     // Motor Wheel 3 - Left Back
-  //     digitalWrite(motorW3_IN1, LOW);
-  //     digitalWrite(motorW3_IN2, LOW);
-  //     // right side motors move in opposite direction
-  //     // Motor Wheel 4 - Right Front
-  //     digitalWrite(motorW4_IN1, LOW);
-  //     digitalWrite(motorW4_IN2, LOW);
-  //     // Motor Wheel 5 - Right Middle
-  //     digitalWrite(motorW5_IN1, LOW);
-  //     digitalWrite(motorW5_IN2, LOW);
-  //     // Motor Wheel 6 - Right Back
-  //     digitalWrite(motorW6_IN1, LOW);
-  //     digitalWrite(motorW6_IN2, LOW);
-  //     Serial.println("blucle");
-
-  //     if (IBus.readChannel(4) > 1700)
-  //     {
-  //       break;
-  //     }
-  //     //     //   // if ((distanceW1 > 60) || (distanceW3) > 60 || (distanceW4) > 60 || (distanceW6) > 60)
-  //   }
-  // }
-
-  //* RECIBIR STOP
-  // if ((Serial3.available()) && (IBus.readChannel(4))<1600)
-  // {
-  //   STOP_SIGNAL = Serial3.read();
-  //   while (STOP_SIGNAL)
-  //   {
-  //     IBus.loop();
-  //     // DC Motors
-  //     // Motor Wheel 1 - Left Front
-  //     digitalWrite(motorW1_IN1, LOW); // PWM value
-  //     digitalWrite(motorW1_IN2, LOW); // Forward
-  //     // Motor Wheel 2 - Left Middle
-  //     digitalWrite(motorW2_IN1, LOW);
-  //     digitalWrite(motorW2_IN2, LOW);
-  //     // Motor Wheel 3 - Left Back
-  //     digitalWrite(motorW3_IN1, LOW);
-  //     digitalWrite(motorW3_IN2, LOW);
-  //     // right side motors move in opposite direction
-  //     // Motor Wheel 4 - Right Front
-  //     digitalWrite(motorW4_IN1, LOW);
-  //     digitalWrite(motorW4_IN2, LOW);
-  //     // Motor Wheel 5 - Right Middle
-  //     digitalWrite(motorW5_IN1, LOW);
-  //     digitalWrite(motorW5_IN2, LOW);
-  //     // Motor Wheel 6 - Right Back
-  //     digitalWrite(motorW6_IN1, LOW);
-  //     digitalWrite(motorW6_IN2, LOW);
-  //     Serial.println("blucle");
-
-  //     if (IBus.readChannel(4) > 1700) 
-  //     {
-  //       STOP_SIGNAL=false;
-  //       break;
-  //     }
-  //   }
-  // }
 
   //* Steer right
 
@@ -645,10 +507,10 @@ void loop()
     }
   }
 
-  //* Monitor the battery voltage
-  int sensorValue = analogRead(A0);
-  float voltage = sensorValue * (5.00 / 1023.00) * 3.02; // Convert the reading values from 5v to suitable 12V
-  // Send battery voltage value to transmitter
-  IBusSensor.loop();
-  IBusSensor.setSensorMeasurement(1, voltage * 100);
+  // //* Monitor the battery voltage
+  // int sensorValue = analogRead(A0);
+  // float voltage = sensorValue * (5.00 / 1023.00) * 3.02; // Convert the reading values from 5v to suitable 12V
+  // // Send battery voltage value to transmitter
+  // IBusSensor.loop();
+  // IBusSensor.setSensorMeasurement(1, voltage * 100);
 }
