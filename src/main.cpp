@@ -53,6 +53,7 @@ float d2 = 278;
 float d3 = 301;
 float d4 = 304;
 // bool STOP_SIGNAL;
+// const int ledPin = LED_BUILTIN;  // Pin integrado del LED en el Arduino Mega
 
 // int distances[2]; // 2 distancias enviadas por comunicación serial
 
@@ -93,7 +94,6 @@ void calculateServoAngle()
   thetaOuterFront = round((atan((d3 / (r - d1)))) * 180 / PI);
   thetaOuterBack = round((atan((d2 / (r - d1)))) * 180 / PI);
 }
-
 
 //* Función para que el rover vaya hacia delante y recto
 
@@ -169,8 +169,6 @@ void motorStop()
   digitalWrite(motorW6_IN2, LOW);
 }
 
-
-
 void setup()
 {
   Serial.begin(115200);
@@ -235,6 +233,8 @@ void setup()
   servoW3.setSpeed(550);
   servoW4.setSpeed(550);
   servoW6.setSpeed(550);
+
+  // pinMode(ledPin, OUTPUT);  // Configura el pin del LED como salida
 }
 
 void loop()
@@ -253,7 +253,6 @@ void loop()
   ch3 = 0;
   ch4 = 0; // sensores no
 
-
   // Convertign the incoming data
   //* Steering right
   if (IBus.readChannel(0) > 1550)
@@ -271,10 +270,12 @@ void loop()
   calculateMotorsSpeed(s, s1, s2, s3);
   calculateServoAngle();
 
- //* RECIBIR STOP
-  // if ((Serial3.available()) && (IBus.readChannel(4))<1600)
+  //* RECIBIR STOP
+  // if ((Serial3.available() > 0) && (IBus.readChannel(4))<1600)
   // {
   //   STOP_SIGNAL = Serial3.read();
+  //   Control del LED
+  //   digitalWrite(ledPin, stopsignal);  // Enciende o apaga el LED según el valor de stopsignal
   //   while (STOP_SIGNAL)
   //   {
   //     IBus.loop();
@@ -300,7 +301,7 @@ void loop()
   //     digitalWrite(motorW6_IN2, LOW);
   //     Serial.println("blucle");
 
-  //     if (IBus.readChannel(4) > 1700) 
+  //     if (IBus.readChannel(4) > 1700)
   //     {
   //       STOP_SIGNAL=false;
   //       break;
