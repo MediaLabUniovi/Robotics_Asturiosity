@@ -21,8 +21,8 @@
 #define motorW3_IN2 2
 #define motorW4_IN1 10
 #define motorW4_IN2 13
-#define motorW5_IN1 9
-#define motorW5_IN2 8
+#define motorW5_IN1 8
+#define motorW5_IN2 9
 #define motorW6_IN1 12
 #define motorW6_IN2 11
 
@@ -52,8 +52,8 @@ float d1 = 271; // distancia in mm
 float d2 = 278;
 float d3 = 301;
 float d4 = 304;
-// bool STOP_SIGNAL;
-// const int ledPin = LED_BUILTIN;  // Pin integrado del LED en el Arduino Mega
+bool STOP_SIGNAL;
+const int ledPin = LED_BUILTIN;  // Pin integrado del LED en el Arduino Mega
 
 // int distances[2]; // 2 distancias enviadas por comunicación serial
 
@@ -169,6 +169,7 @@ void motorStop()
   digitalWrite(motorW6_IN2, LOW);
 }
 
+
 void setup()
 {
   Serial.begin(115200);
@@ -271,43 +272,43 @@ void loop()
   calculateServoAngle();
 
   //* RECIBIR STOP
-  // if ((Serial3.available() > 0) && (IBus.readChannel(4))<1600)
-  // {
-  //   STOP_SIGNAL = Serial3.read();
-  //   Control del LED
-  //   digitalWrite(ledPin, stopsignal);  // Enciende o apaga el LED según el valor de stopsignal
-  //   while (STOP_SIGNAL)
-  //   {
-  //     IBus.loop();
-  //     // DC Motors
-  //     // Motor Wheel 1 - Left Front
-  //     digitalWrite(motorW1_IN1, LOW); // PWM value
-  //     digitalWrite(motorW1_IN2, LOW); // Forward
-  //     // Motor Wheel 2 - Left Middle
-  //     digitalWrite(motorW2_IN1, LOW);
-  //     digitalWrite(motorW2_IN2, LOW);
-  //     // Motor Wheel 3 - Left Back
-  //     digitalWrite(motorW3_IN1, LOW);
-  //     digitalWrite(motorW3_IN2, LOW);
-  //     // right side motors move in opposite direction
-  //     // Motor Wheel 4 - Right Front
-  //     digitalWrite(motorW4_IN1, LOW);
-  //     digitalWrite(motorW4_IN2, LOW);
-  //     // Motor Wheel 5 - Right Middle
-  //     digitalWrite(motorW5_IN1, LOW);
-  //     digitalWrite(motorW5_IN2, LOW);
-  //     // Motor Wheel 6 - Right Back
-  //     digitalWrite(motorW6_IN1, LOW);
-  //     digitalWrite(motorW6_IN2, LOW);
-  //     Serial.println("blucle");
+  if ((Serial3.available() > 0) && (IBus.readChannel(4))<1600)
+  {
+    STOP_SIGNAL = Serial3.read();
+    //Control del LED
+    digitalWrite(ledPin, STOP_SIGNAL);  // Enciende o apaga el LED según el valor de stopsignal
+    while (STOP_SIGNAL)
+    {
+      IBus.loop();
+      // DC Motors
+      // Motor Wheel 1 - Left Front
+      digitalWrite(motorW1_IN1, LOW); // PWM value
+      digitalWrite(motorW1_IN2, LOW); // Forward
+      // Motor Wheel 2 - Left Middle
+      digitalWrite(motorW2_IN1, LOW);
+      digitalWrite(motorW2_IN2, LOW);
+      // Motor Wheel 3 - Left Back
+      digitalWrite(motorW3_IN1, LOW);
+      digitalWrite(motorW3_IN2, LOW);
+      // right side motors move in opposite direction
+      // Motor Wheel 4 - Right Front
+      digitalWrite(motorW4_IN1, LOW);
+      digitalWrite(motorW4_IN2, LOW);
+      // Motor Wheel 5 - Right Middle
+      digitalWrite(motorW5_IN1, LOW);
+      digitalWrite(motorW5_IN2, LOW);
+      // Motor Wheel 6 - Right Back
+      digitalWrite(motorW6_IN1, LOW);
+      digitalWrite(motorW6_IN2, LOW);
+      Serial.println("blucle");
 
-  //     if (IBus.readChannel(4) > 1700)
-  //     {
-  //       STOP_SIGNAL=false;
-  //       break;
-  //     }
-  //   }
-  // }
+      if (IBus.readChannel(4) > 1700)
+      {
+        STOP_SIGNAL=false;
+        break;
+      }
+    }
+  }
 
   //* Steer right
 
