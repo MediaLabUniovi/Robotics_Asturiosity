@@ -53,7 +53,7 @@ float d2 = 278;
 float d3 = 301;
 float d4 = 304;
 bool STOP_SIGNAL;
-const int ledPin = LED_BUILTIN;  // Pin integrado del LED en el Arduino Mega
+const int ledPin = LED_BUILTIN; // Pin integrado del LED en el Arduino Mega
 
 // int distances[2]; // 2 distancias enviadas por comunicación serial
 
@@ -169,12 +169,11 @@ void motorStop()
   digitalWrite(motorW6_IN2, LOW);
 }
 
-
 void setup()
 {
   Serial.begin(115200);
 
-  // Serial3.begin(115200);
+  Serial3.begin(115200);
   IBus.begin(Serial1, IBUSBM_NOTIMER);       // Servo IBUS
   IBusSensor.begin(Serial2, IBUSBM_NOTIMER); // Sensor IBUS
   IBusSensor.addSensor(IBUSS_INTV);          // add voltage sensor
@@ -272,11 +271,12 @@ void loop()
   calculateServoAngle();
 
   //* RECIBIR STOP
-  if ((Serial3.available() > 0) && (IBus.readChannel(4))<1600)
+  if ((Serial3.available() > 0) && (IBus.readChannel(4)) < 1600)
   {
     STOP_SIGNAL = Serial3.read();
-    //Control del LED
-    digitalWrite(ledPin, STOP_SIGNAL);  // Enciende o apaga el LED según el valor de stopsignal
+    Serial.println("lectura señal stop");
+    // Control del LED
+    digitalWrite(ledPin, STOP_SIGNAL); // Enciende o apaga el LED según el valor de stopsignal
     while (STOP_SIGNAL)
     {
       IBus.loop();
@@ -300,12 +300,13 @@ void loop()
       // Motor Wheel 6 - Right Back
       digitalWrite(motorW6_IN1, LOW);
       digitalWrite(motorW6_IN2, LOW);
-      Serial.println("blucle");
+      Serial.println("blucle parada de precolision");
 
       if (IBus.readChannel(4) > 1700)
       {
-        STOP_SIGNAL=false;
+        STOP_SIGNAL = false;
         break;
+        Serial.println("desconexion sensores");
       }
     }
   }
