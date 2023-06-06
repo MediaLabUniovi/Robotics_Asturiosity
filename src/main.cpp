@@ -234,7 +234,7 @@ void setup()
   servoW4.setSpeed(550);
   servoW6.setSpeed(550);
 
-  // pinMode(ledPin, OUTPUT);  // Configura el pin del LED como salida
+  pinMode(ledPin, OUTPUT);  // Configura el pin del LED como salida
 }
 
 void loop()
@@ -274,6 +274,7 @@ void loop()
   if ((Serial3.available() > 0) && (IBus.readChannel(4)) < 1600)
   {
     STOP_SIGNAL = Serial3.read();
+    Serial.print(STOP_SIGNAL);
     Serial.println("lectura señal stop");
     // Control del LED
     digitalWrite(ledPin, STOP_SIGNAL); // Enciende o apaga el LED según el valor de stopsignal
