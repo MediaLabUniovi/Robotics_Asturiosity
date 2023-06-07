@@ -56,6 +56,7 @@ bool STOP_SIGNAL;
 const int ledPin = LED_BUILTIN; // Pin integrado del LED en el Arduino Mega
 int valor_0;
 int valor_1;
+bool flag = true;
 
 // int distances[2]; // 2 distancias enviadas por comunicación serial
 
@@ -180,25 +181,12 @@ void setup()
     IBusSensor.begin(Serial2, IBUSBM_NOTIMER); // Sensor IBUS
     IBusSensor.addSensor(IBUSS_INTV);          // add voltage sensor
 
-  // //*MOTORES PARADOS INICIALMENTE HASTA RECIBIR SEÑAL DEL MANDO
-  while (!Serial1.available())
-  {
-    Serial.println("Conectar mando");
-    delay(1000);
-    motorStop();
-    // delay(1000);
-    if (Serial1.available())
-    {
-      break;
-    }
-  }
-
-  // Use this if you need to change the frequency of the PWM signals
-  // TCCR4B = TCCR4B & B11111000 | B00000101; // D6,D7,D8 PWM frequency of 30.64 Hz
-  // TCCR2B = TCCR2B & B11111000 | B00000111; // D9, D10 PWM frequency of 30.64 Hz
-  // TCCR1B = TCCR1B & B11111000 | B00000101; // D11, D12  PWM frequency of 30.64 Hz
-  // TCCR5B = TCCR5B & B11111000 | B00000101; // D4, D13 PWM frequency of 30.64 Hz
-  // TCCR3B = TCCR3B & B11111000 | B00000101; // D2, D3, D5 PWM frequency of 30.64 Hz
+    // Use this if you need to change the frequency of the PWM signals
+    // TCCR4B = TCCR4B & B11111000 | B00000101; // D6,D7,D8 PWM frequency of 30.64 Hz
+    // TCCR2B = TCCR2B & B11111000 | B00000111; // D9, D10 PWM frequency of 30.64 Hz
+    // TCCR1B = TCCR1B & B11111000 | B00000101; // D11, D12  PWM frequency of 30.64 Hz
+    // TCCR5B = TCCR5B & B11111000 | B00000101; // D4, D13 PWM frequency of 30.64 Hz
+    // TCCR3B = TCCR3B & B11111000 | B00000101; // D2, D3, D5 PWM frequency of 30.64 Hz
 
     // DC Motors
     // Motor Wheel 1 - Left Front
@@ -255,19 +243,41 @@ void loop()
     ch3 = 0;
     //   ch4 = 0; // sensores no
 
-  // Convertign the incoming data
-  //* Steering right
-  if (IBus.readChannel(0) > 1550)
-  {
-    r = map(IBus.readChannel(0), 1550, 2000, 1400, 600); // turining radius from 1400mm to 600mm
-  }
-  // Steering left
-  else if (IBus.readChannel(0) < 1450)
-  {
-    r = map(IBus.readChannel(0), 1450, 1000, 1400, 600); // turining radius from 600mm to 1400mm
-  }
-  // Rover speed in % from 0 to 100
-  s = map(IBus.readChannel(2), 1000, 2000, 0, 100); // rover speed from 0% to 100%
+    // //*MOTORES PARADOS INICIALMENTE HASTA RECIBIR SEÑAL DEL MANDO
+    // valor_0 = IBus.readChannel(2);
+    while (flag)
+    {
+        // IBus.loop();
+        valor_0 = IBus.readChannel(0);
+        valor_1 = IBus.readChannel(0);
+
+        if (valor_1 == valor_0)
+        {
+            // IBus.loop();
+            valor_1 = IBus.readChannel(0);
+            Serial.println(valor_1);
+            Serial.println("Conectar mando y mover canal derecho");
+        }
+        if (valor_1 >= 1990)
+        {
+            Serial.println("Mando conectado");
+            flag = false;
+            break;
+        }
+    }
+    // Convertign the incoming data
+    //* Steering right
+    if (IBus.readChannel(0) > 1550)
+    {
+        r = map(IBus.readChannel(0), 1550, 2000, 1400, 600); // turining radius from 1400mm to 600mm
+    }
+    // Steering left
+    else if (IBus.readChannel(0) < 1450)
+    {
+        r = map(IBus.readChannel(0), 1450, 1000, 1400, 600); // turining radius from 600mm to 1400mm
+    }
+    // Rover speed in % from 0 to 100
+    s = map(IBus.readChannel(2), 1000, 2000, 0, 100); // rover speed from 0% to 100%
 
     calculateMotorsSpeed(s, s1, s2, s3);
     calculateServoAngle();
