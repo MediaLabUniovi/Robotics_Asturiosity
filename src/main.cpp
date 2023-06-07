@@ -178,18 +178,21 @@ void setup()
   IBusSensor.begin(Serial2, IBUSBM_NOTIMER); // Sensor IBUS
   IBusSensor.addSensor(IBUSS_INTV);          // add voltage sensor
 
+  IBus.loop();
+  Serial.println(IBus.readChannel(0));
   // //*MOTORES PARADOS INICIALMENTE HASTA RECIBIR SEÑAL DEL MANDO
   while (!Serial1.available())
   {
     Serial.println("Conectar mando");
-    delay(1000);
     motorStop();
     // delay(1000);
     if (Serial1.available())
     {
+      Serial.println("Mando conectado");
       break;
     }
   }
+  
 
   // Use this if you need to change the frequency of the PWM signals
   // TCCR4B = TCCR4B & B11111000 | B00000101; // D6,D7,D8 PWM frequency of 30.64 Hz
@@ -234,7 +237,7 @@ void setup()
   servoW4.setSpeed(550);
   servoW6.setSpeed(550);
 
-  pinMode(ledPin, OUTPUT);  // Configura el pin del LED como salida
+  pinMode(ledPin, OUTPUT); // Configura el pin del LED como salida
 }
 
 void loop()
@@ -271,7 +274,7 @@ void loop()
   calculateServoAngle();
 
   //* RECIBIR STOP
-  if ((Serial3.available() > 0) && (IBus.readChannel(4)) < 1600)
+  if ((Serial3 > 0) && (IBus.readChannel(4)) < 1600)
   {
     STOP_SIGNAL = Serial3.read();
     Serial.print(STOP_SIGNAL);
