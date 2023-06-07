@@ -180,17 +180,7 @@ void setup()
   IBusSensor.addSensor(IBUSS_INTV);          // add voltage sensor
 
   // //*MOTORES PARADOS INICIALMENTE HASTA RECIBIR SEÑAL DEL MANDO
-  while (!Serial1.available())
-  {
-    Serial.println("Conectar mando");
-    delay(1000);
-    motorStop();
-    // delay(1000);
-    if (Serial1.available())
-    {
-      break;
-    }
-  }
+  
 
   // Use this if you need to change the frequency of the PWM signals
   // TCCR4B = TCCR4B & B11111000 | B00000101; // D6,D7,D8 PWM frequency of 30.64 Hz
@@ -253,6 +243,7 @@ void loop()
   ch1 = 0; // Le damos valor 0 a los canales que no usamos para que si cambian los valores en el mando no cree problemas en el código
   ch3 = 0;
   ch4 = 0; // sensores no
+
 
   // Convertign the incoming data
   //* Steering right
