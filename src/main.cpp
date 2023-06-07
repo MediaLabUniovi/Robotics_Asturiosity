@@ -239,7 +239,7 @@ void loop()
     ch4 = IBus.readChannel(4); // Channel 5 sENSORES
     ch5 = IBus.readChannel(5); // Channel 6 Direction
 
-    ch1 = 0; // Le damos valor 0 a los canales que no usamos para que si cambian los valores en el mando no cree problemas en el código
+    //ch1 = 0; // Le damos valor 0 a los canales que no usamos para que si cambian los valores en el mando no cree problemas en el código
     ch3 = 0;
     //   ch4 = 0; // sensores no
 
@@ -247,18 +247,20 @@ void loop()
     // valor_0 = IBus.readChannel(2);
     while (flag)
     {
-        // IBus.loop();
-        valor_0 = IBus.readChannel(0);
-        valor_1 = IBus.readChannel(0);
+        IBus.loop();
+        valor_0 = IBus.readChannel(1);
+        valor_1 = IBus.readChannel(1);
+        motorStop();
 
         if (valor_1 == valor_0)
         {
             // IBus.loop();
-            valor_1 = IBus.readChannel(0);
+            valor_1 = IBus.readChannel(1);
             Serial.println(valor_1);
             Serial.println("Conectar mando y mover canal derecho");
+            motorStop();
         }
-        if (valor_1 >= 1990)
+        if (valor_1 > 1800)
         {
             Serial.println("Mando conectado");
             flag = false;
@@ -281,6 +283,7 @@ void loop()
 
     calculateMotorsSpeed(s, s1, s2, s3);
     calculateServoAngle();
+
 
     //* RECIBIR STOP
     if ((Serial3 > 0) && (IBus.readChannel(4)) < 1600)
