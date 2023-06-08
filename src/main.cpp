@@ -289,7 +289,7 @@ void loop()
     Serial.print(STOP_SIGNAL);
     // Serial.println("lectura señal stop");
 
-    if ((IBus.readChannel(4)) < 1600)
+    if (Serial3.available() && (IBus.readChannel(4)) < 1600)
     {
         // Control del LED
         digitalWrite(ledPin, HIGH); // Enciende el LED
