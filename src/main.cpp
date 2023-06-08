@@ -52,7 +52,7 @@ float d1 = 271; // distancia in mm
 float d2 = 278;
 float d3 = 301;
 float d4 = 304;
-bool STOP_SIGNAL;
+int STOP_SIGNAL = 0;
 const int ledPin = LED_BUILTIN; // Pin integrado del LED en el Arduino Mega
 int valor_0;
 int valor_1;
@@ -239,7 +239,7 @@ void loop()
     ch4 = IBus.readChannel(4); // Channel 5 sENSORES
     ch5 = IBus.readChannel(5); // Channel 6 Direction
 
-    //ch1 = 0; // Le damos valor 0 a los canales que no usamos para que si cambian los valores en el mando no cree problemas en el código
+    // ch1 = 0; // Le damos valor 0 a los canales que no usamos para que si cambian los valores en el mando no cree problemas en el código
     ch3 = 0;
     //   ch4 = 0; // sensores no
 
@@ -284,16 +284,16 @@ void loop()
     calculateMotorsSpeed(s, s1, s2, s3);
     calculateServoAngle();
 
-
     //* RECIBIR STOP
-    if ((Serial3 > 0) && (IBus.readChannel(4)) < 1600)
+    STOP_SIGNAL = Serial3.read();
+    Serial.print(STOP_SIGNAL);
+    // Serial.println("lectura señal stop");
+
+    if ((IBus.readChannel(4)) < 1600)
     {
-        STOP_SIGNAL = Serial3.read();
-        Serial.print(STOP_SIGNAL);
-        Serial.println("lectura señal stop");
         // Control del LED
-        digitalWrite(ledPin, STOP_SIGNAL); // Enciende o apaga el LED según el valor de stopsignal
-        while (STOP_SIGNAL)
+        digitalWrite(ledPin, HIGH); // Enciende el LED
+        while (STOP_SIGNAL == 1)
         {
             IBus.loop();
             // DC Motors
@@ -316,13 +316,14 @@ void loop()
             // Motor Wheel 6 - Right Back
             digitalWrite(motorW6_IN1, LOW);
             digitalWrite(motorW6_IN2, LOW);
-            Serial.println("blucle parada de precolision");
+            // Serial.println("blucle parada de precolision");
 
             if (IBus.readChannel(4) > 1700)
             {
-                STOP_SIGNAL = false;
-                break;
+                STOP_SIGNAL = 0;
+                digitalWrite(ledPin, LOW); //  apaga el LED
                 Serial.println("desconexion sensores");
+                break;
             }
         }
     }
