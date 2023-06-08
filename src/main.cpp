@@ -52,11 +52,13 @@ float d1 = 271; // distancia in mm
 float d2 = 278;
 float d3 = 301;
 float d4 = 304;
-int STOP_SIGNAL = 0;
+// int STOP_SIGNAL = 0;
 const int ledPin = LED_BUILTIN; // Pin integrado del LED en el Arduino Mega
 int valor_0;
 int valor_1;
 bool flag = true;
+#define STOP_SIGNAL 38
+int STOP_MOTOR;
 
 // int distances[2]; // 2 distancias enviadas por comunicación serial
 
@@ -176,7 +178,7 @@ void setup()
 {
     Serial.begin(115200);
 
-    Serial3.begin(115200);
+    // Serial3.begin(115200);
     IBus.begin(Serial1, IBUSBM_NOTIMER);       // Servo IBUS
     IBusSensor.begin(Serial2, IBUSBM_NOTIMER); // Sensor IBUS
     IBusSensor.addSensor(IBUSS_INTV);          // add voltage sensor
@@ -225,6 +227,7 @@ void setup()
     servoW6.setSpeed(550);
 
     pinMode(ledPin, OUTPUT); // Configura el pin del LED como salida
+    pinMode(STOP_SIGNAL, INPUT);
 }
 
 void loop()
@@ -244,29 +247,30 @@ void loop()
     //   ch4 = 0; // sensores no
 
     // //*MOTORES PARADOS INICIALMENTE HASTA RECIBIR SEÑAL DEL MANDO
-    valor_0 = IBus.readChannel(5);
-    while (valor_0 != 0)
+    // valor_0 = IBus.readChannel(1);
+    while (flag)
     {
-        valor_0 = IBus.readChannel(5);
-        Serial.println(valor_0);
-        while (true)
-        {
-            IBus.loop();
-            delay(1000);
-            valor_1 = IBus.readChannel(5);
-            if (valor_1 = valor_0)
-            {
-                Serial.println("Conectar mando");
-                motorStop();
-            }
+        IBus.loop();
+        valor_0 = IBus.readChannel(1);
+        valor_1 = IBus.readChannel(1);
+        motorStop();
 
-            else
-            {
-                Serial.println("Mando conectado");
-                break;
-            }
+        if (valor_1 == valor_0)
+        {
+            valor_1 = IBus.readChannel(1);
+            Serial.println(valor_1);
+            Serial.println("Conectar mando y mover canal derecho");
+            motorStop();
+        }
+
+        if (valor_1 > 1800)
+        {
+            Serial.println("Mando conectado");
+            flag = false;
+            break;
         }
     }
+
     // Convertign the incoming data
     //* Steering right
     if (IBus.readChannel(0) > 1550)
@@ -285,15 +289,17 @@ void loop()
     calculateServoAngle();
 
     //* RECIBIR STOP
-    STOP_SIGNAL = Serial3.read();
-    Serial.print(STOP_SIGNAL);
+    // STOP_SIGNAL = Serial3.read();
+    // Serial.print(STOP_SIGNAL);
     // Serial.println("lectura señal stop");
-
-    if (Serial3.available() && (IBus.readChannel(4)) < 1600)
+    STOP_MOTOR = digitalRead(STOP_SIGNAL);
+    Serial.println(STOP_MOTOR);
+    if (IBus.readChannel(4) < 1600)
     {
         // Control del LED
         digitalWrite(ledPin, HIGH); // Enciende el LED
-        while (STOP_SIGNAL == 1)
+        STOP_MOTOR = digitalRead(STOP_SIGNAL);
+        while (STOP_MOTOR == HIGH)
         {
             IBus.loop();
             // DC Motors
@@ -320,7 +326,8 @@ void loop()
 
             if (IBus.readChannel(4) > 1700)
             {
-                STOP_SIGNAL = 0;
+                STOP_MOTOR = LOW;
+                // STOP_SIGNAL = 0;
                 digitalWrite(ledPin, LOW); //  apaga el LED
                 Serial.println("desconexion sensores");
                 break;
