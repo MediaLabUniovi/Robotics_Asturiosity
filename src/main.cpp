@@ -244,7 +244,6 @@ void loop()
     //   ch4 = 0; // sensores no
 
     // //*MOTORES PARADOS INICIALMENTE HASTA RECIBIR SEÑAL DEL MANDO
-<<<<<<< HEAD
     valor_0 = IBus.readChannel(5);
     while (valor_0 != 0)
     {
@@ -266,29 +265,6 @@ void loop()
                 Serial.println("Mando conectado");
                 break;
             }
-=======
-    // valor_0 = IBus.readChannel(2);
-    while (flag)
-    {
-        IBus.loop();
-        valor_0 = IBus.readChannel(1);
-        valor_1 = IBus.readChannel(1);
-        motorStop();
-
-        if (valor_1 == valor_0)
-        {
-            // IBus.loop();
-            valor_1 = IBus.readChannel(1);
-            Serial.println(valor_1);
-            Serial.println("Conectar mando y mover canal derecho");
-            motorStop();
-        }
-        if (valor_1 > 1800)
-        {
-            Serial.println("Mando conectado");
-            flag = false;
-            break;
->>>>>>> 0a33dffdeca72dd2f570f57b74bfa23d4f8fec57
         }
     }
     // Convertign the incoming data
