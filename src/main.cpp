@@ -25,7 +25,4 @@ void loop(){
     Serial.println(STOP);
     delay(1000);
 
-
-
-
 }
