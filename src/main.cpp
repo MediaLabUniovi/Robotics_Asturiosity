@@ -59,6 +59,7 @@ int valor_1;
 bool flag = true;
 #define STOP_SIGNAL 38
 int STOP_MOTOR;
+bool one_time = true;
 
 // int distances[2]; // 2 distancias enviadas por comunicación serial
 
@@ -268,6 +269,8 @@ void motorBackward_left()
     analogWrite(motorW6_IN1, s1PWM);
     digitalWrite(motorW6_IN2, LOW);
 }
+
+
 void setup()
 {
     Serial.begin(115200);
@@ -277,33 +280,7 @@ void setup()
     IBusSensor.begin(Serial2, IBUSBM_NOTIMER); // Sensor IBUS
     IBusSensor.addSensor(IBUSS_INTV);          // add voltage sensor
 
-    // Use this if you need to change the frequency of the PWM signals
-    // TCCR4B = TCCR4B & B11111000 | B00000101; // D6,D7,D8 PWM frequency of 30.64 Hz
-    // TCCR2B = TCCR2B & B11111000 | B00000111; // D9, D10 PWM frequency of 30.64 Hz
-    // TCCR1B = TCCR1B & B11111000 | B00000101; // D11, D12  PWM frequency of 30.64 Hz
-    // TCCR5B = TCCR5B & B11111000 | B00000101; // D4, D13 PWM frequency of 30.64 Hz
-    // TCCR3B = TCCR3B & B11111000 | B00000101; // D2, D3, D5 PWM frequency of 30.64 Hz
-
-    // DC Motors
-    // Motor Wheel 1 - Left Front
-    digitalWrite(motorW1_IN1, LOW); // PWM value
-    digitalWrite(motorW1_IN2, LOW); // Forward
-    // Motor Wheel 2 - Left Middle
-    digitalWrite(motorW2_IN1, LOW);
-    digitalWrite(motorW2_IN2, LOW);
-    // Motor Wheel 3 - Left Back
-    digitalWrite(motorW3_IN1, LOW);
-    digitalWrite(motorW3_IN2, LOW);
-    // right side motors move in opposite direction
-    // Motor Wheel 4 - Right Front
-    digitalWrite(motorW4_IN1, LOW);
-    digitalWrite(motorW4_IN2, LOW);
-    // Motor Wheel 5 - Right Middle
-    digitalWrite(motorW5_IN1, LOW);
-    digitalWrite(motorW5_IN2, LOW);
-    // Motor Wheel 6 - Right Back
-    digitalWrite(motorW6_IN1, LOW);
-    digitalWrite(motorW6_IN2, LOW);
+    motorStop();
 
     servoW1.attach(22);
     servoW3.attach(23);
@@ -483,10 +460,10 @@ void loop()
         }
     }
 
-    // //* Monitor the battery voltage
-    // int sensorValue = analogRead(A0);
-    // float voltage = sensorValue * (5.00 / 1023.00) * 3.02; // Convert the reading values from 5v to suitable 12V
-    // // Send battery voltage value to transmitter
-    // IBusSensor.loop();
-    // IBusSensor.setSensorMeasurement(1, voltage * 100);
+    //* Monitor the battery voltage
+    int sensorValue = analogRead(A0);
+    float voltage = sensorValue * (5.00 / 1023.00) * 3.02; // Convert the reading values from 5v to suitable 12V
+    // Send battery voltage value to transmitter
+    IBusSensor.loop();
+    IBusSensor.setSensorMeasurement(1, voltage * 100);
 }
