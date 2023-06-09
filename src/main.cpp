@@ -292,48 +292,48 @@ void loop()
     // STOP_SIGNAL = Serial3.read();
     // Serial.print(STOP_SIGNAL);
     // Serial.println("lectura señal stop");
-    // STOP_MOTOR = digitalRead(STOP_SIGNAL);
-    // Serial.println(STOP_MOTOR);
-    // if (IBus.readChannel(4) < 1600)
-    // {
-    //     // Control del LED
-    //     digitalWrite(ledPin, HIGH); // Enciende el LED
-    //     STOP_MOTOR = digitalRead(STOP_SIGNAL);
-    //     while (STOP_MOTOR == HIGH)
-    //     {
-    //         IBus.loop();
-    //         // DC Motors
-    //         // Motor Wheel 1 - Left Front
-    //         digitalWrite(motorW1_IN1, LOW); // PWM value
-    //         digitalWrite(motorW1_IN2, LOW); // Forward
-    //         // Motor Wheel 2 - Left Middle
-    //         digitalWrite(motorW2_IN1, LOW);
-    //         digitalWrite(motorW2_IN2, LOW);
-    //         // Motor Wheel 3 - Left Back
-    //         digitalWrite(motorW3_IN1, LOW);
-    //         digitalWrite(motorW3_IN2, LOW);
-    //         // right side motors move in opposite direction
-    //         // Motor Wheel 4 - Right Front
-    //         digitalWrite(motorW4_IN1, LOW);
-    //         digitalWrite(motorW4_IN2, LOW);
-    //         // Motor Wheel 5 - Right Middle
-    //         digitalWrite(motorW5_IN1, LOW);
-    //         digitalWrite(motorW5_IN2, LOW);
-    //         // Motor Wheel 6 - Right Back
-    //         digitalWrite(motorW6_IN1, LOW);
-    //         digitalWrite(motorW6_IN2, LOW);
-    //         // Serial.println("blucle parada de precolision");
+    STOP_MOTOR = digitalRead(STOP_SIGNAL);
+    Serial.println(STOP_MOTOR);
+    if (IBus.readChannel(4) < 1600)
+    {
+        // Control del LED
+        digitalWrite(ledPin, HIGH); // Enciende el LED
+        STOP_MOTOR = digitalRead(STOP_SIGNAL);
+        while (STOP_MOTOR == HIGH)
+        {
+            IBus.loop();
+            // DC Motors
+            // Motor Wheel 1 - Left Front
+            digitalWrite(motorW1_IN1, LOW); // PWM value
+            digitalWrite(motorW1_IN2, LOW); // Forward
+            // Motor Wheel 2 - Left Middle
+            digitalWrite(motorW2_IN1, LOW);
+            digitalWrite(motorW2_IN2, LOW);
+            // Motor Wheel 3 - Left Back
+            digitalWrite(motorW3_IN1, LOW);
+            digitalWrite(motorW3_IN2, LOW);
+            // right side motors move in opposite direction
+            // Motor Wheel 4 - Right Front
+            digitalWrite(motorW4_IN1, LOW);
+            digitalWrite(motorW4_IN2, LOW);
+            // Motor Wheel 5 - Right Middle
+            digitalWrite(motorW5_IN1, LOW);
+            digitalWrite(motorW5_IN2, LOW);
+            // Motor Wheel 6 - Right Back
+            digitalWrite(motorW6_IN1, LOW);
+            digitalWrite(motorW6_IN2, LOW);
+            // Serial.println("blucle parada de precolision");
 
-    //         if (IBus.readChannel(4) > 1700)
-    //         {
-    //             STOP_MOTOR = LOW;
-    //             // STOP_SIGNAL = 0;
-    //             digitalWrite(ledPin, LOW); //  apaga el LED
-    //             Serial.println("desconexion sensores");
-    //             break;
-    //         }
-    //     }
-    // }
+            if (IBus.readChannel(4) > 1700)
+            {
+                STOP_MOTOR = LOW;
+                // STOP_SIGNAL = 0;
+                digitalWrite(ledPin, LOW); //  apaga el LED
+                Serial.println("desconexion sensores");
+                break;
+            }
+        }
+    }
 
     //* Steer right
 
