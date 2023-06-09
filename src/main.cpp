@@ -270,7 +270,6 @@ void motorBackward_left()
     digitalWrite(motorW6_IN2, LOW);
 }
 
-
 void setup()
 {
     Serial.begin(115200);
@@ -367,9 +366,13 @@ void loop()
     Serial.println(STOP_MOTOR);
     if (IBus.readChannel(4) < 1600)
     {
-        // Control del LED
-        digitalWrite(ledPin, HIGH); // Enciende el LED
-        STOP_MOTOR = digitalRead(STOP_SIGNAL);
+        if (one_time)
+        {
+            // Control del LED
+            digitalWrite(ledPin, HIGH); // Enciende el LED
+            STOP_MOTOR = digitalRead(STOP_SIGNAL);
+            one_time = false;
+        }
         while (STOP_MOTOR == HIGH)
         {
             IBus.loop();
