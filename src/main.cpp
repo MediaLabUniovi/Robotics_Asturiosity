@@ -190,26 +190,7 @@ void setup()
     // TCCR5B = TCCR5B & B11111000 | B00000101; // D4, D13 PWM frequency of 30.64 Hz
     // TCCR3B = TCCR3B & B11111000 | B00000101; // D2, D3, D5 PWM frequency of 30.64 Hz
 
-    // DC Motors
-    // Motor Wheel 1 - Left Front
-    digitalWrite(motorW1_IN1, LOW); // PWM value
-    digitalWrite(motorW1_IN2, LOW); // Forward
-    // Motor Wheel 2 - Left Middle
-    digitalWrite(motorW2_IN1, LOW);
-    digitalWrite(motorW2_IN2, LOW);
-    // Motor Wheel 3 - Left Back
-    digitalWrite(motorW3_IN1, LOW);
-    digitalWrite(motorW3_IN2, LOW);
-    // right side motors move in opposite direction
-    // Motor Wheel 4 - Right Front
-    digitalWrite(motorW4_IN1, LOW);
-    digitalWrite(motorW4_IN2, LOW);
-    // Motor Wheel 5 - Right Middle
-    digitalWrite(motorW5_IN1, LOW);
-    digitalWrite(motorW5_IN2, LOW);
-    // Motor Wheel 6 - Right Back
-    digitalWrite(motorW6_IN1, LOW);
-    digitalWrite(motorW6_IN2, LOW);
+    motorStop();
 
     servoW1.attach(22);
     servoW3.attach(23);
@@ -296,9 +277,11 @@ void loop()
     Serial.println(STOP_MOTOR);
     if (IBus.readChannel(4) < 1600)
     {
+        
         // Control del LED
         digitalWrite(ledPin, HIGH); // Enciende el LED
         STOP_MOTOR = digitalRead(STOP_SIGNAL);
+
         while (STOP_MOTOR == HIGH)
         {
             IBus.loop();
