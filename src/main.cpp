@@ -53,7 +53,7 @@ float d2 = 278;
 float d3 = 301;
 float d4 = 304;
 // int STOP_SIGNAL = 0;
-const int ledPin = LED_BUILTIN; // Pin integrado del LED en el Arduino Mega
+
 int valor_0;
 int valor_1;
 bool flag = true;
@@ -61,7 +61,7 @@ bool flag = true;
 int STOP_MOTOR;
 bool one_time = true;
 
-// int distances[2]; // 2 distancias enviadas por comunicación serial
+
 
 //* DECLARACIÓN DE FUNCIONES
 
@@ -295,9 +295,6 @@ void setup()
     servoW3.setSpeed(550);
     servoW4.setSpeed(550);
     servoW6.setSpeed(550);
-
-    pinMode(ledPin, OUTPUT); // Configura el pin del LED como salida
-    pinMode(STOP_SIGNAL, INPUT);
 }
 
 void loop()
@@ -369,7 +366,7 @@ void loop()
         if (one_time)
         {
             // Control del LED
-            digitalWrite(ledPin, HIGH); // Enciende el LED
+           
             STOP_MOTOR = digitalRead(STOP_SIGNAL);
             one_time = false;
         }
@@ -383,7 +380,7 @@ void loop()
             {
                 STOP_MOTOR = LOW;
                 // STOP_SIGNAL = 0;
-                digitalWrite(ledPin, LOW); //  apaga el LED
+               
                 Serial.println("desconexion sensores");
                 break;
             }
