@@ -374,7 +374,7 @@ void loop()
         {
             IBus.loop();
             motorStop();
-            // Serial.println("blucle parada de precolision");
+            Serial.println("blucle parada de precolision");
 
             if (IBus.readChannel(4) > 1700)
             {
