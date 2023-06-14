@@ -63,6 +63,7 @@ bool one_time = true;
 
 #define PIN_LED 40
 #define NUM_LEDS 7
+bool ledRojo = true;
 
 // Crea un objeto de la clase Adafruit_NeoPixel
 Adafruit_NeoPixel strip = Adafruit_NeoPixel(NUM_LEDS, PIN_LED, NEO_GRB + NEO_KHZ800);
@@ -336,8 +337,8 @@ void setup()
 
 void loop()
 {
-    setColor(0, 0, 0); // Apaga los LEDs
-    
+    // setColor(0, 0, 0); // Apaga los LEDs
+
     //* Declaración de los canales en los que se leerán los datos que se reciben del trasmisor RC.
     IBus.loop();
     ch0 = IBus.readChannel(0); // Channel 1 Girar
@@ -407,15 +408,21 @@ void loop()
         }
         while (STOP_MOTOR == HIGH)
         {
-            setColor(255, 0, 0); // Establece el color rojo
             IBus.loop();
             motorStop();
+            if (ledRojo)
+            {
+                setColor(255, 0, 0); // Establece el color rojo
+                ledRojo = false;
+            }
             Serial.println("blucle parada de precolision");
 
             if (IBus.readChannel(4) > 1700)
             {
+
                 STOP_MOTOR = LOW;
                 setColor(0, 0, 0); // Apaga los LEDs
+                ledRojo = true;
                 Serial.println("desconexion sensores");
                 break;
             }
