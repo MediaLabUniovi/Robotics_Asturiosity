@@ -356,17 +356,14 @@ void loop()
     calculateServoAngle();
 
     //* RECIBIR STOP
-    // STOP_SIGNAL = Serial3.read();
-    // Serial.print(STOP_SIGNAL);
-    // Serial.println("lectura señal stop");
+    
+    Serial.println("lectura señal stop:");
     STOP_MOTOR = digitalRead(STOP_SIGNAL);
     Serial.println(STOP_MOTOR);
     if (IBus.readChannel(4) < 1600)
     {
         if (one_time)
         {
-            // Control del LED
-           
             STOP_MOTOR = digitalRead(STOP_SIGNAL);
             one_time = false;
         }
@@ -379,8 +376,6 @@ void loop()
             if (IBus.readChannel(4) > 1700)
             {
                 STOP_MOTOR = LOW;
-                // STOP_SIGNAL = 0;
-               
                 Serial.println("desconexion sensores");
                 break;
             }
