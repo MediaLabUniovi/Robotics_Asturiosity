@@ -10,6 +10,7 @@
 #include <IBusBM.h>
 // #include <AccelStepper.h>
 // #include <SoftwareSerial.h>
+#include <Adafruit_NeoPixel.h>
 
 //* DECLARACIÓN DE VARIABLES
 
@@ -59,6 +60,12 @@ bool flag = true;
 #define STOP_SIGNAL 38
 int STOP_MOTOR;
 bool one_time = true;
+
+#define PIN_LED 40
+#define NUM_LEDS 7
+
+// Crea un objeto de la clase Adafruit_NeoPixel
+Adafruit_NeoPixel strip = Adafruit_NeoPixel(NUM_LEDS, PIN_LED, NEO_GRB + NEO_KHZ800);
 
 //* DECLARACIÓN DE FUNCIONES
 
@@ -267,6 +274,16 @@ void motorBackward_left()
     digitalWrite(motorW6_IN2, LOW);
 }
 
+// Función para establecer el color de todos los LEDs en la tira
+void setColor(int red, int green, int blue)
+{
+    for (int i = 0; i < NUM_LEDS; i++)
+    {
+        strip.setPixelColor(i, strip.Color(red, green, blue));
+    }
+    strip.show(); // Actualiza los LEDs con el nuevo color
+}
+
 void setup()
 {
     Serial.begin(115200);
@@ -311,11 +328,16 @@ void setup()
     servoW3.setSpeed(550);
     servoW4.setSpeed(550);
     servoW6.setSpeed(550);
+
+    // Inicializa la tira de LEDs RGB
+    strip.begin();
+    strip.show(); // Apaga todos los LEDs al inicio
 }
 
 void loop()
 {
-
+    setColor(0, 0, 0); // Apaga los LEDs
+    
     //* Declaración de los canales en los que se leerán los datos que se reciben del trasmisor RC.
     IBus.loop();
     ch0 = IBus.readChannel(0); // Channel 1 Girar
@@ -385,6 +407,7 @@ void loop()
         }
         while (STOP_MOTOR == HIGH)
         {
+            setColor(255, 0, 0); // Establece el color rojo
             IBus.loop();
             motorStop();
             Serial.println("blucle parada de precolision");
@@ -392,6 +415,7 @@ void loop()
             if (IBus.readChannel(4) > 1700)
             {
                 STOP_MOTOR = LOW;
+                setColor(0, 0, 0); // Apaga los LEDs
                 Serial.println("desconexion sensores");
                 break;
             }
