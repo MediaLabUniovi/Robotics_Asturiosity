@@ -31,6 +31,7 @@ ServoEasing servoW1;
 ServoEasing servoW3;
 ServoEasing servoW4;
 ServoEasing servoW6;
+ServoEasing servoW6;
 
 IBusBM IBus;
 IBusBM IBusSensor;
