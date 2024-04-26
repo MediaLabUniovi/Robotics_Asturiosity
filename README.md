@@ -8,7 +8,7 @@
 </p>
     </div>
     <div style="flex: 1;">
-        <img src="https://github.com/MediaLabUniovi/Asturiosity/blob/master/pics/asturiosity.jpg" alt="CuboLab" width="300"/>
+        <img src="https://github.com/MediaLabUniovi/Asturiosity/blob/master/pics/asturiosity.png" alt="Asturiosity" width="300"/>
     </div>
 </div>
 
