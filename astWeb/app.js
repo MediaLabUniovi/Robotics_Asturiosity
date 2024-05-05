@@ -5,6 +5,8 @@ const path = require('path');
 const fs = require('fs');
 
 // const SerialPort = require('serialport');
+//const { ReadlineParser } = require('@serialport/parser-readline')
+//const Readline = require('@serialport/parser-readline');
 
 // Crear una instancia de la aplicación Express
 const app = express();
@@ -12,7 +14,10 @@ const app = express();
 // Crear un servidor HTTP utilizando Express
 const server = http.createServer(app);
 
-// const port = new SerialPort('com0com/CNCA0', { baudRate: 9600 });
+/* const puertoSerial = new SerialPort({
+  path: 'COM8',
+  baudRate: 115200,
+}) */
 const wss = new WebSocket.Server({ server });
 
 // Variables de control
@@ -21,6 +26,8 @@ let steer = 0;
 let arm = 0;
 let cam1 = 0;
 let cam2 = 0;
+
+const parser = puertoSerial.pipe(new ReadlineParser({ delimiter: '\r\n' }))
 
 // Manejar la conexión WebSocket entrante
 wss.on('connection', function connection(ws) {
@@ -68,6 +75,14 @@ wss.on('connection', function connection(ws) {
       console.log('Datos enviados al puerto serial:', message);
     });*/
   });
+
+  /*parser.on('data', data => {
+    //console.log('Datos recibidos del puerto serial:', data);
+    ws.send(data);
+  });*/
+
+  // Enviar datos al cliente
+  ws.send(JSON.stringify({ battery: 89 }));
 
   // Manejar el cierre de la conexión WebSocket
   ws.on('close', function close() {

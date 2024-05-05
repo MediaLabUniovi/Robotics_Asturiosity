@@ -19,6 +19,26 @@ socket.addEventListener('close', function (event) {
   console.log('Conexión WebSocket cerrada');
 });
 
+// --------------------------------------------------------- MENSAJES WEBSOCKET ENTRANTES ---------------------------------------------------------
+
+socket.onmessage = function (event) {
+    const data = JSON.parse(event.data);
+    
+    // Verificar si el mensaje contiene un valor de batería
+    if (data.battery !== undefined) {
+      // Obtener el elemento de la barra de progreso
+      const progressBar = document.getElementById('battery');
+  
+      // Actualizar el valor del atributo aria-valuenow
+      progressBar.setAttribute('aria-valuenow', data.battery);
+  
+      // Actualizar el ancho de la barra de progreso
+      progressBar.style.width = `${data.battery}%`;
+  
+      // Actualizar el texto dentro de la barra de progreso
+      progressBar.innerText = `${data.battery}%`;
+  };
+}
 
 // --------------------------------------------------------- JOYSTICKS ---------------------------------------------------------
 
@@ -150,4 +170,5 @@ disarmBtn.addEventListener('click', () => {
   
   });
 
-  
+
+
