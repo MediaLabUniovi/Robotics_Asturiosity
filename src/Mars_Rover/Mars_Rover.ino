@@ -1,41 +1,43 @@
 
 #include <Servo.h>
-#include <IBusBM.h>
+//#include <IBusBM.h>
 #include <Adafruit_NeoPixel.h>
+
+
 
 
 #define PIN_LEDS 34
 #define NUM_LEDS 7
 
-IBusBM IBus;
-IBusBM IBusSensor;
+//IBusBM IBus;
+//IBusBM IBusSensor;
 
-int ch0, ch1, ch2, ch3, ch4, ch5, ch6 = 1500;
+//int ch0, ch1, ch2, ch3, ch4, ch5, ch6 = 1500;
 
 Adafruit_NeoPixel strip = Adafruit_NeoPixel(NUM_LEDS, PIN_LEDS, NEO_GRB + NEO_KHZ800);
 
 int speed = 0;
 int steer = 0;
-int step= 1;
+int step = 1;
 
 Servo wheel_1;
 Servo wheel_2;
 Servo wheel_5;
 Servo wheel_6;
 
-long t1=0;
+long t1 = 0;
 
-int j[7] ={0,0,0,0,0,0,0};
-int i=0;
+int j[7] = { 0, 0, 0, 0, 0, 0, 0 };
+int i = 0;
 
 bool reverse = false;
 
 void setup() {
 
-  
+
   Serial.begin(115200);
-  IBus.begin(Serial1, IBUSBM_NOTIMER); // Servo iBUS
-  IBusSensor.begin(Serial2, IBUSBM_NOTIMER); // Sensor iBUS
+  //IBus.begin(Serial1, IBUSBM_NOTIMER);        // Servo iBUS
+  //IBusSensor.begin(Serial2, IBUSBM_NOTIMER);  // Sensor iBUS
 
   initMotors();
 
@@ -45,19 +47,16 @@ void setup() {
   wheel_6.attach(25);
 
   strip.begin();
-  strip.show(); // Inicialmente, apaga todos los LEDs
-  for(int i = 0; i < NUM_LEDS; i++) {
+  strip.show();  // Inicialmente, apaga todos los LEDs
+  for (int i = 0; i < NUM_LEDS; i++) {
     strip.setPixelColor(i, 0, 0, 255);  // Azul: R=0, G=0, B=255
-    strip.show(); // Muestra los cambios en la tira de LEDs
+    strip.show();                       // Muestra los cambios en la tira de LEDs
   }
-
-  
-
 }
 
 void loop() {
 
-
+  /*
   // Read RX
   IBus.loop();
 
@@ -78,8 +77,28 @@ void loop() {
     ch5=1500;
     ch6=1500;
   }
+*/
+  if (Serial.available() > 0) {
+    // Leer la cadena de caracteres recibida
+    String cadena = Serial.readStringUntil('\n');
+    char char_array[cadena.length() + 1];  // Convertir la cadena en un arreglo de caracteres
+    cadena.toCharArray(char_array, cadena.length() + 1);
 
-  /*Serial.print("CH0:");
+    // Inicializar el puntero para la función strtok()
+    char *token;
+
+    // Obtener el primer token
+    token = strtok(char_array, "-");
+    speed = atoi(token);  // Convertir y almacenar el primer valor numérico
+    token = strtok(NULL, "-");
+    steer = atoi(token);
+
+    Serial.print("speed:");
+    Serial.print(speed);
+    Serial.print(" Steer:");
+    Serial.print(steer);
+
+    /*Serial.print("CH0:");
   Serial.print (ch0);
   Serial.print(" CH1:");
   Serial.print (ch1);
@@ -95,49 +114,47 @@ void loop() {
   Serial.println (ch6);
   delay(500);*/
 
-  if (ch5>1700){
-    reverse=true;
+    if (speed > 100) {
+      reverse = true;
+      speed -= 100;
+    } else {
+      reverse = false;
+    }
+
+    speed = speed / 4;
+    //speed = map(ch2, 1000, 2000, 0, 75);
+    motors(speed, reverse);
+
+    //Serial.println(speed);
+    steer = map(steer, 0, 200, -45, 45);
+    Serial.println(steer);
+    steerServo(steer);
+
+    if (millis() - t1 > 75) {
+      j[i] = 255;
+      j[i + 1] = 255;
+      strip.setPixelColor(0, j[0], 0, 0);
+      strip.setPixelColor(1, j[1], 0, 0);
+      strip.setPixelColor(2, j[2], 0, 0);
+      strip.setPixelColor(3, j[3], 0, 0);
+      strip.setPixelColor(4, j[4], 0, 0);
+      strip.setPixelColor(5, j[5], 0, 0);
+      strip.setPixelColor(6, j[6], 0, 0);
+      strip.show();
+      j[i] = 0;
+      j[i + 1] = 0;
+      i = i + step;
+      t1 = millis();
+
+      if (i == 6) { step = -1; }
+      if (i == 0) { step = 1; }
+    }
   }
-  else{
-    reverse= false;
+
+  void colorWipe(uint32_t color, int wait) {
+    for (int i = 0; i < strip.numPixels(); i++) {
+      strip.setPixelColor(i, color);
+      strip.show();
+      delay(wait);
+    }
   }
-
-
-  speed = map(ch2,1000,2000, 0, 75);
-  motors(speed, reverse);
-
-  //Serial.println(speed);
-  steer = map(ch0, 1000,2000, -45, 45);
-  Serial.println(steer);
-  steerServo(steer);
-
-  if (millis()-t1>75){
-    j[i]=255;
-    j[i+1]=255;
-    strip.setPixelColor(0, j[0], 0, 0);
-    strip.setPixelColor(1, j[1], 0, 0);
-    strip.setPixelColor(2, j[2], 0, 0);
-    strip.setPixelColor(3, j[3], 0, 0);
-    strip.setPixelColor(4, j[4], 0, 0);
-    strip.setPixelColor(5, j[5], 0, 0);
-    strip.setPixelColor(6, j[6], 0, 0);
-    strip.show();
-    j[i]=0;
-    j[i+1]=0;
-    i=i+step;
-    t1=millis();
-
-    if (i==6){step=-1;}
-    if (i==0){step=1;}
-  }
-  
-
-}
-
-void colorWipe(uint32_t color, int wait) {
-  for(int i=0; i<strip.numPixels(); i++) {
-    strip.setPixelColor(i, color);
-    strip.show();
-    delay(wait);
-  }
-}
