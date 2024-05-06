@@ -4,9 +4,9 @@ const http = require('http');
 const path = require('path');
 const fs = require('fs');
 
-// const SerialPort = require('serialport');
-//const { ReadlineParser } = require('@serialport/parser-readline')
-//const Readline = require('@serialport/parser-readline');
+const {SerialPort} = require('serialport');
+const { ReadlineParser } = require('@serialport/parser-readline')
+const Readline = require('@serialport/parser-readline');
 
 // Crear una instancia de la aplicación Express
 const app = express();
@@ -14,10 +14,18 @@ const app = express();
 // Crear un servidor HTTP utilizando Express
 const server = http.createServer(app);
 
-/* const puertoSerial = new SerialPort({
-  path: 'COM8',
-  baudRate: 115200,
-}) */
+const puertoSerial = new SerialPort({
+  path: "COM8",
+  baudRate:9600
+});
+
+
+
+// Escuchar datos del puerto serial
+/*puertoSerial.on('data', function(data) {
+  console.log('Datos recibidos:', data.toString());
+});*/
+
 const wss = new WebSocket.Server({ server });
 
 // Variables de control
@@ -37,9 +45,9 @@ wss.on('connection', function connection(ws) {
   ws.on('message', function incoming(message) {
     
     //console.log('Mensaje recibido desde el cliente:', message);
-
+    let data;
     try {
-      const data = JSON.parse(message);
+      data = JSON.parse(message);
 
       // Actualizar variables según los valores recibidos
       if (data.hasOwnProperty('speed')) {
@@ -68,21 +76,21 @@ wss.on('connection', function connection(ws) {
       console.error('Error al analizar el mensaje:', error);
     }
     // Escribir el mensaje en el puerto serial
-    /*port.write(message, (err) => {
+    puertoSerial.write("2", (err) => {
       if (err) {
         return console.log('Error al escribir en el puerto serial:', err.message);
       }
       console.log('Datos enviados al puerto serial:', message);
-    });*/
+    });
   });
 
-  /*parser.on('data', data => {
-    //console.log('Datos recibidos del puerto serial:', data);
-    ws.send(data);
-  });*/
+  parser.on('data', data => {
+    console.log('Datos recibidos del puerto serial:', data);
+      // Enviar datos al cliente
+    ws.send(JSON.stringify({ battery: data }));
+  });
 
-  // Enviar datos al cliente
-  ws.send(JSON.stringify({ battery: 89 }));
+
 
   // Manejar el cierre de la conexión WebSocket
   ws.on('close', function close() {

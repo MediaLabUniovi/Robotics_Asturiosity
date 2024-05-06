@@ -2,7 +2,7 @@
 // --------------------------------------------------------- WEBSOCKET ---------------------------------------------------------
 
 // Crear una instancia de WebSocket
-const socket = new WebSocket('ws://localhost:8080');
+const socket = new WebSocket('ws://192.168.1.36:8080');
 
 // Manejar la apertura de la conexión WebSocket
 socket.addEventListener('open', function (event) {
@@ -47,7 +47,7 @@ var opMove = {
     zone: document.getElementById('joyMove'),
     position: {       // preset position for 'static' mode
       top: '65%',
-      left: '75%'
+      left: '25%'
     },
     mode: "static",   // 'dynamic', 'static' or 'semi'
     color: "white"
@@ -58,10 +58,10 @@ var opCamera = {
     zone: document.getElementById('joyCamera'),
     position: {       // preset position for 'static' mode
       top: '65%',
-      left: '25%'
+      left: '75%'
     },
     mode: "static",   // 'dynamic', 'static' or 'semi'
-    color: "white"
+    color: "white",
 };
 
 var joyMove = nipplejs.create(opMove);
