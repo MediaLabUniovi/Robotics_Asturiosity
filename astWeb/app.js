@@ -71,12 +71,13 @@ wss.on('connection', function connection(ws) {
       console.log('arm:', arm);
       console.log('cam1:', cam1);
       console.log('cam2:', cam2);
+      let send_serial=`${speed}-${cam1}-${steer}`;  //String para enviar al arduino
 
     } catch (error) {
       console.error('Error al analizar el mensaje:', error);
     }
     // Escribir el mensaje en el puerto serial
-    puertoSerial.write("2", (err) => {
+    puertoSerial.write(send_serial, (err) => {
       if (err) {
         return console.log('Error al escribir en el puerto serial:', err.message);
       }
