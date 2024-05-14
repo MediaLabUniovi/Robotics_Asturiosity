@@ -95,36 +95,13 @@ void loop() {
     direccion = atoi(token);
     token = strtok(NULL, "-");
     steer = atoi(token);
-    /*
-    Serial.print("speed:");
-    Serial.print(speed);
-    Serial.print(" Steer:");
-    Serial.println(steer);
-    */
     if(direccion){
       reverse=false;
     }else {
       reverse=true;
     }
   }
-  /*Serial.print("CH0:");
-  Serial.print (ch0);
-  Serial.print(" CH1:");
-  Serial.print (ch1);
-  Serial.print(" CH2:");
-  Serial.print (ch2);
-  Serial.print(" CH3:");
-  Serial.print (ch3);
-  Serial.print(" CH4:");
-  Serial.println (ch4);
-  Serial.print(" CH5:");
-  Serial.println (ch5);
-  Serial.print(" CH6:");
-  Serial.println (ch6);
-  delay(500);*/
-
-
-
+  
 
   //speed = map(ch2, 1000, 2000, 0, 75);
   motors(speed, reverse);

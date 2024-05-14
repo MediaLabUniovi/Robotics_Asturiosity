@@ -30,6 +30,7 @@ const wss = new WebSocket.Server({ server });
 
 // Variables de control
 let speed = 0;
+let direcccion = 0;
 let steer = 0;
 let arm = 0;
 let cam1 = 0;
@@ -52,9 +53,16 @@ wss.on('connection', function connection(ws) {
       // Actualizar variables según los valores recibidos
       if (data.hasOwnProperty('speed')) {
         speed = data.speed;
+        if(speed<0){
+          speed=-speed;
+          direcccion=1;
+        } else{
+          direcccion=0;
+        }
       }
       if (data.hasOwnProperty('steer')) {
         steer = data.steer;
+        steer+=100;
       }
       if (data.hasOwnProperty('arm')) {
         arm = data.arm;
@@ -66,6 +74,7 @@ wss.on('connection', function connection(ws) {
         cam2 = data.cam2;
       }
 
+      
       console.log('speed:', speed);
       console.log('steer:', steer);
       console.log('arm:', arm);
