@@ -19,6 +19,12 @@
       width: 90%;
       height:calc(40vh - 60px);
     }
+    #webcam{
+      padding: 0px;
+    }
+    #videoCanvas{
+      border-radius: 10px; /* Bordes redondeados */
+    }
     #disarmBtn{
         display:none;
     }
@@ -29,6 +35,8 @@
     .progress{
       margin-bottom: 20px;
     }
+
+    
   </style>
   <link rel="stylesheet" href="./bootstrap/css/bootstrap.min.css">
   <script src="./chart.js"></script>
@@ -73,10 +81,9 @@
       </div>
     </div>
     <div class="col ">
-      <div class="matrix-div">
-        webcam
+      <div class="matrix-div" id="webcam">
+        <canvas id="videoCanvas"></canvas>
       </div>
-    </div>
     </div>
     <div class="row align-items-center medialab">
     <div class="col">
@@ -91,6 +98,7 @@
         <div id="joyMove"></div>
       </div>
     </div>
+    
   </div>
   
   <script src="./client.js"></script>
