@@ -1,6 +1,6 @@
 
 #include <Servo.h>
-#include <IBusBM.h>
+//#include <IBusBM.h>
 #include <Adafruit_NeoPixel.h>
 
 
@@ -78,8 +78,8 @@ void loop() {
     ch5=1500;
     ch6=1500;
   }
-*/
-  if (Serial.available() > 0) {           // Se recibe x-x-x-x-x... primer x=velocidad (0-255), segundo direccion(hacia delante o detrás), tercero angulo de giro (0-200)
+  */
+  if (Serial.available() > 0) {  // Se recibe x-x-x-x-x... primer x=velocidad (0-255), segundo direccion(hacia delante o detrás), tercero angulo de giro (0-200)
     // Leer la cadena de caracteres recibida
     String cadena = Serial.readStringUntil('\n');
     char char_array[cadena.length() + 1];  // Convertir la cadena en un arreglo de caracteres
@@ -90,24 +90,36 @@ void loop() {
 
     // Obtener el primer token
     token = strtok(char_array, "-");
-    speed = atoi(token);  
+    speed = atoi(token);
     token = strtok(NULL, "-");
-    direccion = atoi(token);
+    int direccion = atoi(token);
     token = strtok(NULL, "-");
     steer = atoi(token);
-    if(direccion){
-      reverse=false;
-    }else {
-      reverse=true;
+    if (direccion) {
+      reverse = false;
+    } else {
+      reverse = true;
     }
+    steer = map(steer, 0, 200, -45, 45);
+    /*
+    Serial.print("Velocidad: ");
+    Serial.print(speed);
+    Serial.print("\tdireccion: ");
+    Serial.print(direccion);
+    Serial.print("\tGiro: ");
+    Serial.println(steer);
+    Serial.print("\tÁngulo_giro: ");
+    Serial.println(steer);
+    */
   }
-  
+
+
 
   //speed = map(ch2, 1000, 2000, 0, 75);
   motors(speed, reverse);
 
   //Serial.println(speed);
-  steer = map(steer, 0, 200, -45, 45);
+  
   //Serial.println(steer);
   steerServo(steer);
 

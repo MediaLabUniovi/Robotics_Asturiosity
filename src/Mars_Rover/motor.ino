@@ -88,8 +88,8 @@ void motors(int speed, bool reverse){
 }
 
 void steerServo(int steer){
-  wheel_1.write(steer+70);
-  wheel_2.write(-steer+70);
-  wheel_5.write(steer);
-  wheel_6.write(-steer+120);
+  wheel_1.write(90+steer);
+  wheel_2.write(90-steer);
+  wheel_5.write(90+steer);
+  wheel_6.write(90-steer);
 }
