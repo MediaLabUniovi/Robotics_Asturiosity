@@ -3,6 +3,7 @@ const express = require('express');
 const http = require('http');
 const path = require('path');
 const fs = require('fs');
+const { spawn } = require('child_process');
 
 const {SerialPort} = require('serialport');
 const { ReadlineParser } = require('@serialport/parser-readline')
@@ -14,11 +15,12 @@ const app = express();
 // Crear un servidor HTTP utilizando Express
 const server = http.createServer(app);
 
-const puertoSerial = new SerialPort({
+/* ------------------- DESCOMENTAR ------------------------
+  const puertoSerial = new SerialPort({
   path: "COM8",
   baudRate:9600
 });
-
+-----------------------------------------------------------*/
 
 
 // Escuchar datos del puerto serial
@@ -26,7 +28,25 @@ const puertoSerial = new SerialPort({
   console.log('Datos recibidos:', data.toString());
 });*/
 
-const wss = new WebSocket.Server({ server });
+const wsData = new WebSocket.Server({ noServer: true });
+const wsvideo = new WebSocket.Server({ noServer: true });
+
+server.on('upgrade', function upgrade(request, socket, head) {
+  const pathname = new URL(request.url, `http://${request.headers.host}`).pathname;
+
+  if (pathname === '/video') {
+    wsvideo.handleUpgrade(request, socket, head, function done(ws) {
+      wsvideo.emit('connection', ws, request);
+    });
+  } else if (pathname === '/data') {
+    wsData.handleUpgrade(request, socket, head, function done(ws) {
+      wsData.emit('connection', ws, request);
+    });
+  } else {
+    socket.destroy();
+  }
+});
+
 
 // Variables de control
 let speed = 0;
@@ -36,11 +56,45 @@ let arm = 0;
 let cam1 = 0;
 let cam2 = 0;
 
+/* ------------------- DESCOMENTAR ------------------------
 const parser = puertoSerial.pipe(new ReadlineParser({ delimiter: '\r\n' }))
+-----------------------------------------------------------*/
+
+
+function startStreaming(ws) {
+  const ffmpeg = spawn('ffmpeg.exe', [
+    '-f', 'dshow',                       // Formato de captura de vídeo para dispositivos DirectShow en Windows
+    '-i', 'video=OBS Virtual Camera',    // Especificar el dispositivo de entrada
+    '-f', 'mjpeg',                       // Formato de salida MJPEG
+    '-q:v', '5',                         // Calidad del vídeo
+    '-s', '640x480',                     // Resolución del vídeo
+    '-r', '30',                          // Framerate de 30 fps
+    '-rtbufsize', '5000000',             // Tamaño del buffer en tiempo real
+    '-'                                  // Envía el output a stdout
+], {
+      stdio: ['ignore', 'pipe', 'ignore']
+  });
+
+  ffmpeg.stdout.on('data', (data) => {
+      // Enviar datos de vídeo al cliente mediante WebSocket
+      ws.send(data, { binary: true });
+  });
+
+  ws.on('close', () => {
+      // Terminar el proceso de FFmpeg cuando el cliente se desconecte
+      ffmpeg.kill('SIGINT');
+  });
+}
+
+
+wsvideo.on('connection', function connection(ws){
+  startStreaming(ws);
+});
 
 // Manejar la conexión WebSocket entrante
-wss.on('connection', function connection(ws) {
+wsData.on('connection', function connection(ws) {
   console.log('Cliente conectado');
+  
 
   // Manejar los mensajes entrantes desde el cliente
   ws.on('message', function incoming(message) {
@@ -85,6 +139,7 @@ wss.on('connection', function connection(ws) {
     } catch (error) {
       console.error('Error al analizar el mensaje:', error);
     }
+    /* ------------------- DESCOMENTAR ------------------------
     // Escribir el mensaje en el puerto serial
     puertoSerial.write(send_serial, (err) => {
       if (err) {
@@ -92,13 +147,16 @@ wss.on('connection', function connection(ws) {
       }
       console.log('Datos enviados al puerto serial:', message);
     });
+    -----------------------------------------------------------*/
   });
 
+  /* ------------------- DESCOMENTAR ------------------------
   parser.on('data', data => {
     console.log('Datos recibidos del puerto serial:', data);
       // Enviar datos al cliente
     ws.send(JSON.stringify({ battery: data }));
   });
+  -----------------------------------------------------------*/
 
 
 

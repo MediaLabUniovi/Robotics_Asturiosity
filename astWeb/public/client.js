@@ -2,26 +2,55 @@
 // --------------------------------------------------------- WEBSOCKET ---------------------------------------------------------
 
 // Crear una instancia de WebSocket
-const socket = new WebSocket('ws://localhost:8080');
+const wsdata = new WebSocket('ws://localhost:8080/data');
+const wsvideo = new WebSocket('ws://localhost:8080/video');
 
 // Manejar la apertura de la conexión WebSocket
-socket.addEventListener('open', function (event) {
+wsdata.addEventListener('open', function (event) {
   console.log('Conexión WebSocket establecida');
 });
 
 // Manejar errores de WebSocket
-socket.addEventListener('error', function (event) {
+wsdata.addEventListener('error', function (event) {
   console.error('Error en la conexión WebSocket:', event);
 });
 
 // Manejar cierre de la conexión WebSocket
-socket.addEventListener('close', function (event) {
+wsdata.addEventListener('close', function (event) {
   console.log('Conexión WebSocket cerrada');
 });
 
 // --------------------------------------------------------- MENSAJES WEBSOCKET ENTRANTES ---------------------------------------------------------
+const canvas = document.getElementById('videoCanvas');
+const wc = document.getElementById('webcam');
+const context = canvas.getContext('2d');
 
-socket.onmessage = function (event) {
+wsvideo.binaryType = 'blob';
+
+wsvideo.onmessage = function (event) {
+  console.log("ws received");
+  const blob = event.data;
+  const img = new Image();
+
+  // Asignar el URL del objeto al src de la imagen
+  const url = URL.createObjectURL(blob);
+  img.src = url;
+
+  // Establecer el manejador onload para la imagen
+  img.onload = function() {
+      // Ajustar el tamaño del canvas al de la imagen
+      const scaleFactor = Math.min(canvas.parentElement.clientWidth / img.width, canvas.parentElement.clientHeight / img.height);
+      canvas.width = canvas.parentElement.clientWidth
+      canvas.height = canvas.parentElement.clientHeight
+      
+      // Dibujar la imagen en el canvas
+      context.drawImage(img, 0, 0, canvas.width, canvas.height);
+
+      // Liberar la URL del objeto una vez que la imagen se ha cargado
+      URL.revokeObjectURL(url);
+  };}
+
+  wsdata.onmessage = function (event) {
     const data = JSON.parse(event.data);
     
     // Verificar si el mensaje contiene un valor de batería
@@ -47,10 +76,11 @@ var opMove = {
     zone: document.getElementById('joyMove'),
     position: {       // preset position for 'static' mode
       top: '65%',
-      left: '25%'
+      left: '22%'
     },
     mode: "static",   // 'dynamic', 'static' or 'semi'
-    color: "white"
+    color: "white",
+    dynamicPage: true,
 };
 
 // Crear el joystick usando NippleJS
@@ -58,10 +88,11 @@ var opCamera = {
     zone: document.getElementById('joyCamera'),
     position: {       // preset position for 'static' mode
       top: '65%',
-      left: '75%'
+      left: '72%'
     },
     mode: "static",   // 'dynamic', 'static' or 'semi'
     color: "white",
+    dynamicPage: true,
 };
 
 var joyMove = nipplejs.create(opMove);
@@ -93,12 +124,12 @@ joyMove.on('move', (evt, data) => {
     speed: speed,
     steer: steer,
     });
-    socket.send(message);
+    wsdata.send(message);
 });
 // Escuchar el evento 'end' del joystick
 joyMove.on('end', (evt, data) => {
     const message = JSON.stringify({ speed: 0, steer: 0 });
-    socket.send(message);
+    wsdata.send(message);
 });
 
 // Manejar eventos del joystick
@@ -127,15 +158,14 @@ joyCamera.on('move', (evt, data) => {
     cam1: cam1,
     cam2: cam2,
     });
-    socket.send(message);
+    wsdata.send(message);
 });
 
 // Escuchar el evento 'end' del joystick
 joyCamera.on('end', (evt, data) => {
     const message = JSON.stringify({ cam1: 0, cam2: 0 });
-    socket.send(message);
+    wsdata.send(message);
 });
-
 
 // --------------------------------------------------------- BOTONES ---------------------------------------------------------
 // Selecciona el botón por su ID
@@ -151,7 +181,7 @@ armBtn.addEventListener('click', () => {
     });
 
   // Envía el mensaje a través del WebSocket
-  socket.send(message);
+  wsdata.send(message);
   armBtn.style.display = 'none';
 
 });
@@ -165,10 +195,10 @@ disarmBtn.addEventListener('click', () => {
       });
   
     // Envía el mensaje a través del WebSocket
-    socket.send(message);
+    wsdata.send(message);
     disarmBtn.style.display = 'none';
   
   });
 
-
+  
 
