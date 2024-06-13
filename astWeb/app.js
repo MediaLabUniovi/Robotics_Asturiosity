@@ -15,12 +15,12 @@ const app = express();
 // Crear un servidor HTTP utilizando Express
 const server = http.createServer(app);
 
-/* ------------------- DESCOMENTAR ------------------------
+
   const puertoSerial = new SerialPort({
-  path: "COM8",
-  baudRate:9600
+  path: "/dev/ttyACM0",
+  baudRate:115200
 });
------------------------------------------------------------*/
+
 
 
 // Escuchar datos del puerto serial
@@ -56,9 +56,7 @@ let arm = 0;
 let cam1 = 0;
 let cam2 = 0;
 
-/* ------------------- DESCOMENTAR ------------------------
 const parser = puertoSerial.pipe(new ReadlineParser({ delimiter: '\r\n' }))
------------------------------------------------------------*/
 
 
 function startStreaming(ws) {
@@ -134,12 +132,11 @@ wsData.on('connection', function connection(ws) {
       console.log('arm:', arm);
       console.log('cam1:', cam1);
       console.log('cam2:', cam2);
-      let send_serial=`${speed}-${cam1}-${steer}`;  //String para enviar al arduino
+      let send_serial=`${speed}-${direcccion}-${steer}`;  //String para enviar al arduino
 
     } catch (error) {
       console.error('Error al analizar el mensaje:', error);
     }
-    /* ------------------- DESCOMENTAR ------------------------
     // Escribir el mensaje en el puerto serial
     puertoSerial.write(send_serial, (err) => {
       if (err) {
@@ -147,7 +144,6 @@ wsData.on('connection', function connection(ws) {
       }
       console.log('Datos enviados al puerto serial:', message);
     });
-    -----------------------------------------------------------*/
   });
 
   /* ------------------- DESCOMENTAR ------------------------

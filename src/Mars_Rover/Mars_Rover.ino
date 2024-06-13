@@ -144,7 +144,7 @@ void loop() {
     if (i == 0) { step = 1; }
   }
 }
-
+/*
 void colorWipe(uint32_t color, int wait) {
   for (int i = 0; i < strip.numPixels(); i++) {
     strip.setPixelColor(i, color);
@@ -152,3 +152,4 @@ void colorWipe(uint32_t color, int wait) {
     delay(wait);
   }
 }
+*/
