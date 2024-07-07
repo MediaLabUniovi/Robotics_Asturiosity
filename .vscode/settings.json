@@ -1,3 +1,14 @@
 {
+<<<<<<< HEAD
     "cmake.sourceDirectory": "C:/Users/albag/Asturisity_MarsRover/.pio/libdeps/megaatmega2560/Unity"
+=======
+    "files.associations": {
+        "initializer_list": "cpp",
+        "list": "cpp",
+        "vector": "cpp",
+        "xhash": "cpp",
+        "xstring": "cpp",
+        "xutility": "cpp"
+    }
+>>>>>>> afaa38acd82746aec1f6bc093d6fb4de1c3bfc00
 }

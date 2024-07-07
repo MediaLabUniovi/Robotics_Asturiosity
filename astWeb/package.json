@@ -1,0 +1,24 @@
+{
+  "name": "astweb",
+  "version": "1.0.0",
+  "description": "",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "bootstrap": "^5.3.3",
+    "chart.js": "^4.4.2",
+    "child_process": "^1.0.2",
+    "express": "^4.19.2",
+    "ffmpeg": "^0.0.4",
+    "fluent-ffmpeg": "^2.1.2",
+    "nipplejs": "^0.10.2",
+    "node-media-server": "^2.6.6",
+    "serialport": "^12.0.0",
+    "socket.io": "^4.7.5",
+    "ws": "^8.17.0"
+  }
+}
