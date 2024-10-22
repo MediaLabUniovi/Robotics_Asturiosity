@@ -72,7 +72,7 @@ The **Asturiosity** project focuses on developing a 3D-printed exploration rover
 
    The **Asturiosity** project is designed to be a tool for educational outreach in schools. Students can interact with the rover and learn about robotics and space exploration in an engaging way.
 
-   <img src="https://github.com/MediaLabUniovi/Asturiosity/blob/master/pics/asturiosity.png" alt="Asturiosity" width="300"/>
+   <img src="https://github.com/MediaLabUniovi/Asturiosity/blob/master/img/asturiosity.png" alt="Asturiosity" width="300"/>
 
 ## About the Educational Outreach 🌍
 
